@@ -1,7 +1,7 @@
 # MatrixFactory
 Materiale didattico utilizzato: https://www.youtube.com/@IndieWafflus/videos
 
-Questo progetto è stato realizzato per:
+Questo progetto è stato realizzato per studiare e migliorare i seguenti campi:
 
 ### UI Elements
 Studiare-codificare e utilizzare gli UI Elements di Unity, progettando interfacce utente personalizzate per l'editor unity usando, in questo progetto specifico visualizzando e generando la struttura dati ad albero utilizzata per generare l'albero dei possibili percorsi della matrice di gioco
