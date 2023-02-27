@@ -6,3 +6,6 @@ Studiare-codificare e utilizzare gli UI Elements di Unity, progettando interfacc
 
 ### Game Mechanics
 Sperimentare e implementare meccaniche di gioco migliorando abilità di soluzione dei problemi, game design, game programming.
+
+### Scriptable Objects
+Studiare, codificare e utilizzare gli Scriptable Objects di Unity
