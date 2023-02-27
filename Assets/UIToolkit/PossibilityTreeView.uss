@@ -1,0 +1,56 @@
+/*
+    uso variabili 
+*/
+:root {
+    --color1: rgb(25,255,75);
+    --yellow-color: #FDD052
+
+}
+
+/*
+    WildCard selector
+    tutto ciò che utilizza questo foglio di stile userà lo stile definito qui
+*/
+* {
+    display: flex;
+    justify-content: center;
+}
+
+.main-panel {
+    background-color: #282C34;
+    flex: 1; /*Flex del panel in verticale*/
+}
+
+Label {
+    color: var(--color1);
+    font-size: 20px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+}
+
+.color-picker{
+     margin: 8px;
+ }
+
+.horizontal-container{
+    flex-direction: row;
+    align-content: center;
+    flex-wrap: wrap; /* contenuti vanno a capo in base alla dimensione della finestra */
+
+}
+
+.dark-button{
+    background-color: #1C2025;
+    color: #E0E0E0;
+    border-color: transparent;
+    min-height: 50px;
+
+}
+/* pseudo classi, modificando solo valori che cambiano */
+.dark-button:hover{
+    background-color: #181B1F;
+    color: var(--yellow-color)
+}
+.dark-button:active{
+    border-color: var(--yellow-color);
+}
