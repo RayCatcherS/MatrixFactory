@@ -9,6 +9,11 @@ Studiare-codificare e utilizzare gli UI Elements di Unity, progettando interfacc
 ###Unity Style Sheets
 Fogli di stile per l'UI Toolkit
 
+### Unity Resources/Editor Folder
+Organizzare gestione delle risorse e delle cartelle del progetto.
+- https://www.youtube.com/watch?v=z1wPBbK2g9o&t=119s
+- https://www.youtube.com/watch?v=1O1nmZzA_EU
+
 ### Game Mechanics
 Sperimentare e implementare meccaniche di gioco migliorando abilità di soluzione dei problemi, game design, game programming.
 
