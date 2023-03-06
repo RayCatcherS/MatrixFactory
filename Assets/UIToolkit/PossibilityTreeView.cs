@@ -21,12 +21,12 @@ public class PossibilityTreeView : EditorWindow
         // root della visual element
         base.rootVisualElement.Add(rootVisualElement);
         // if "Null" allora il visual element non viene renderizzato in nessun visual ovvero non è collegato a nulla
-        Debug.Log(rootVisualElement.panel);
+        //Debug.Log(rootVisualElement.panel);
 
 
         // foglio di stile UI
         StyleSheet styleSheet = (StyleSheet) EditorGUIUtility.Load("Assets/UIToolkit/PossibilityTreeView.uss");
-        Debug.Log(styleSheet);
+        //Debug.Log(styleSheet);
         // inserire il foglio di stile all'interno della gerarchia usando un VisualElement
         rootVisualElement.styleSheets.Add(styleSheet);// inietto nel visual element root lo stile
 
