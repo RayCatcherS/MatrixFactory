@@ -25,10 +25,14 @@ public class PossibilityTreeView : EditorWindow
 
 
         // foglio di stile UI
-        StyleSheet styleSheet = (StyleSheet) EditorGUIUtility.Load("Assets/UIToolkit/PossibilityTreeView.uss");
-        //Debug.Log(styleSheet);
+        StyleSheet styleSheet = (StyleSheet) EditorGUIUtility.Load("PossibilityTreeView.uss");
+        
         // inserire il foglio di stile all'interno della gerarchia usando un VisualElement
-        rootVisualElement.styleSheets.Add(styleSheet);// inietto nel visual element root lo stile
+        if(styleSheet != null)
+        {
+            rootVisualElement.styleSheets.Add(styleSheet);// inietto nel visual element root lo stile
+        }
+        
 
 
         Label label = new Label("titolo");
