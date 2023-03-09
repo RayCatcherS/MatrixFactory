@@ -6,9 +6,16 @@ using UnityEngine.UIElements;
 public class PTDView : GraphView
 {
     public PTDView() {
+        AddManipulators();
+
         AddGridBackground();
 
         AddStyles();
+    }
+
+    private void AddManipulators() {
+        this.AddManipulator(new ContentDragger());
+        this.AddManipulator(new ContentZoomer());
     }
 
     private void AddGridBackground() {
