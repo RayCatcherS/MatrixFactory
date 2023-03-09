@@ -1,0 +1,22 @@
+
+/* --ptd-type-scope-styleValue
+ --ptd we will starting by adding pt at the beginning of every variable to specify it is a variable that i made for this Possibility Tree System debug 
+ -type of the style such as colors or metrics 
+ -scope such as grid or window or a certain element 
+ -styleValue such as 20 pixels or such as 25 
+ 
+
+
+ example:
+ pt-colors-grid-dark-grey-1
+ (darker 1 to lighter n)
+ */
+
+
+:root {
+	--pt-colors-grid-ligh-grey-1: #2b2b2b;
+	--pt-colors-grid-ligh-grey-2: rgba(51,51,51,0.4);
+	--pt-colors-grid-ligh-grey-3: rgba(51,51,51,1);
+
+	--pt-metrics-grid-25: 25;
+}

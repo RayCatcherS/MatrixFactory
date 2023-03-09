@@ -4,12 +4,12 @@ using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 
 
-public class PossibilityTreeView : EditorWindow
+public class EditorWindowTutorial : EditorWindow
 {
-    [MenuItem("Window/UI Toolkit/PossibilityTreeView")]
+    [MenuItem("Window/UI Toolkit/EditorWindowTutorial")]
     public static void ShowExample()
     {
-        PossibilityTreeView wnd = GetWindow<PossibilityTreeView>();
+        EditorWindowTutorial wnd = GetWindow<EditorWindowTutorial>();
         wnd.titleContent = new GUIContent("PossibilityTreeView");
     }
 
@@ -25,7 +25,7 @@ public class PossibilityTreeView : EditorWindow
 
 
         // foglio di stile UI
-        StyleSheet styleSheet = (StyleSheet) EditorGUIUtility.Load("PossibilityTreeView.uss");
+        StyleSheet styleSheet = (StyleSheet) EditorGUIUtility.Load("styleSheetTutorial.uss");
         
         // inserire il foglio di stile all'interno della gerarchia usando un VisualElement
         if(styleSheet != null)

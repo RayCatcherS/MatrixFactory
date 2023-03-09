@@ -1,0 +1,2 @@
+# Serializable Dictionary
+Unity cannot serialize standard dictionaries. This means that they won't show or be edited in the inspector and they won't be instantiated at startup. This project provides a generic dictionary class and its custom property drawer that solves this problem. https://github.com/azixMcAze/Unity-SerializableDictionary
