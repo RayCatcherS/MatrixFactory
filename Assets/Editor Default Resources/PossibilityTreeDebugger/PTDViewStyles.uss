@@ -4,3 +4,10 @@ GridBackground {
 	--thick-line-color: var(--pt-colors-grid-ligh-grey-3);
 	--spacing: 25;
 }
+
+.node-label {
+    color: var(--pt-colors-label-ligh-white-1);
+    font-size: 40px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+}
