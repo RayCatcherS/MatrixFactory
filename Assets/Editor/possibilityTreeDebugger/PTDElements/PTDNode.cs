@@ -23,7 +23,7 @@ namespace PT.DebugView {
 
             /* TITLE CONTAINER */
             Label nodeNameLabel = new Label(NodeName);
-            nodeNameLabel.AddToClassList("node-label");
+            nodeNameLabel.AddToClassList("pt-node-label");
             titleContainer.Insert(0, nodeNameLabel);
 
 
@@ -82,8 +82,9 @@ namespace PT.DebugView {
             };
 
             extensionContainer.Add(matrixPathPreviwFoldout);
-
-            Draw Matrix preview
+            PTDMatrix ptdMatrix = new PTDMatrix(3, 3);
+            ptdMatrix.Draw();
+            extensionContainer.Add(ptdMatrix);
 
 
             // refresh bottom node visual elements

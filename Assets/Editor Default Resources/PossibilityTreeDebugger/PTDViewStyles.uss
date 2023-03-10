@@ -5,9 +5,15 @@ GridBackground {
 	--spacing: 25;
 }
 
-.node-label {
+.pt-node-label {
     color: var(--pt-colors-label-ligh-white-1);
     font-size: 40px;
     -unity-font-style: bold;
     -unity-text-align: middle-center;
+}
+
+.pt-matrix-box {
+    width: 30;
+    height: 30;
+    background-color: var(--pt-colors-label-ligh-white-03);
 }
