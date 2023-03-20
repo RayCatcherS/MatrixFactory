@@ -6,7 +6,7 @@ Questo progetto è stato realizzato per studiare e migliorare i seguenti campi:
 ### UI Elements(UI Toolkit)
 Studiare-codificare e utilizzare gli UI Elements di Unity, progettando interfacce utente personalizzate per l'editor unity usando, in questo progetto specifico visualizzando e generando la struttura dati ad albero utilizzata per generare l'albero dei possibili percorsi della matrice di gioco
 
-###Unity Style Sheets
+### Unity Style Sheets
 Fogli di stile per l'UI Toolkit
 
 ### Unity Resources/Editor Folder
