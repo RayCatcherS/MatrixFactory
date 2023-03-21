@@ -7,16 +7,30 @@ namespace PT.DebugView {
     using Enumerations;
     
 
-    public class PTDViewNode : Node {
+    public class PTDNodeView : Node {
         
-        public PTDViewNode(string nodeName, PTNodeType nodeType) {
+        public PTDNodeView(string nodeName, PTNodeType nodeType, Vector2 position) {
             NodeName = nodeName;
             NodeType = nodeType;
+
+            Draw();
+
+            SetPosition(new Rect(position, Vector2.zero));
         }
         private PTNodeType NodeType { get; set; }
         private string NodeName;
 
+        private Port _parentPort;
+        private Port _forwardPort;
+        private Port _backPort;
+        private Port _rightPort;
+        private Port _leftPort;
 
+        public Port parentPort {get {return _parentPort;}}
+        public Port forwardPort { get {return _forwardPort; }}
+        public Port backPort { get {return _backPort; }}
+        public Port rightPort { get {return _rightPort; } }
+        public Port leftPort { get {return _leftPort; } }
 
 
         public void Draw() {
@@ -29,15 +43,14 @@ namespace PT.DebugView {
 
 
             /* PARENT PORT */
-            Port parentPort = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(bool));
-            parentPort.portName = "parent";
+            _parentPort = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(bool));
+            _parentPort.portName = "parent";
             Color parentPortColor;
             ColorUtility.TryParseHtmlString("#FCA17D", out parentPortColor);
-            parentPort.portColor = parentPortColor;
+            _parentPort.portColor = parentPortColor;
             if(NodeType != PTNodeType.RootNode) {
-                inputContainer.Add(parentPort);
+                inputContainer.Add(_parentPort);
             }
-
 
 
 
@@ -46,33 +59,33 @@ namespace PT.DebugView {
             ColorUtility.TryParseHtmlString("#266DD3", out childrenPortColor);
 
             /* FORWARD PORT*/
-            Port forwardPort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(bool));
-            forwardPort.portName = "forward";
-            forwardPort.portColor = childrenPortColor;
+            _forwardPort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(bool));
+            _forwardPort.portName = "forward";
+            _forwardPort.portColor = childrenPortColor;
             
 
             /* BACK PORT*/
-            Port backPort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(bool));
-            backPort.portName = "back";
-            backPort.portColor = childrenPortColor;
+            _backPort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(bool));
+            _backPort.portName = "back";
+            _backPort.portColor = childrenPortColor;
             
 
             /* RIGHT PORT*/
-            Port rightPort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(bool));
-            rightPort.portName = "right";
-            rightPort.portColor = childrenPortColor;
-            
+            _rightPort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(bool));
+            _rightPort.portName = "right";
+            _rightPort.portColor = childrenPortColor;
+
 
             /* LEFT PORT*/
-            Port leftPort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(bool));
-            leftPort.portName = "left";
-            leftPort.portColor = childrenPortColor;
+            _leftPort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(bool));
+            _leftPort.portName = "left";
+            _leftPort.portColor = childrenPortColor;
             
-            if(NodeType == PTNodeType.InternalNode) {
-                inputContainer.Add(forwardPort);
-                inputContainer.Add(backPort);
-                inputContainer.Add(rightPort);
-                inputContainer.Add(leftPort);
+            if(NodeType == PTNodeType.InternalNode || NodeType == PTNodeType.RootNode) {
+                inputContainer.Add(_forwardPort);
+                inputContainer.Add(_backPort);
+                inputContainer.Add(_rightPort);
+                inputContainer.Add(_leftPort);
             }
 
 
@@ -83,8 +96,7 @@ namespace PT.DebugView {
 
             extensionContainer.Add(matrixPathPreviwFoldout);
             PTDMatrix ptdMatrix = new PTDMatrix(3, 3);
-            ptdMatrix.Draw();
-            extensionContainer.Add(ptdMatrix);
+            matrixPathPreviwFoldout.Add(ptdMatrix);
 
 
             // refresh bottom node visual elements

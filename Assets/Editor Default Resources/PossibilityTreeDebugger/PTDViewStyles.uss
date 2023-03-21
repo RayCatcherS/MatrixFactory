@@ -15,5 +15,22 @@ GridBackground {
 .pt-matrix-box {
     width: 30;
     height: 30;
-    background-color: var(--pt-colors-label-ligh-white-03);
+    background-color: var(--pt-colors-matrixbox-ligh-white-03);
+    border-width: 1px;
+    border-color: var(--pt-colors-matrixbox-black-1);
+
+    justify-content: center;
+}
+.pt-matrix-box-signed-path {
+    width: 30;
+    height: 30;
+    background-color: var(--pt-colors-matrixbox-signedpath-yellow-1);
+    border-width: 1px;
+    border-color: var(--pt-colors-matrixbox-black-1);
+
+    justify-content: center;
+}
+
+.pt-matrix-row {
+    flex-direction: row;
 }

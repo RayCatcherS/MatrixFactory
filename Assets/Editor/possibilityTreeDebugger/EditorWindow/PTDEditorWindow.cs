@@ -1,7 +1,9 @@
+using PT.View;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine.UIElements;
 
-namespace PT.Windows {
+namespace PT.View {
     public class PTDEditorWindow : EditorWindow {
         [MenuItem("Window/PT/TreeDebugger")]
         public static void ShowExample() {
@@ -10,12 +12,11 @@ namespace PT.Windows {
 
         private void CreateGUI() {
             AddGraphView();
-
             AddStyles();
         }
 
         private void AddGraphView() {
-            PTDView treeView = new PTDView();
+            PTDGraphView treeView = new PTDGraphView();
 
             treeView.StretchToParentSize();
 
