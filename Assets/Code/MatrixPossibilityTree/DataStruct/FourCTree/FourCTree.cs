@@ -1,4 +1,7 @@
 
+using System;
+using UnityEngine;
+
 namespace PT.DataStruct {
     public class FourCTree<T> {
         public FourCTree() {
@@ -9,10 +12,46 @@ namespace PT.DataStruct {
 
 
         public void InsRoot(T nodeData) {
-            _root = new FourCTreeNode<T>(nodeData);
+            _root = new FourCTreeNode<T>(nodeData, true);
         }
         public FourCTreeNode<T> Root() {
+
+            if(_root == null) {
+                throw new NullReferenceException();
+            }
             return _root;
+        }
+        public FourCTreeNode<T> Forward(FourCTreeNode<T> node) {
+
+            FourCTreeNode<T> value = node.GetForward();
+
+            if (value == null) {
+                throw new NullReferenceException();
+            }
+            return value;
+        }
+        public FourCTreeNode<T> Back(FourCTreeNode<T> node) {
+            FourCTreeNode<T> value = node.GetBack();
+
+            if (value == null) {
+                throw new NullReferenceException();
+            }
+            return value;
+        }
+        public FourCTreeNode<T> Right(FourCTreeNode<T> node) {
+            FourCTreeNode<T> value = node.GetRight();
+
+            if (value == null) {
+                throw new NullReferenceException();
+            }
+            return value;
+        }
+        public FourCTreeNode<T> Left(FourCTreeNode<T> node) {
+            FourCTreeNode<T> value = node.GetLeft();
+            if (value == null) {
+                throw new NullReferenceException();
+            }
+            return value;
         }
 
         /// <summary>
@@ -20,7 +59,7 @@ namespace PT.DataStruct {
         /// </summary>
         /// <param name="node">node to put the new forword child on</param>
         /// <param name="nodeData">node data</param>
-        public void Forward(FourCTreeNode<T> node, T nodeData) {
+        public void InsForward(FourCTreeNode<T> node, T nodeData) {
             node.SetForward(nodeData);
         }
         /// <summary>
@@ -28,7 +67,7 @@ namespace PT.DataStruct {
         /// </summary>
         /// <param name="node">node to put the new back child on</param>
         /// <param name="nodeData">node data</param>
-        public void Back(FourCTreeNode<T> node, T nodeData) {
+        public void InsBack(FourCTreeNode<T> node, T nodeData) {
             node.SetBack(nodeData);
         }
         /// <summary>
@@ -36,7 +75,7 @@ namespace PT.DataStruct {
         /// </summary>
         /// <param name="node">node to put the new right child on</param>
         /// <param name="nodeData">node data</param>
-        public void Right(FourCTreeNode<T> node, T nodeData) {
+        public void InsRight(FourCTreeNode<T> node, T nodeData) {
             node.SetRight(nodeData);
         }
         /// <summary>
@@ -44,7 +83,7 @@ namespace PT.DataStruct {
         /// </summary>
         /// <param name="node">node to put the new left child on</param>
         /// <param name="nodeData">node data</param>
-        public void Left(FourCTreeNode<T> node, T nodeData) {
+        public void InsLeft(FourCTreeNode<T> node, T nodeData) {
             node.SetLeft(nodeData);
         }
 
@@ -59,9 +98,9 @@ namespace PT.DataStruct {
             bool result;
 
             if(f != null) {
-                result = true;
-            } else {
                 result = false;
+            } else {
+                result = true;
             }
             return result;
         }
@@ -75,9 +114,9 @@ namespace PT.DataStruct {
             bool result;
 
             if(b != null) {
-                result = true;
-            } else {
                 result = false;
+            } else {
+                result = true;
             }
             return result;
         }
@@ -91,9 +130,9 @@ namespace PT.DataStruct {
             bool result;
 
             if(r != null) {
-                result = true;
-            } else {
                 result = false;
+            } else {
+                result = true;
             }
             return result;
         }
@@ -107,13 +146,21 @@ namespace PT.DataStruct {
             bool result;
 
             if(l != null) {
-                result = true;
-            } else {
                 result = false;
+            } else {
+                result = true;
             }
             return result;
         }
 
+        /// <summary>
+        /// Check if the node is the root of the tree
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        public bool isRoot(FourCTreeNode<T> node) {
+            return node.isRoot;
+        }
 
 
 
@@ -132,16 +179,50 @@ namespace PT.DataStruct {
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        public T read(FourCTreeNode<T> node) {
+        public T Read(FourCTreeNode<T> node) {
+            if(node == null) {
+                throw new NullReferenceException();
+            }
             return node.getItem();
+        }
+
+
+        public void VisitTree(FourCTreeNode<T> root, Action<FourCTreeNode<T>, FourCTree<T>> onNodeVisit) {
+
+            if(root == null) {
+                Debug.Log("Empty Tree");
+            } else {
+
+
+                onNodeVisit(root, this);
+                if (!ForwardIsEmpty(root)) {
+                    VisitTree(root.GetForward(),onNodeVisit);
+                }
+                if (!BackIsEmpty(root)) {
+                    VisitTree(root.GetBack(), onNodeVisit);
+                }
+                if (!RightIsEmpty(root)) {
+                    VisitTree(root.GetRight(), onNodeVisit);
+                }
+                if (!LeftIsEmpty(root)) {
+                    VisitTree(root.GetLeft(), onNodeVisit);
+                }
+            }
         }
     }
 
 
     public class FourCTreeNode<T> {
-        public FourCTreeNode(T nodeValue) {
+        public FourCTreeNode(T nodeValue, bool isRoot) {
+            _isRoot = isRoot;
             _nodeItem = nodeValue;
         }
+        private bool _isRoot = false;
+        public bool isRoot
+        {
+            get { return _isRoot; }
+        }
+
         private FourCTreeNode<T> _parent;
 
         // child Nodes
@@ -158,7 +239,7 @@ namespace PT.DataStruct {
         /// <param name="item">data item to set</param>
         public void SetForward(T item) {
             
-            FourCTreeNode<T> newForwardNode = new FourCTreeNode<T>(item);
+            FourCTreeNode<T> newForwardNode = new FourCTreeNode<T>(item, false);
             newForwardNode.LinkParent(this);
 
             _forward = newForwardNode;
@@ -172,7 +253,7 @@ namespace PT.DataStruct {
         /// <param name="item">data item to set</param>
         public void SetBack(T item) {
 
-            FourCTreeNode<T> newBackNode = new FourCTreeNode<T>(item);
+            FourCTreeNode<T> newBackNode = new FourCTreeNode<T>(item, false);
             newBackNode.LinkParent(this);
 
             _back = newBackNode;
@@ -186,10 +267,10 @@ namespace PT.DataStruct {
         /// <param name="item">data item to set</param>
         public void SetRight(T item) {
 
-            FourCTreeNode<T> newRightNode = new FourCTreeNode<T>(item);
+            FourCTreeNode<T> newRightNode = new FourCTreeNode<T>(item, false);
             newRightNode.LinkParent(this);
 
-            _back = newRightNode;
+            _right = newRightNode;
         }
         public FourCTreeNode<T> GetRight() {
             return _right;
@@ -199,11 +280,10 @@ namespace PT.DataStruct {
         /// </summary>
         /// <param name="item">data item to set</param>
         public void SetLeft(T item) {
-
-            FourCTreeNode<T> newLeftNode = new FourCTreeNode<T>(item);
+            FourCTreeNode<T> newLeftNode = new FourCTreeNode<T>(item, false);
             newLeftNode.LinkParent(this);
 
-            _back = newLeftNode;
+            _left = newLeftNode;
         }
         public FourCTreeNode<T> GetLeft() {
             return _left;

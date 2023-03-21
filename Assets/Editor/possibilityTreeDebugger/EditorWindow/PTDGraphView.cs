@@ -7,6 +7,8 @@ namespace PT.View {
     using DebugView;
     using Enumerations;
     using Global;
+    using PT.DataStruct;
+    using System;
     using System.Collections.Generic;
     using Unity.VisualScripting;
     using UnityEngine;
@@ -17,22 +19,77 @@ namespace PT.View {
 
             AddGridBackground();
 
-            CreateNode();
+            //GenerateNodeByTree(GlobalPossibilityTree.GetGeneratedTree());
 
             AddStyles();
         }
 
-        public void CreateNode() {
-            PTDNodeView node = new PTDNodeView("Possibility Path Node 1", PTNodeType.RootNode, Vector2.zero);
-            PTDNodeView node2 = new PTDNodeView("Possibility Path Node 2", PTNodeType.InternalNode, Vector2.zero);
+        public void GenerateNodeByTree(FourCTree<PossibilityItem> tree) {
+
+            Dictionary<string, PTDNodeView> nodeViewDictionary =
+            new Dictionary<string, PTDNodeView>();
+
+            Action<FourCTreeNode<PossibilityItem>, FourCTree<PossibilityItem>> onNodeVisit =
+            (FourCTreeNode<PossibilityItem> visitedNode, FourCTree<PossibilityItem> tree) => {
 
 
-            UnityEditor.Experimental.GraphView.Edge edgeConnection = node2.parentPort.ConnectTo(node.forwardPort);
+                PTDNodeView visitedNodeView = new PTDNodeView(
+                    "Possibility Path Node: " + visitedNode.getItem(),
+                    tree.isRoot(visitedNode) ? PTNodeType.RootNode : PTNodeType.InternalNode,
+                    Vector2.zero
+                );
+                if(tree.isRoot(visitedNode)) {
+                    nodeViewDictionary.Add(tree.Read(visitedNode).id, visitedNodeView);
+                    AddElement(visitedNodeView);
+                }
+                
 
 
-            AddElement(edgeConnection);
-            AddElement(node);
-            AddElement(node2);
+                if (!tree.ForwardIsEmpty(visitedNode)) {
+
+                    FourCTreeNode<PossibilityItem> fVisitedNode = tree.Forward(visitedNode);
+                    PTDNodeView visitedFNodeView = new PTDNodeView(
+                        "Possibility Path Node: " + fVisitedNode.getItem(),
+                        tree.isRoot(fVisitedNode) ? PTNodeType.RootNode : PTNodeType.InternalNode,
+                        Vector2.zero
+                    );
+                    PTDNodeView fParentNodeView = nodeViewDictionary[tree.Read(tree.Parent(fVisitedNode)).id];
+                    var edgeConnection = visitedFNodeView.parentPort.ConnectTo(
+                        fParentNodeView.forwardPort
+                     );
+
+                    nodeViewDictionary.Add(tree.Read(fVisitedNode).id, fParentNodeView);
+
+                    AddElement(fParentNodeView);
+                    AddElement(edgeConnection);
+                }
+
+
+                if (!tree.LeftIsEmpty(visitedNode))
+                {
+
+                    FourCTreeNode<PossibilityItem> lVisitedNode = tree.Left(visitedNode);
+                    PTDNodeView visitedFNodeView = new PTDNodeView(
+                        "Possibility Path Node: " + lVisitedNode.getItem(),
+                        tree.isRoot(lVisitedNode) ? PTNodeType.RootNode : PTNodeType.InternalNode,
+                        Vector2.zero
+                    );
+                    PTDNodeView lParentNodeView = nodeViewDictionary[tree.Read(tree.Parent(lVisitedNode)).id];
+                    var edgeConnection = visitedFNodeView.parentPort.ConnectTo(
+                        lParentNodeView.leftPort
+                     );
+
+                    nodeViewDictionary.Add(tree.Read(lVisitedNode).id, lParentNodeView);
+
+                    
+                    AddElement(lParentNodeView);
+                    AddElement(edgeConnection);
+                }
+
+                //Debug.Log(visitedNode.getItem().ToString());
+            };
+            tree.VisitTree(tree.Root(), onNodeVisit);
+            
         }
 
         private void AddManipulators() {
@@ -62,7 +119,7 @@ namespace PT.View {
         }
 
         private void DrawGeneratedPossibilityTree() {
-            GlobalPossibilityTree.GetGeneratedTree();
+            GenerateNodeByTree(GlobalPossibilityTree.GetGeneratedTree());
         }
         private void GeneratePossibilityTree() {
             GlobalPossibilityTree.GenerateTree();
