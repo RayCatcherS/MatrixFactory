@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 
@@ -17,7 +14,12 @@ namespace PT.DebugView
         }
         private int rows;
         private int columns;
-        
+        public int matrixHeigth {
+            get { return rows * 30; }
+        }
+        public int matrixWidth {
+            get { return columns * 30; }
+        }
 
         public void Draw()
         {   

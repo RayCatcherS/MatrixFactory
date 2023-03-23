@@ -10,7 +10,6 @@ namespace PT.View {
     using PT.DataStruct;
     using System;
     using System.Collections.Generic;
-    using Unity.VisualScripting;
     using UnityEngine;
 
     public class PTDGraphView : GraphView {
@@ -19,13 +18,11 @@ namespace PT.View {
 
             AddGridBackground();
 
-            //GenerateNodeByTree(GlobalPossibilityTree.GetGeneratedTree());
-
             AddStyles();
         }
 
         public void GenerateNodeByTree(FourCTree<PossibilityItem> tree) {
-
+            
             Dictionary<string, PTDNodeView> nodeViewDictionary =
             new Dictionary<string, PTDNodeView>();
 
@@ -36,81 +33,125 @@ namespace PT.View {
                 PTDNodeView visitedNodeView;
                 if(tree.isRoot(visitedNode)) {
                     visitedNodeView = new PTDNodeView(
-                        "Possibility Path Node: " + visitedNode.getItem(),
+                        "Node id: " + visitedNode.getItem() + "\nNode height: " + visitedNode.nodeHeight,
                         tree.isRoot(visitedNode) ? PTNodeType.RootNode : PTNodeType.InternalNode,
                         Vector2.zero
-                    ); 
-                    //nodeViewDictionary.Add(tree.Read(visitedNode).id, visitedNodeView);
+                    );
+
+                    nodeViewDictionary.Add(tree.Read(visitedNode).id, visitedNodeView); // add render nodo figlio forward dictionary
+
                     AddElement(visitedNodeView);
                 } else {
                     visitedNodeView = nodeViewDictionary[tree.Read(visitedNode).id];
-                    //AddElement(fParentNodeView);
-
                 }
 
-
+                
                 if(!tree.ForwardIsEmpty(visitedNode)) {
-                    FourCTreeNode<PossibilityItem> fVisitedNode = tree.Forward(visitedNode); // nodo figlio forward
-                    PTDNodeView fVisitedNodeView = new PTDNodeView( // render nodo figlio forward
-                        "Possibility Path Node: " + fVisitedNode.getItem(),
+
+
+                    FourCTreeNode<PossibilityItem> fVisitedNode = tree.Forward(visitedNode); // forward soon node
+
+                    Vector2 nodeSpawnPos = PTDNodeView.calculateRelativeNodePosition(
+                        visitedNodeView,
+                        NodePort.forward,
+                        tree.treeHeight,
+                        fVisitedNode.nodeHeight
+                    );
+
+
+                    
+                    PTDNodeView fVisitedNodeView = new PTDNodeView( // forward soon node render node
+                        "Node id: " + fVisitedNode.getItem() + "\nNode height: " + fVisitedNode.nodeHeight,
                         tree.isRoot(fVisitedNode) ? PTNodeType.RootNode : PTNodeType.InternalNode,
-                        Vector2.zero
+                        nodeSpawnPos
                     );
                     nodeViewDictionary.Add(tree.Read(fVisitedNode).id, fVisitedNodeView); // add render nodo figlio forward dictionary
 
-                    var edgeConnection = fVisitedNodeView.parentPort.ConnectTo(
+                    Edge edgeConnection = fVisitedNodeView.parentPort.ConnectTo(
                         visitedNodeView.forwardPort
                      );
                     AddElement(fVisitedNodeView);
                     AddElement(edgeConnection);
                 }
                 if(!tree.BackIsEmpty(visitedNode)) {
-                    FourCTreeNode<PossibilityItem> bVisitedNode = tree.Back(visitedNode); // nodo figlio forward
-                    PTDNodeView bVisitedNodeView = new PTDNodeView( // render nodo figlio forward
-                        "Possibility Path Node: " + bVisitedNode.getItem(),
-                        tree.isRoot(bVisitedNode) ? PTNodeType.RootNode : PTNodeType.InternalNode,
-                        Vector2.zero
-                    );
-                    nodeViewDictionary.Add(tree.Read(bVisitedNode).id, bVisitedNodeView); // add render nodo figlio forward dictionary
 
-                    var edgeConnection = bVisitedNodeView.parentPort.ConnectTo(
+                    FourCTreeNode<PossibilityItem> bVisitedNode = tree.Back(visitedNode);
+
+                    Vector2 nodeSpawnPos = PTDNodeView.calculateRelativeNodePosition(
+                        visitedNodeView,
+                        NodePort.back,
+                        tree.treeHeight,
+                        bVisitedNode.nodeHeight
+                    );
+
+                    
+                    PTDNodeView bVisitedNodeView = new PTDNodeView(
+                        "Node id: " + bVisitedNode.getItem() + "\nNode height: " + bVisitedNode.nodeHeight,
+                        tree.isRoot(bVisitedNode) ? PTNodeType.RootNode : PTNodeType.InternalNode,
+                        nodeSpawnPos
+                    );
+                    nodeViewDictionary.Add(tree.Read(bVisitedNode).id, bVisitedNodeView); 
+
+                    Edge edgeConnection = bVisitedNodeView.parentPort.ConnectTo(
                         visitedNodeView.backPort
                      );
                     AddElement(bVisitedNodeView);
                     AddElement(edgeConnection);
                 }
                 if(!tree.RightIsEmpty(visitedNode)) {
-                    FourCTreeNode<PossibilityItem> rVisitedNode = tree.Right(visitedNode); // nodo figlio forward
-                    PTDNodeView rVisitedNodeView = new PTDNodeView( // render nodo figlio forward
-                        "Possibility Path Node: " + rVisitedNode.getItem(),
-                        tree.isRoot(rVisitedNode) ? PTNodeType.RootNode : PTNodeType.InternalNode,
-                        Vector2.zero
-                    );
-                    nodeViewDictionary.Add(tree.Read(rVisitedNode).id, rVisitedNodeView); // add render nodo figlio forward dictionary
 
-                    var edgeConnection = rVisitedNodeView.parentPort.ConnectTo(
+                    FourCTreeNode<PossibilityItem> rVisitedNode = tree.Right(visitedNode);
+
+                    Vector2 nodeSpawnPos = PTDNodeView.calculateRelativeNodePosition(
+                        visitedNodeView,
+                        NodePort.right,
+                        tree.treeHeight,
+                        rVisitedNode.nodeHeight
+                    );
+
+
+                    
+                    PTDNodeView rVisitedNodeView = new PTDNodeView(
+                        "Node id: " + rVisitedNode.getItem() + "\nNode height: " + rVisitedNode.nodeHeight,
+                        tree.isRoot(rVisitedNode) ? PTNodeType.RootNode : PTNodeType.InternalNode,
+                        nodeSpawnPos
+                    );
+                    nodeViewDictionary.Add(tree.Read(rVisitedNode).id, rVisitedNodeView);
+
+                    Edge edgeConnection = rVisitedNodeView.parentPort.ConnectTo(
                         visitedNodeView.rightPort
                      );
                     AddElement(rVisitedNodeView);
                     AddElement(edgeConnection);
                 }
                 if(!tree.LeftIsEmpty(visitedNode)) {
-                    FourCTreeNode<PossibilityItem> lVisitedNode = tree.Left(visitedNode); // nodo figlio forward
-                    PTDNodeView lVisitedNodeView = new PTDNodeView( // render nodo figlio forward
-                        "Possibility Path Node: " + lVisitedNode.getItem(),
-                        tree.isRoot(lVisitedNode) ? PTNodeType.RootNode : PTNodeType.InternalNode,
-                        Vector2.zero
-                    );
-                    nodeViewDictionary.Add(tree.Read(lVisitedNode).id, lVisitedNodeView); // add render nodo figlio forward dictionary
 
-                    var edgeConnection = lVisitedNodeView.parentPort.ConnectTo(
+                    FourCTreeNode<PossibilityItem> lVisitedNode = tree.Left(visitedNode);
+
+                    Vector2 nodeSpawnPos = PTDNodeView.calculateRelativeNodePosition(
+                        visitedNodeView,
+                        NodePort.left,
+                        tree.treeHeight,
+                        lVisitedNode.nodeHeight
+                    );
+
+
+                    
+                    PTDNodeView lVisitedNodeView = new PTDNodeView(
+                        "Node id: " + lVisitedNode.getItem() + "\nNode height: " + lVisitedNode.nodeHeight,
+                        tree.isRoot(lVisitedNode) ? PTNodeType.RootNode : PTNodeType.InternalNode,
+                        nodeSpawnPos
+                    );
+                    nodeViewDictionary.Add(tree.Read(lVisitedNode).id, lVisitedNodeView); 
+
+                    Edge edgeConnection = lVisitedNodeView.parentPort.ConnectTo(
                         visitedNodeView.leftPort
                      );
                     AddElement(lVisitedNodeView);
                     AddElement(edgeConnection);
                 }
 
-                //Debug.Log(visitedNode.getItem().ToString());
+
             };
             tree.VisitTree(tree.Root(), onNodeVisit);
             

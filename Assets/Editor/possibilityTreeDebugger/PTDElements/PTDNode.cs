@@ -5,10 +5,11 @@ using UnityEngine;
 namespace PT.DebugView {
 
     using Enumerations;
-    
-
     public class PTDNodeView : Node {
-        
+
+        static public readonly Vector2 defaultSize = new Vector2(175, 190);
+
+
         public PTDNodeView(string nodeName, PTNodeType nodeType, Vector2 position) {
             NodeName = nodeName;
             NodeType = nodeType;
@@ -16,7 +17,13 @@ namespace PT.DebugView {
             Draw();
 
             SetPosition(new Rect(position, Vector2.zero));
+            _position = position;
         }
+        private Vector2 _position = Vector2.zero;
+        public Vector2 position {
+            get { return _position; }
+        }
+
         private PTNodeType NodeType { get; set; }
         private string NodeName;
 
@@ -32,6 +39,10 @@ namespace PT.DebugView {
         public Port rightPort { get {return _rightPort; } }
         public Port leftPort { get {return _leftPort; } }
 
+        private PTDMatrix _ptdMatrix;
+        public PTDMatrix ptdMatrix {
+            get { return _ptdMatrix; }
+        }
 
         public void Draw() {
 
@@ -95,12 +106,76 @@ namespace PT.DebugView {
             };
 
             extensionContainer.Add(matrixPathPreviwFoldout);
-            PTDMatrix ptdMatrix = new PTDMatrix(3, 3);
+            _ptdMatrix = new PTDMatrix(3, 3);
             matrixPathPreviwFoldout.Add(ptdMatrix);
 
 
             // refresh bottom node visual elements
             RefreshExpandedState();
         }
+    
+        public static Vector2 calculateRelativeNodePosition(PTDNodeView parentNode, NodePort nPort, int treeHeight, int nodeHeight) {
+
+            float xNodePosOffset = 100;
+            float yNodePosOffset = 20;
+
+            Vector2 pos = new Vector2(
+                parentNode.position.x,
+                parentNode.position.y
+            );
+
+            float nodeViewHeight = 0;
+            float nodeViewWidth = 0;
+
+
+            /* NODE VIEW SIZE */
+            nodeViewHeight = defaultSize.y + parentNode.ptdMatrix.matrixHeigth/*matrix offset*/;
+            if(parentNode.ptdMatrix.matrixWidth > defaultSize.x) {
+                nodeViewWidth = defaultSize.x + (parentNode.ptdMatrix.matrixWidth/*matrix offset*/ - defaultSize.x) + 25/* node border constant*/;
+            } else {
+                nodeViewWidth = defaultSize.x;
+            }
+
+            float nodeViewHeightPos = 0;
+            float nodeViewWidthPos = 0;
+
+
+            if(nPort == NodePort.forward) {
+
+                //nodeViewHeightPos = nodeViewHeight;
+
+                nodeViewHeightPos = (((0 * nodeViewHeight)) - (0 /* y offset nodes*/));
+
+            } else if(nPort == NodePort.back) {
+
+                //nodeViewHeightPos = nodeViewHeight;
+                nodeViewHeightPos = (((1 * nodeViewHeight)) - (0 /* y offset nodes*/));
+
+            } else if(nPort == NodePort.right) {
+
+                //nodeViewHeightPos = nodeViewHeight;
+                nodeViewHeightPos = (((2 * nodeViewHeight)) - (0 /* nodeViewHeight * 1.5f y offset nodes*/));
+
+            } else if(nPort == NodePort.left) {
+
+                //nodeViewHeightPos = nodeViewHeight;
+                nodeViewHeightPos = (((3 * nodeViewHeight)) - (0 /* y offset nodes*/));
+            }
+
+
+            /* Node x Position*/
+            nodeViewWidthPos = nodeViewWidth + xNodePosOffset;
+
+            pos = pos + new Vector2(nodeViewWidthPos, nodeViewHeightPos);
+
+            return pos;
+        }
+    }
+
+    public enum NodePort {
+        forward,
+        back,
+        right,
+        left
     }
 }

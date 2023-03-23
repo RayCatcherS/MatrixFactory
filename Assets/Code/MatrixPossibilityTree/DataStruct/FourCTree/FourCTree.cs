@@ -8,7 +8,10 @@ namespace PT.DataStruct {
 
         }
         private FourCTreeNode<T> _root;
-        
+        private int _treeHeight = 0;
+        public int treeHeight {
+            get { return _treeHeight; }
+        }
 
 
         public void InsRoot(T nodeData) {
@@ -61,6 +64,12 @@ namespace PT.DataStruct {
         /// <param name="nodeData">node data</param>
         public void InsForward(FourCTreeNode<T> node, T nodeData) {
             node.SetForward(nodeData);
+
+            int newNodeHeight = this.Forward(node).nodeHeight;
+
+            if(newNodeHeight > _treeHeight) {
+                _treeHeight = newNodeHeight;
+            }
         }
         /// <summary>
         /// Insert new back Node
@@ -69,6 +78,11 @@ namespace PT.DataStruct {
         /// <param name="nodeData">node data</param>
         public void InsBack(FourCTreeNode<T> node, T nodeData) {
             node.SetBack(nodeData);
+
+            int newNodeHeight = this.Back(node).nodeHeight;
+            if(newNodeHeight > _treeHeight) {
+                _treeHeight = newNodeHeight;
+            }
         }
         /// <summary>
         /// Insert new right Node
@@ -77,6 +91,11 @@ namespace PT.DataStruct {
         /// <param name="nodeData">node data</param>
         public void InsRight(FourCTreeNode<T> node, T nodeData) {
             node.SetRight(nodeData);
+
+            int newNodeHeight = this.Right(node).nodeHeight;
+            if(newNodeHeight > _treeHeight) {
+                _treeHeight = newNodeHeight;
+            }
         }
         /// <summary>
         /// Insert new left Node
@@ -85,6 +104,11 @@ namespace PT.DataStruct {
         /// <param name="nodeData">node data</param>
         public void InsLeft(FourCTreeNode<T> node, T nodeData) {
             node.SetLeft(nodeData);
+
+            int newNodeHeight = this.Left(node).nodeHeight;
+            if(newNodeHeight > _treeHeight) {
+                _treeHeight = newNodeHeight;
+            }
         }
 
 
@@ -209,6 +233,8 @@ namespace PT.DataStruct {
                 }
             }
         }
+
+        
     }
 
 
@@ -233,6 +259,14 @@ namespace PT.DataStruct {
 
         private T _nodeItem;
 
+        private int _nodeHeight = 0;
+
+        /// <summary>
+        /// Get the tree's node height relative to the tree
+        /// </summary>
+        public int nodeHeight {
+            get { return _nodeHeight; }
+        }
         /// <summary>
         /// create a new forward node and set the parent node to it
         /// </summary>
@@ -290,6 +324,7 @@ namespace PT.DataStruct {
         }
 
         public void LinkParent(FourCTreeNode<T> parent) {
+            _nodeHeight = parent.nodeHeight + 1;
             this._parent = parent;
         }
         public FourCTreeNode<T> GetParent() {
