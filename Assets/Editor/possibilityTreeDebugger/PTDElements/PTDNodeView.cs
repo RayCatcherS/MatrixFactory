@@ -5,6 +5,8 @@ using UnityEngine;
 namespace PT.DebugView {
 
     using Enumerations;
+    using System;
+
     public class PTDNodeView : Node {
 
         static public readonly Vector2 defaultSize = new Vector2(175, 190);
@@ -106,7 +108,7 @@ namespace PT.DebugView {
             };
 
             extensionContainer.Add(matrixPathPreviwFoldout);
-            _ptdMatrix = new PTDMatrix(3, 3);
+            _ptdMatrix = new PTDMatrix(7, 7);
             matrixPathPreviwFoldout.Add(ptdMatrix);
 
 
@@ -116,16 +118,16 @@ namespace PT.DebugView {
     
         public static Vector2 calculateRelativeNodePosition(PTDNodeView parentNode, NodePort nPort, int treeHeight, int nodeHeight) {
 
-            float xNodePosOffset = 100;
-            float yNodePosOffset = 20;
+            double xNodePosOffset = 100;
+            double yNodePosOffset = 130;
 
             Vector2 pos = new Vector2(
                 parentNode.position.x,
                 parentNode.position.y
             );
 
-            float nodeViewHeight = 0;
-            float nodeViewWidth = 0;
+            double nodeViewHeight = 0;
+            double nodeViewWidth = 0;
 
 
             /* NODE VIEW SIZE */
@@ -136,37 +138,37 @@ namespace PT.DebugView {
                 nodeViewWidth = defaultSize.x;
             }
 
-            float nodeViewHeightPos = 0;
-            float nodeViewWidthPos = 0;
+            double nodeViewHeightPos = 0;
+            double nodeViewWidthPos = 0;
 
 
             if(nPort == NodePort.forward) {
 
-                //nodeViewHeightPos = nodeViewHeight;
 
-                nodeViewHeightPos = (((0 * nodeViewHeight)) - (0 /* y offset nodes*/));
+                nodeViewHeightPos = (((0 * nodeViewHeight) - (nodeViewHeight * 1.5f /* y offset nodes*/)) * Math.Pow(4, (treeHeight - nodeHeight)));
 
             } else if(nPort == NodePort.back) {
 
-                //nodeViewHeightPos = nodeViewHeight;
-                nodeViewHeightPos = (((1 * nodeViewHeight)) - (0 /* y offset nodes*/));
+
+                nodeViewHeightPos = (((1 * nodeViewHeight) - (nodeViewHeight * 1.5f /* y offset nodes*/)) * Math.Pow(4, (treeHeight - nodeHeight)));
 
             } else if(nPort == NodePort.right) {
 
-                //nodeViewHeightPos = nodeViewHeight;
-                nodeViewHeightPos = (((2 * nodeViewHeight)) - (0 /* nodeViewHeight * 1.5f y offset nodes*/));
+
+                nodeViewHeightPos = (((2 * nodeViewHeight) - (nodeViewHeight * 1.5f /* y offset nodes*/)) * Math.Pow(4, (treeHeight - nodeHeight)));
 
             } else if(nPort == NodePort.left) {
 
-                //nodeViewHeightPos = nodeViewHeight;
-                nodeViewHeightPos = (((3 * nodeViewHeight)) - (0 /* y offset nodes*/));
+
+                nodeViewHeightPos = (((3 * nodeViewHeight) - (nodeViewHeight * 1.5f /* y offset nodes*/)) * Math.Pow(4, (treeHeight - nodeHeight)));
             }
+
 
 
             /* Node x Position*/
             nodeViewWidthPos = nodeViewWidth + xNodePosOffset;
 
-            pos = pos + new Vector2(nodeViewWidthPos, nodeViewHeightPos);
+            pos = pos + new Vector2((float)nodeViewWidthPos, (float)nodeViewHeightPos);
 
             return pos;
         }
