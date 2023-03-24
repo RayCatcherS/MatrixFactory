@@ -21,7 +21,7 @@ namespace PT.View {
             AddStyles();
         }
 
-        public void GenerateNodeByTree(FourCTree<PossibilityItem> tree) {
+        public void GenerateTreeNodesView(FourCTree<PossibilityItem> tree) {
             
             Dictionary<string, PTDNodeView> nodeViewDictionary =
             new Dictionary<string, PTDNodeView>();
@@ -153,8 +153,9 @@ namespace PT.View {
 
 
             };
+
+
             tree.VisitTree(tree.Root(), onNodeVisit);
-            
         }
 
         private void AddManipulators() {
@@ -184,7 +185,7 @@ namespace PT.View {
         }
 
         private void DrawGeneratedPossibilityTree() {
-            GenerateNodeByTree(GlobalPossibilityTree.GetGeneratedTree());
+            GenerateTreeNodesView(GlobalPossibilityTree.GetGeneratedTree());
         }
         private void GeneratePossibilityTree() {
             GlobalPossibilityTree.GenerateTree();

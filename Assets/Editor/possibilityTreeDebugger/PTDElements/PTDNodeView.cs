@@ -108,7 +108,7 @@ namespace PT.DebugView {
             };
 
             extensionContainer.Add(matrixPathPreviwFoldout);
-            _ptdMatrix = new PTDMatrix(7, 7);
+            _ptdMatrix = new PTDMatrix(3, 3);
             matrixPathPreviwFoldout.Add(ptdMatrix);
 
 
@@ -119,7 +119,6 @@ namespace PT.DebugView {
         public static Vector2 calculateRelativeNodePosition(PTDNodeView parentNode, NodePort nPort, int treeHeight, int nodeHeight) {
 
             double xNodePosOffset = 100;
-            double yNodePosOffset = 130;
 
             Vector2 pos = new Vector2(
                 parentNode.position.x,
@@ -145,22 +144,38 @@ namespace PT.DebugView {
             if(nPort == NodePort.forward) {
 
 
-                nodeViewHeightPos = (((0 * nodeViewHeight) - (nodeViewHeight * 1.5f /* y offset nodes*/)) * Math.Pow(4, (treeHeight - nodeHeight)));
+                nodeViewHeightPos = (
+                    (0 * nodeViewHeight /* node pos*/) - (nodeViewHeight * 1.5f /* y offset nodes*/)
+                )
+
+                /* the height size increase in exponential 
+                 * from the bottom of the tree to the top. 
+                 * The bottom of the tree is (treeHeight - nodeHeight)
+                 * 4 is the max degree of nodes
+                 */
+                * Math.Pow(4, (treeHeight - nodeHeight));
+
 
             } else if(nPort == NodePort.back) {
 
 
-                nodeViewHeightPos = (((1 * nodeViewHeight) - (nodeViewHeight * 1.5f /* y offset nodes*/)) * Math.Pow(4, (treeHeight - nodeHeight)));
+                nodeViewHeightPos = (
+                    (1 * nodeViewHeight) - (nodeViewHeight * 1.5f)
+                ) * Math.Pow(4, (treeHeight - nodeHeight));
 
             } else if(nPort == NodePort.right) {
 
 
-                nodeViewHeightPos = (((2 * nodeViewHeight) - (nodeViewHeight * 1.5f /* y offset nodes*/)) * Math.Pow(4, (treeHeight - nodeHeight)));
+                nodeViewHeightPos = (
+                    (2 * nodeViewHeight) - (nodeViewHeight * 1.5f)
+                ) * Math.Pow(4, (treeHeight - nodeHeight));
 
             } else if(nPort == NodePort.left) {
 
 
-                nodeViewHeightPos = (((3 * nodeViewHeight) - (nodeViewHeight * 1.5f /* y offset nodes*/)) * Math.Pow(4, (treeHeight - nodeHeight)));
+                nodeViewHeightPos = (
+                    (3 * nodeViewHeight) - (nodeViewHeight * 1.5f)
+                ) * Math.Pow(4, (treeHeight - nodeHeight));
             }
 
 

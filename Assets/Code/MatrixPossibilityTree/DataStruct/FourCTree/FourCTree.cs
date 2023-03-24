@@ -14,13 +14,11 @@ namespace PT.DataStruct {
         }
 
 
-        public void InsRoot(T nodeData) {
-            _root = new FourCTreeNode<T>(nodeData, true);
-        }
+        
         public FourCTreeNode<T> Root() {
 
             if(_root == null) {
-                throw new NullReferenceException();
+                Debug.LogError("Empty tree");
             }
             return _root;
         }
@@ -57,6 +55,9 @@ namespace PT.DataStruct {
             return value;
         }
 
+        public void InsRoot(T nodeData) {
+            _root = new FourCTreeNode<T>(nodeData, true);
+        }
         /// <summary>
         /// Insert new forward Node
         /// </summary>
@@ -112,6 +113,9 @@ namespace PT.DataStruct {
         }
 
 
+        public bool TreeIsEmpty() {
+            return (_root == null);
+        }
         /// <summary>
         /// check if the forward child is empty
         /// </summary>
@@ -214,7 +218,7 @@ namespace PT.DataStruct {
         public void VisitTree(FourCTreeNode<T> root, Action<FourCTreeNode<T>, FourCTree<T>> onNodeVisit) {
 
             if(root == null) {
-                Debug.Log("Empty Tree");
+                Debug.LogError("Empty Tree");
             } else {
 
 

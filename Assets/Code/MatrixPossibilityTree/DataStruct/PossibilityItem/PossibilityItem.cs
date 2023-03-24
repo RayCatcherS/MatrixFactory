@@ -2,20 +2,17 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 namespace PT.DataStruct {
-    public class PossibilityItem : MonoBehaviour
+    public class PossibilityItem
     {
-        public PossibilityItem(string id)
-        {
+        public PossibilityItem(string id) {
             _id = id;
         }
         private string _id;
-        public string id
-        {
+        public string id {
             get { return _id; }
         }
 
-        public override string ToString()
-        {
+        public override string ToString() {
             return _id;
         }
     }
