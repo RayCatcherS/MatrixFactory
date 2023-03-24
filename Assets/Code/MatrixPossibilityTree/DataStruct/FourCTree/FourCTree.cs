@@ -1,5 +1,6 @@
 
 using System;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace PT.DataStruct {
@@ -12,8 +13,6 @@ namespace PT.DataStruct {
         public int treeHeight {
             get { return _treeHeight; }
         }
-
-
         
         public FourCTreeNode<T> Root() {
 
@@ -56,7 +55,11 @@ namespace PT.DataStruct {
         }
 
         public void InsRoot(T nodeData) {
-            _root = new FourCTreeNode<T>(nodeData, true);
+            if (!TreeIsEmpty()) {
+                Debug.LogError("Root node already added");
+            } else {
+                _root = new FourCTreeNode<T>(nodeData, true);
+            }
         }
         /// <summary>
         /// Insert new forward Node
@@ -64,13 +67,16 @@ namespace PT.DataStruct {
         /// <param name="node">node to put the new forword child on</param>
         /// <param name="nodeData">node data</param>
         public void InsForward(FourCTreeNode<T> node, T nodeData) {
-            node.SetForward(nodeData);
+            if(!ForwardIsEmpty(node)) {
 
-            int newNodeHeight = this.Forward(node).nodeHeight;
+                Debug.LogError("Forward node already added");
+            } else {
 
-            if(newNodeHeight > _treeHeight) {
-                _treeHeight = newNodeHeight;
+                node.SetForward(nodeData);
+                updateNodeHeight(this.Forward(node));
             }
+
+            
         }
         /// <summary>
         /// Insert new back Node
@@ -78,11 +84,12 @@ namespace PT.DataStruct {
         /// <param name="node">node to put the new back child on</param>
         /// <param name="nodeData">node data</param>
         public void InsBack(FourCTreeNode<T> node, T nodeData) {
-            node.SetBack(nodeData);
+            if (!BackIsEmpty(node)) {
 
-            int newNodeHeight = this.Back(node).nodeHeight;
-            if(newNodeHeight > _treeHeight) {
-                _treeHeight = newNodeHeight;
+                Debug.LogError("Back node already added");
+            } else {
+                node.SetBack(nodeData);
+                updateNodeHeight(this.Back(node));
             }
         }
         /// <summary>
@@ -91,12 +98,13 @@ namespace PT.DataStruct {
         /// <param name="node">node to put the new right child on</param>
         /// <param name="nodeData">node data</param>
         public void InsRight(FourCTreeNode<T> node, T nodeData) {
-            node.SetRight(nodeData);
-
-            int newNodeHeight = this.Right(node).nodeHeight;
-            if(newNodeHeight > _treeHeight) {
-                _treeHeight = newNodeHeight;
+            if (!RightIsEmpty(node)) {
+                Debug.LogError("Right node already added");
+            } else {
+                node.SetRight(nodeData);
+                updateNodeHeight(this.Right(node));
             }
+            
         }
         /// <summary>
         /// Insert new left Node
@@ -104,14 +112,24 @@ namespace PT.DataStruct {
         /// <param name="node">node to put the new left child on</param>
         /// <param name="nodeData">node data</param>
         public void InsLeft(FourCTreeNode<T> node, T nodeData) {
-            node.SetLeft(nodeData);
-
-            int newNodeHeight = this.Left(node).nodeHeight;
-            if(newNodeHeight > _treeHeight) {
-                _treeHeight = newNodeHeight;
+            if (!LeftIsEmpty(node)) {
+                Debug.LogError("Left node already added");
+            } else {
+                node.SetLeft(nodeData);
+                updateNodeHeight(this.Left(node));
             }
         }
 
+        /// <summary>
+        /// Call it when the tree inser a new node
+        /// </summary>
+        /// <param name="node"></param>
+        private void updateNodeHeight(FourCTreeNode<T> node) {
+            int newNodeHeight = node.nodeHeight;
+            if (newNodeHeight > _treeHeight) {
+                _treeHeight = newNodeHeight;
+            }
+        }
 
         public bool TreeIsEmpty() {
             return (_root == null);
