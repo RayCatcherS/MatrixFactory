@@ -5,6 +5,7 @@ using UnityEngine;
 namespace PT.DebugView {
 
     using Enumerations;
+    using PT.DataStruct;
     using System;
 
     public class PTDNodeView : Node {
@@ -12,22 +13,23 @@ namespace PT.DebugView {
         static public readonly Vector2 defaultSize = new Vector2(175, 190);
 
 
-        public PTDNodeView(string nodeName, PTNodeType nodeType, Vector2 position) {
-            NodeName = nodeName;
+        public PTDNodeView(PossibilityPathItem nodeItem, PTNodeType nodeType, Vector2 position) {
+            _nodeItem = nodeItem;
             NodeType = nodeType;
 
-            Draw();
+            _position = position;
 
             SetPosition(new Rect(position, Vector2.zero));
-            _position = position;
+            Draw();
+            
         }
-        private Vector2 _position = Vector2.zero;
+        private Vector2 _position;
         public Vector2 position {
             get { return _position; }
         }
 
         private PTNodeType NodeType { get; set; }
-        private string NodeName;
+        private PossibilityPathItem _nodeItem;
 
         private Port _parentPort;
         private Port _forwardPort;
@@ -41,15 +43,15 @@ namespace PT.DebugView {
         public Port rightPort { get {return _rightPort; } }
         public Port leftPort { get {return _leftPort; } }
 
-        private PTDMatrix _ptdMatrix;
-        public PTDMatrix ptdMatrix {
+        private PTDPathMatrixView _ptdMatrix;
+        public PTDPathMatrixView ptdMatrix {
             get { return _ptdMatrix; }
         }
 
         public void Draw() {
 
             /* TITLE CONTAINER */
-            Label nodeNameLabel = new Label(NodeName);
+            Label nodeNameLabel = new Label(_nodeItem.id);
             nodeNameLabel.AddToClassList("pt-node-label");
             titleContainer.Insert(0, nodeNameLabel);
 
@@ -108,7 +110,7 @@ namespace PT.DebugView {
             };
 
             extensionContainer.Add(matrixPathPreviwFoldout);
-            _ptdMatrix = new PTDMatrix(3, 3);
+            _ptdMatrix = new PTDPathMatrixView(_nodeItem);
             matrixPathPreviwFoldout.Add(ptdMatrix);
 
 
@@ -116,7 +118,7 @@ namespace PT.DebugView {
             RefreshExpandedState();
         }
     
-        public static Vector2 calculateRelativeNodePosition(PTDNodeView parentNode, NodePort nPort, int treeHeight, int nodeHeight) {
+        public static Vector2 calculateRelativeNodeChildPosition(PTDNodeView parentNode, NodePort nPort, int treeHeight, int nodeHeight) {
 
             double xNodePosOffset = 100;
 

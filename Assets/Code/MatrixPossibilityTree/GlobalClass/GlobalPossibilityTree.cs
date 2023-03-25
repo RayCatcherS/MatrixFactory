@@ -4,7 +4,7 @@ namespace PT.Global {
 
     public static class GlobalPossibilityTree {
 
-        private static FourCTree<PossibilityItem> _tree = new FourCTree<PossibilityItem>();
+        private static FourCTree<PossibilityPathItem> _tree = new FourCTree<PossibilityPathItem>();
 
         private static bool _isTreeGenerated = false;
         public static bool isTreeGenerated {
@@ -13,44 +13,54 @@ namespace PT.Global {
 
         
 
-        public static void GenerateTree() {
-            _tree = new FourCTree<PossibilityItem>();
+        public static void GeneratePossibilitiesPathTree(int matrixSize) {
 
-            _tree.InsRoot(new PossibilityItem("1"));
-
-            _tree.InsForward(_tree.Root(), new PossibilityItem("5"));
-            _tree.InsForward(_tree.Forward(_tree.Root()), new PossibilityItem("10"));
-            _tree.InsBack(_tree.Forward(_tree.Root()), new PossibilityItem("11"));
-            _tree.InsRight(_tree.Forward(_tree.Root()), new PossibilityItem("12"));
-            _tree.InsLeft(_tree.Forward(_tree.Root()), new PossibilityItem("13"));
+            _tree = new FourCTree<PossibilityPathItem>();
 
 
-            _tree.InsBack(_tree.Root(), new PossibilityItem("2"));
-            _tree.InsForward(_tree.Back(_tree.Root()), new PossibilityItem("20"));
-            _tree.InsBack(_tree.Back(_tree.Root()), new PossibilityItem("21"));
-            _tree.InsRight(_tree.Back(_tree.Root()), new PossibilityItem("22"));
-            _tree.InsLeft(_tree.Back(_tree.Root()), new PossibilityItem("23"));
+            Vector2Int endPathPosition = new Vector2Int(2, 2);
+            Vector2Int startPathPosition = new Vector2Int(0, 0);
 
+            // generate starting root path
+            Vector2Int[] startingPath = new Vector2Int[] { DataDeepCopy.DeepCopy(startPathPosition) /* deep copy*/ };
+            _tree.InsRoot(new PossibilityPathItem(2, startPathPosition, endPathPosition, startingPath));
 
+            
 
-            _tree.InsRight(_tree.Root(), new PossibilityItem("3"));
-            _tree.InsForward(_tree.Right(_tree.Root()), new PossibilityItem("31"));
-            _tree.InsBack(_tree.Right(_tree.Root()), new PossibilityItem("32"));
-            _tree.InsRight(_tree.Right(_tree.Root()), new PossibilityItem("33"));
-            _tree.InsLeft(_tree.Right(_tree.Root()), new PossibilityItem("34"));
-
-
-
-            _tree.InsLeft(_tree.Root(), new PossibilityItem("4"));
-
-
+            recursivePossibilitiesPathTreeGeneration(_tree.Root());
 
 
             _isTreeGenerated = true;
         }
 
+        private static void recursivePossibilitiesPathTreeGeneration(FourCTreeNode<PossibilityPathItem> root) {
 
-        public static FourCTree<PossibilityItem> GetGeneratedTree() {
+            PossibilityPathItem pItem = _tree.Read(root);
+
+
+            if(pItem.isForwardPosReachable()) {
+
+            }
+
+            if(pItem.isBackPosReachable()) {
+
+            }
+
+            if(pItem.isRightPosReachable()) {
+
+            }
+
+            if(pItem.isLeftPosReachable()) {
+
+            }
+
+            if(pItem.isDeadEnd()) {
+
+            }
+        }
+
+
+        public static FourCTree<PossibilityPathItem> GetGeneratedTree() {
             return _tree;
         }
     }

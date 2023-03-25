@@ -21,19 +21,19 @@ namespace PT.View {
             AddStyles();
         }
 
-        public void GenerateTreeNodesView(FourCTree<PossibilityItem> tree) {
+        public void GenerateTreeNodesView(FourCTree<PossibilityPathItem> tree) {
             
             Dictionary<string, PTDNodeView> nodeViewDictionary =
             new Dictionary<string, PTDNodeView>();
 
-            Action<FourCTreeNode<PossibilityItem>, FourCTree<PossibilityItem>> onNodeVisit =
-            (FourCTreeNode<PossibilityItem> visitedNode, FourCTree<PossibilityItem> tree) => {
+            Action<FourCTreeNode<PossibilityPathItem>, FourCTree<PossibilityPathItem>> onNodeVisit =
+            (FourCTreeNode<PossibilityPathItem> visitedNode, FourCTree<PossibilityPathItem> tree) => {
 
 
                 PTDNodeView visitedNodeView;
                 if(tree.isRoot(visitedNode)) {
                     visitedNodeView = new PTDNodeView(
-                        "Node id: " + visitedNode.getItem() + "\nNode height: " + visitedNode.nodeHeight,
+                        tree.Read(visitedNode),
                         tree.isRoot(visitedNode) ? PTNodeType.RootNode : PTNodeType.InternalNode,
                         Vector2.zero
                     );
@@ -49,9 +49,11 @@ namespace PT.View {
                 if(!tree.ForwardIsEmpty(visitedNode)) {
 
 
-                    FourCTreeNode<PossibilityItem> fVisitedNode = tree.Forward(visitedNode); // forward soon node
+                    FourCTreeNode<PossibilityPathItem> fVisitedNode = tree.Forward(visitedNode); // forward soon node
 
-                    Vector2 nodeSpawnPos = PTDNodeView.calculateRelativeNodePosition(
+
+                    // compute new position of child node in relation to parent node
+                    Vector2 nodeSpawnPos = PTDNodeView.calculateRelativeNodeChildPosition(
                         visitedNodeView,
                         NodePort.forward,
                         tree.treeHeight,
@@ -61,7 +63,7 @@ namespace PT.View {
 
                     
                     PTDNodeView fVisitedNodeView = new PTDNodeView( // forward soon node render node
-                        "Node id: " + fVisitedNode.getItem() + "\nNode height: " + fVisitedNode.nodeHeight,
+                        tree.Read(visitedNode),
                         tree.isRoot(fVisitedNode) ? PTNodeType.RootNode : PTNodeType.InternalNode,
                         nodeSpawnPos
                     );
@@ -75,9 +77,9 @@ namespace PT.View {
                 }
                 if(!tree.BackIsEmpty(visitedNode)) {
 
-                    FourCTreeNode<PossibilityItem> bVisitedNode = tree.Back(visitedNode);
+                    FourCTreeNode<PossibilityPathItem> bVisitedNode = tree.Back(visitedNode);
 
-                    Vector2 nodeSpawnPos = PTDNodeView.calculateRelativeNodePosition(
+                    Vector2 nodeSpawnPos = PTDNodeView.calculateRelativeNodeChildPosition(
                         visitedNodeView,
                         NodePort.back,
                         tree.treeHeight,
@@ -86,7 +88,7 @@ namespace PT.View {
 
                     
                     PTDNodeView bVisitedNodeView = new PTDNodeView(
-                        "Node id: " + bVisitedNode.getItem() + "\nNode height: " + bVisitedNode.nodeHeight,
+                        tree.Read(visitedNode),
                         tree.isRoot(bVisitedNode) ? PTNodeType.RootNode : PTNodeType.InternalNode,
                         nodeSpawnPos
                     );
@@ -100,9 +102,9 @@ namespace PT.View {
                 }
                 if(!tree.RightIsEmpty(visitedNode)) {
 
-                    FourCTreeNode<PossibilityItem> rVisitedNode = tree.Right(visitedNode);
+                    FourCTreeNode<PossibilityPathItem> rVisitedNode = tree.Right(visitedNode);
 
-                    Vector2 nodeSpawnPos = PTDNodeView.calculateRelativeNodePosition(
+                    Vector2 nodeSpawnPos = PTDNodeView.calculateRelativeNodeChildPosition(
                         visitedNodeView,
                         NodePort.right,
                         tree.treeHeight,
@@ -112,7 +114,7 @@ namespace PT.View {
 
                     
                     PTDNodeView rVisitedNodeView = new PTDNodeView(
-                        "Node id: " + rVisitedNode.getItem() + "\nNode height: " + rVisitedNode.nodeHeight,
+                        tree.Read(visitedNode),
                         tree.isRoot(rVisitedNode) ? PTNodeType.RootNode : PTNodeType.InternalNode,
                         nodeSpawnPos
                     );
@@ -126,9 +128,10 @@ namespace PT.View {
                 }
                 if(!tree.LeftIsEmpty(visitedNode)) {
 
-                    FourCTreeNode<PossibilityItem> lVisitedNode = tree.Left(visitedNode);
+                    FourCTreeNode<PossibilityPathItem> lVisitedNode = tree.Left(visitedNode);
 
-                    Vector2 nodeSpawnPos = PTDNodeView.calculateRelativeNodePosition(
+
+                    Vector2 nodeSpawnPos = PTDNodeView.calculateRelativeNodeChildPosition(
                         visitedNodeView,
                         NodePort.left,
                         tree.treeHeight,
@@ -138,7 +141,7 @@ namespace PT.View {
 
                     
                     PTDNodeView lVisitedNodeView = new PTDNodeView(
-                        "Node id: " + lVisitedNode.getItem() + "\nNode height: " + lVisitedNode.nodeHeight,
+                        tree.Read(visitedNode),
                         tree.isRoot(lVisitedNode) ? PTNodeType.RootNode : PTNodeType.InternalNode,
                         nodeSpawnPos
                     );
@@ -188,7 +191,7 @@ namespace PT.View {
             GenerateTreeNodesView(GlobalPossibilityTree.GetGeneratedTree());
         }
         private void GeneratePossibilityTree() {
-            GlobalPossibilityTree.GenerateTree();
+            GlobalPossibilityTree.GeneratePossibilitiesPathTree(3);
         }
 
         private void AddGridBackground() {
