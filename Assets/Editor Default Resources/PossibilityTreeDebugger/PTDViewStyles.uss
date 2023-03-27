@@ -12,6 +12,23 @@ GridBackground {
     -unity-text-align: middle-center;
 }
 
+.pt-node-good-end {
+    background-color: var(--pt-colors-node-green-1);
+}
+.pt-node-dead-end {
+    background-color: var(--pt-colors-node-red-1);
+}
+
+
+.pt-matrix-box {
+    width: 30;
+    height: 30;
+    background-color: var(--pt-colors-matrixbox-ligh-white-03);
+    border-width: 1px;
+    border-color: var(--pt-colors-matrixbox-black-1);
+
+    justify-content: center;
+}
 .pt-matrix-box {
     width: 30;
     height: 30;
@@ -25,6 +42,24 @@ GridBackground {
     width: 30;
     height: 30;
     background-color: var(--pt-colors-matrixbox-signedpath-yellow-1);
+    border-width: 1px;
+    border-color: var(--pt-colors-matrixbox-black-1);
+
+    justify-content: center;
+}
+.pt-matrix-box-start-path {
+    width: 30;
+    height: 30;
+    background-color: var(--pt-colors-matrixbox-signedpath-green-1);
+    border-width: 1px;
+    border-color: var(--pt-colors-matrixbox-black-1);
+
+    justify-content: center;
+}
+.pt-matrix-box-end-path {
+    width: 30;
+    height: 30;
+    background-color: var(--pt-colors-matrixbox-signedpath-green-2);
     border-width: 1px;
     border-color: var(--pt-colors-matrixbox-black-1);
 

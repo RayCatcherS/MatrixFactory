@@ -63,7 +63,7 @@ namespace PT.View {
 
                     
                     PTDNodeView fVisitedNodeView = new PTDNodeView( // forward soon node render node
-                        tree.Read(visitedNode),
+                        tree.Read(fVisitedNode),
                         tree.isRoot(fVisitedNode) ? PTNodeType.RootNode : PTNodeType.InternalNode,
                         nodeSpawnPos
                     );
@@ -88,7 +88,7 @@ namespace PT.View {
 
                     
                     PTDNodeView bVisitedNodeView = new PTDNodeView(
-                        tree.Read(visitedNode),
+                        tree.Read(bVisitedNode),
                         tree.isRoot(bVisitedNode) ? PTNodeType.RootNode : PTNodeType.InternalNode,
                         nodeSpawnPos
                     );
@@ -114,7 +114,7 @@ namespace PT.View {
 
                     
                     PTDNodeView rVisitedNodeView = new PTDNodeView(
-                        tree.Read(visitedNode),
+                        tree.Read(rVisitedNode),
                         tree.isRoot(rVisitedNode) ? PTNodeType.RootNode : PTNodeType.InternalNode,
                         nodeSpawnPos
                     );
@@ -141,7 +141,7 @@ namespace PT.View {
 
                     
                     PTDNodeView lVisitedNodeView = new PTDNodeView(
-                        tree.Read(visitedNode),
+                        tree.Read(lVisitedNode),
                         tree.isRoot(lVisitedNode) ? PTNodeType.RootNode : PTNodeType.InternalNode,
                         nodeSpawnPos
                     );
@@ -162,8 +162,9 @@ namespace PT.View {
         }
 
         private void AddManipulators() {
-            SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
-            this.AddManipulator(new ContentDragger());
+            SetupZoom(0.05f, ContentZoomer.DefaultMaxScale);
+
+			this.AddManipulator(new ContentDragger());
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new RectangleSelector());
             

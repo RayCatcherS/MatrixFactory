@@ -20,8 +20,15 @@
 
 	--pt-colors-matrixbox-ligh-white-03: rgba(255,255,255,0.3);
 	--pt-colors-matrixbox-black-1: rgba(0,0,0,0.4);
-	--pt-colors-matrixbox-signedpath-yellow-1: #FDD052;
+	--pt-colors-matrixbox-signedpath-yellow-1: rgba(253, 208, 82, 0.4);
+	--pt-colors-matrixbox-signedpath-green-1: rgba(55, 150, 52, 0.4);
+	--pt-colors-matrixbox-signedpath-green-2: rgba(77, 161, 169, 0.4);
 
+	--pt-colors-node-green-1: rgb(55, 150, 52);
+	--pt-colors-node-red-1: rgb(191,6,3);
+
+	
+	
 
 	--pt-metrics-grid-25: 25;
 }

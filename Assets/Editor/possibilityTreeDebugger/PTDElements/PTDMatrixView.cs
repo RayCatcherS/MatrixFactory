@@ -1,12 +1,12 @@
 using PT.DataStruct;
 using System.Drawing.Drawing2D;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 
 namespace PT.DebugView
 {
-    public class PTDPathMatrixView : VisualElement
-    {   
+    public class PTDPathMatrixView : VisualElement {   
         public PTDPathMatrixView(PossibilityPathItem nodeItem) {
             rows = nodeItem.pathMatrix.GetLength(0);
             columns = nodeItem.pathMatrix.GetLength(1);
@@ -34,8 +34,9 @@ namespace PT.DebugView
                 row.AddToClassList("pt-matrix-row");
                 // Draw Row
                 for(int c = 0; c < columns; c++) {
-                    PTDMatrixElement element = new PTDMatrixElement(
-                        _nodeItem.pathMatrix[r,c]
+                    PTDMatrixElementView element = new PTDMatrixElementView(
+                        _nodeItem.pathMatrix[r,c],
+                        _nodeItem
                     );
                     row.Add(element);
                 }
@@ -46,21 +47,48 @@ namespace PT.DebugView
         }
     }
 
-    public class PTDMatrixElement : VisualElement {
-        public PTDMatrixElement(PathMatrixElement element) {
-            _element = element;
-            Draw();
+    public class PTDMatrixElementView : VisualElement {
+        public PTDMatrixElementView(PathMatrixElement matrixElement, PossibilityPathItem nodeItem) {
+            _matrixElement = matrixElement;
+            _nodeItem = nodeItem;
+            Draw ();
         }
 
-        private PathMatrixElement _element;
+        private PathMatrixElement _matrixElement;
+        PossibilityPathItem _nodeItem;
 
-        public void Draw()
-        {
+        public void Draw() {
             Box matrixBoxElement = new Box();
+			matrixBoxElement.AddToClassList("pt-matrix-box");
+			//matrixBoxElement.Add(new Label(_matrixElement.pos.ToString()));
 
-            matrixBoxElement.Add(new Label(_element.markedPos.ToString()));
+			if (_matrixElement.markedPos) {
+				matrixBoxElement.RemoveFromClassList("pt-matrix-box");
+				matrixBoxElement.AddToClassList ("pt-matrix-box-signed-path");
+            }
 
-            matrixBoxElement.AddToClassList("pt-matrix-box");
+            /* element is end position of the path */
+            if (
+                _matrixElement.pos.x == _nodeItem.endPathPosition.x &&
+                _matrixElement.pos.y == _nodeItem.endPathPosition.y
+            ) {
+				matrixBoxElement.RemoveFromClassList("pt-matrix-box");
+				matrixBoxElement.RemoveFromClassList("pt-matrix-box-signed-path");
+				matrixBoxElement.AddToClassList ("pt-matrix-box-end-path");
+                matrixBoxElement.Add(new Label ("end"));
+
+            } else if ( /* element is start position of the path */
+				_matrixElement.pos.x == _nodeItem.startPathPosition.x &&
+				_matrixElement.pos.y == _nodeItem.startPathPosition.y
+			) {
+                matrixBoxElement.RemoveFromClassList("pt-matrix-box");
+				matrixBoxElement.RemoveFromClassList("pt-matrix-box-signed-path");
+				matrixBoxElement.AddToClassList("pt-matrix-box-start-path");
+				matrixBoxElement.Add (new Label ("start"));
+
+			}
+
+
             base.Add(matrixBoxElement);
         }
     }

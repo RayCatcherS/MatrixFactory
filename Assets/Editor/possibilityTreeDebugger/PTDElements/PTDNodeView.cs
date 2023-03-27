@@ -55,10 +55,17 @@ namespace PT.DebugView {
             nodeNameLabel.AddToClassList("pt-node-label");
             titleContainer.Insert(0, nodeNameLabel);
 
+			if (_nodeItem.pathMatrix[_nodeItem.matrixReachedPos.x, _nodeItem.matrixReachedPos.y].goodEnd) {
+				AddToClassList("pt-node-good-end");
+			}
+
+            if(_nodeItem.pathMatrix[_nodeItem.matrixReachedPos.x, _nodeItem.matrixReachedPos.y].deadEnd) {
+				AddToClassList("pt-node-dead-end");
+			}
 
 
-            /* PARENT PORT */
-            _parentPort = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(bool));
+			/* PARENT PORT */
+			_parentPort = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(bool));
             _parentPort.portName = "parent";
             Color parentPortColor;
             ColorUtility.TryParseHtmlString("#FCA17D", out parentPortColor);
@@ -155,7 +162,7 @@ namespace PT.DebugView {
                  * The bottom of the tree is (treeHeight - nodeHeight)
                  * 4 is the max degree of nodes
                  */
-                * Math.Pow(4, (treeHeight - nodeHeight));
+                * Math.Log10(Math.Pow(4, (treeHeight - nodeHeight)));
 
 
             } else if(nPort == NodePort.back) {
@@ -163,27 +170,27 @@ namespace PT.DebugView {
 
                 nodeViewHeightPos = (
                     (1 * nodeViewHeight) - (nodeViewHeight * 1.5f)
-                ) * Math.Pow(4, (treeHeight - nodeHeight));
+                ) * Math.Log10(Math.Pow(4, (treeHeight - nodeHeight)));
 
             } else if(nPort == NodePort.right) {
 
 
                 nodeViewHeightPos = (
                     (2 * nodeViewHeight) - (nodeViewHeight * 1.5f)
-                ) * Math.Pow(4, (treeHeight - nodeHeight));
+                ) * Math.Log10(Math.Pow(4, (treeHeight - nodeHeight)));
 
             } else if(nPort == NodePort.left) {
 
 
                 nodeViewHeightPos = (
                     (3 * nodeViewHeight) - (nodeViewHeight * 1.5f)
-                ) * Math.Pow(4, (treeHeight - nodeHeight));
+                ) * Math.Log10( Math.Pow(4, (treeHeight - nodeHeight)));
             }
 
+			
 
-
-            /* Node x Position*/
-            nodeViewWidthPos = nodeViewWidth + xNodePosOffset;
+			/* Node x Position*/
+			nodeViewWidthPos = nodeViewWidth + xNodePosOffset;
 
             pos = pos + new Vector2((float)nodeViewWidthPos, (float)nodeViewHeightPos);
 
