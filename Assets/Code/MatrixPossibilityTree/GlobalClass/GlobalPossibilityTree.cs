@@ -144,7 +144,6 @@ namespace PT.Global {
 			}
 
             if(pItem.isDeadEnd()) {
-				Debug.Log("dead end");
                 pItem.pathMatrix[
                     pItem.matrixReachedPos.x,
                     pItem.matrixReachedPos.y
