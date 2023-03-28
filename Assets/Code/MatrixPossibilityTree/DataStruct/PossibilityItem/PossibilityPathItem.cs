@@ -102,7 +102,7 @@ namespace PT.DataStruct {
 		    
 			} else {
 
-				if (_pathMatrix[move.x, move.y].markedPos) {
+				if (_pathMatrix[move.x, move.y].tracedPos) {
 					res = false;
 				} else {
 					res = true;
@@ -119,7 +119,6 @@ namespace PT.DataStruct {
 				for (int i = 0; i < tracedPath.Count; i++) {
 					idValue = idValue + tracedPath[i] + ";";
 				}
-				idValue = idValue + pathMatrix[matrixReachedPos.x, matrixReachedPos.y].deadEnd.ToString();
 				return idValue;
 			}
 		}
@@ -138,11 +137,38 @@ namespace PT.DataStruct {
 			for (int i = 0; i < _tracedPath.Count; i++) {
 
 				Vector2Int pos = _tracedPath[i];
-				matrix [
-					pos.x,
-					pos.y
-				].setAsMarkedPos();
-			}
+				PathMatrixElement element = matrix[
+                    pos.x,
+                    pos.y
+                ];
+
+				element.SetAsTracedPos();
+
+
+                // set trace direction
+                if(_tracedPath[i] != matrixReachedPos) {
+					Vector2Int direction = _tracedPath[i + 1] - _tracedPath[i];
+
+					if(direction == new Vector2Int(-1, 0)) {
+                        element.SetTracedMoveDirection(Direction.forward);
+
+                    } else if(direction == new Vector2Int(1, 0)) {
+                        element.SetTracedMoveDirection(Direction.back);
+
+                    } else if(direction == new Vector2Int(0, 1)) {
+                        element.SetTracedMoveDirection(Direction.right);
+
+                    } else if(direction == new Vector2Int(0, -1)) {
+                        element.SetTracedMoveDirection(Direction.left);
+
+                    }
+
+                } else {
+                    element.SetTracedMoveDirection(Direction.stay);
+                }
+
+                
+            }
 		}
 	}
 
@@ -152,7 +178,9 @@ namespace PT.DataStruct {
 			_pos = pos;
 		}
 		private Vector2Int _pos;
-		private bool _markedPos = false;
+		private Direction _tracedMoveDirection;
+
+        private bool _tracedPos = false;
 		private bool _deadEnd = false;
 		private bool _goodEnd = false;
 		public bool deadEnd {
@@ -162,22 +190,30 @@ namespace PT.DataStruct {
 			get { return _goodEnd; }
 		}
 
-		public bool markedPos {
-			get { return _markedPos; }
+		public bool tracedPos {
+			get { return _tracedPos; }
 		}
 
 		public Vector2Int pos {
 			get { return _pos; }
 		}
 
-		public void setAsDeadEnd() {
+		public Direction tracedMoveDirection {
+			get { return _tracedMoveDirection; }
+		}
+
+        public void SetAsDeadEnd() {
 			_deadEnd = true;
 		}
-		public void setAsGoodEnd() {
+		public void SetAsGoodEnd() {
 			_goodEnd = true;
 		}
-		public void setAsMarkedPos() {
-			_markedPos = true;
+		public void SetAsTracedPos() {
+            _tracedPos = true;
+		}
+
+		public void SetTracedMoveDirection(Direction direction) {
+			_tracedMoveDirection = direction;
 		}
 	}
 }

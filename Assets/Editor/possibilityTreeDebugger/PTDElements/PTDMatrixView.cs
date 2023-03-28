@@ -1,4 +1,4 @@
-using PT.DataStruct;
+﻿using PT.DataStruct;
 using System.Drawing.Drawing2D;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -60,11 +60,27 @@ namespace PT.DebugView
         public void Draw() {
             Box matrixBoxElement = new Box();
 			matrixBoxElement.AddToClassList("pt-matrix-box");
-			//matrixBoxElement.Add(new Label(_matrixElement.pos.ToString()));
 
-			if (_matrixElement.markedPos) {
+			if (_matrixElement.tracedPos) {
 				matrixBoxElement.RemoveFromClassList("pt-matrix-box");
 				matrixBoxElement.AddToClassList ("pt-matrix-box-signed-path");
+
+                if(_matrixElement.tracedMoveDirection == Direction.forward) {
+
+                    matrixBoxElement.Add(new Label("↑"));
+                } else if(_matrixElement.tracedMoveDirection == Direction.back) {
+
+                    matrixBoxElement.Add(new Label("↓"));
+                } else if(_matrixElement.tracedMoveDirection == Direction.left) {
+
+                    matrixBoxElement.Add(new Label("←"));
+                } else if(_matrixElement.tracedMoveDirection == Direction.right) {
+
+                    matrixBoxElement.Add(new Label("→"));
+                } else if(_matrixElement.tracedMoveDirection == Direction.stay) {
+
+                    matrixBoxElement.Add(new Label("O"));
+                }
             }
 
             /* element is end position of the path */

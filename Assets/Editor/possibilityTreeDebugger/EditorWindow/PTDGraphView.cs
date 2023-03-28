@@ -5,9 +5,9 @@ using UnityEngine.UIElements;
 namespace PT.View {
 
     using DebugView;
-    using Enumerations;
     using Global;
     using PT.DataStruct;
+    using PT.DebugView.Enumerations;
     using System;
     using System.Collections.Generic;
     using UnityEngine;
@@ -15,22 +15,41 @@ namespace PT.View {
     public class PTDGraphView : GraphView {
         public PTDGraphView() {
             AddManipulators();
+            initGraphView();
+        }
+
+        private Dictionary<string, PTDNodeView> _nodeTreeViewDictionary =
+            new Dictionary<string, PTDNodeView>();
+        private List<Edge> _nodeTreeEdges = new List<Edge>();
+        private List<PTDGoodEndView> _nodesGoodEnd = new List<PTDGoodEndView>();
+
+        private void initGraphView() {
 
             AddGridBackground();
 
             AddStyles();
         }
+        
+        public void DrawGeneratedGoodPaths(List<PossibilityPathItem> paths) {
 
-        public void GenerateTreeNodesView(FourCTree<PossibilityPathItem> tree) {
-            
-            Dictionary<string, PTDNodeView> nodeViewDictionary =
-            new Dictionary<string, PTDNodeView>();
+            Vector2 reachedPos = Vector2.zero;
+            foreach(PossibilityPathItem item in paths) {
+
+                PTDGoodEndView pathView = new PTDGoodEndView(item, reachedPos);
+                AddElement(pathView);
+                reachedPos = new Vector2(reachedPos.x, reachedPos.y + PTDGoodEndView.defaultSize.y);
+                _nodesGoodEnd.Add(pathView);
+            }
+        }
+
+        public void DrawGeneretedTreeView(FourCTree<PossibilityPathItem> tree) {
 
             Action<FourCTreeNode<PossibilityPathItem>, FourCTree<PossibilityPathItem>> onNodeVisit =
             (FourCTreeNode<PossibilityPathItem> visitedNode, FourCTree<PossibilityPathItem> tree) => {
 
 
                 PTDNodeView visitedNodeView;
+
                 if(tree.isRoot(visitedNode)) {
                     visitedNodeView = new PTDNodeView(
                         tree.Read(visitedNode),
@@ -38,11 +57,11 @@ namespace PT.View {
                         Vector2.zero
                     );
 
-                    nodeViewDictionary.Add(tree.Read(visitedNode).id, visitedNodeView); // add render nodo figlio forward dictionary
+                    _nodeTreeViewDictionary.Add(tree.Read(visitedNode).id, visitedNodeView); // add render nodo figlio forward dictionary
 
                     AddElement(visitedNodeView);
                 } else {
-                    visitedNodeView = nodeViewDictionary[tree.Read(visitedNode).id];
+                    visitedNodeView = _nodeTreeViewDictionary[tree.Read(visitedNode).id];
                 }
 
                 
@@ -55,7 +74,7 @@ namespace PT.View {
                     // compute new position of child node in relation to parent node
                     Vector2 nodeSpawnPos = PTDNodeView.calculateRelativeNodeChildPosition(
                         visitedNodeView,
-                        NodePort.forward,
+                        Direction.forward,
                         tree.treeHeight,
                         fVisitedNode.nodeHeight
                     );
@@ -67,11 +86,13 @@ namespace PT.View {
                         tree.isRoot(fVisitedNode) ? PTNodeType.RootNode : PTNodeType.InternalNode,
                         nodeSpawnPos
                     );
-                    nodeViewDictionary.Add(tree.Read(fVisitedNode).id, fVisitedNodeView); // add render nodo figlio forward dictionary
+                    _nodeTreeViewDictionary.Add(tree.Read(fVisitedNode).id, fVisitedNodeView); // add render nodo figlio forward dictionary
 
                     Edge edgeConnection = fVisitedNodeView.parentPort.ConnectTo(
                         visitedNodeView.forwardPort
                      );
+                    _nodeTreeEdges.Add(edgeConnection);
+
                     AddElement(fVisitedNodeView);
                     AddElement(edgeConnection);
                 }
@@ -81,7 +102,7 @@ namespace PT.View {
 
                     Vector2 nodeSpawnPos = PTDNodeView.calculateRelativeNodeChildPosition(
                         visitedNodeView,
-                        NodePort.back,
+                        Direction.back,
                         tree.treeHeight,
                         bVisitedNode.nodeHeight
                     );
@@ -92,11 +113,13 @@ namespace PT.View {
                         tree.isRoot(bVisitedNode) ? PTNodeType.RootNode : PTNodeType.InternalNode,
                         nodeSpawnPos
                     );
-                    nodeViewDictionary.Add(tree.Read(bVisitedNode).id, bVisitedNodeView); 
+                    _nodeTreeViewDictionary.Add(tree.Read(bVisitedNode).id, bVisitedNodeView); 
 
                     Edge edgeConnection = bVisitedNodeView.parentPort.ConnectTo(
                         visitedNodeView.backPort
-                     );
+                    );
+                    _nodeTreeEdges.Add(edgeConnection);
+                    
                     AddElement(bVisitedNodeView);
                     AddElement(edgeConnection);
                 }
@@ -106,7 +129,7 @@ namespace PT.View {
 
                     Vector2 nodeSpawnPos = PTDNodeView.calculateRelativeNodeChildPosition(
                         visitedNodeView,
-                        NodePort.right,
+                        Direction.right,
                         tree.treeHeight,
                         rVisitedNode.nodeHeight
                     );
@@ -118,11 +141,13 @@ namespace PT.View {
                         tree.isRoot(rVisitedNode) ? PTNodeType.RootNode : PTNodeType.InternalNode,
                         nodeSpawnPos
                     );
-                    nodeViewDictionary.Add(tree.Read(rVisitedNode).id, rVisitedNodeView);
+                    _nodeTreeViewDictionary.Add(tree.Read(rVisitedNode).id, rVisitedNodeView);
 
                     Edge edgeConnection = rVisitedNodeView.parentPort.ConnectTo(
                         visitedNodeView.rightPort
-                     );
+                    );
+                    _nodeTreeEdges.Add(edgeConnection);
+
                     AddElement(rVisitedNodeView);
                     AddElement(edgeConnection);
                 }
@@ -133,7 +158,7 @@ namespace PT.View {
 
                     Vector2 nodeSpawnPos = PTDNodeView.calculateRelativeNodeChildPosition(
                         visitedNodeView,
-                        NodePort.left,
+                        Direction.left,
                         tree.treeHeight,
                         lVisitedNode.nodeHeight
                     );
@@ -145,11 +170,13 @@ namespace PT.View {
                         tree.isRoot(lVisitedNode) ? PTNodeType.RootNode : PTNodeType.InternalNode,
                         nodeSpawnPos
                     );
-                    nodeViewDictionary.Add(tree.Read(lVisitedNode).id, lVisitedNodeView); 
+                    _nodeTreeViewDictionary.Add(tree.Read(lVisitedNode).id, lVisitedNodeView); 
 
                     Edge edgeConnection = lVisitedNodeView.parentPort.ConnectTo(
                         visitedNodeView.leftPort
-                     );
+                    );
+                    _nodeTreeEdges.Add(edgeConnection);
+
                     AddElement(lVisitedNodeView);
                     AddElement(edgeConnection);
                 }
@@ -169,17 +196,28 @@ namespace PT.View {
             this.AddManipulator(new RectangleSelector());
             
 
+            this.AddManipulator(DrawGeneratedGoodPathsContextualMenu());
             this.AddManipulator(DrawGeneratedPossibilityTreeContextualMenu());
             this.AddManipulator(GeneratePossibilityTreeContextualMenu());
+            this.AddManipulator(ClearGraphInterfaceContextualMenu());
         }
 
         private IManipulator DrawGeneratedPossibilityTreeContextualMenu() {
             ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
-                menuEvent => menuEvent.menu.AppendAction("Draw Tree", actionEvent => DrawGeneratedPossibilityTree())
+                menuEvent => menuEvent.menu.AppendAction("Draw Possibility Tree", actionEvent => DrawGeneretedTreeView())
             );
 
             return contextualMenuManipulator;
         }
+
+        private IManipulator DrawGeneratedGoodPathsContextualMenu() {
+            ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
+                menuEvent => menuEvent.menu.AppendAction("Draw generated good paths", actionEvent => DrawGeneratedGoodPaths())
+            );
+
+            return contextualMenuManipulator;
+        }
+
         private IManipulator GeneratePossibilityTreeContextualMenu() {
             ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
                 menuEvent => menuEvent.menu.AppendAction("Generate Possibility Tree", actionEvent => GeneratePossibilityTree())
@@ -188,11 +226,43 @@ namespace PT.View {
             return contextualMenuManipulator;
         }
 
-        private void DrawGeneratedPossibilityTree() {
-            GenerateTreeNodesView(GlobalPossibilityTree.GetGeneratedTree());
+        private IManipulator ClearGraphInterfaceContextualMenu() {
+            ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
+               menuEvent => menuEvent.menu.AppendAction("Clear Interface", actionEvent => ClearInterface())
+           );
+            return contextualMenuManipulator;
         }
+
+        private void DrawGeneretedTreeView() {
+            ClearInterface();
+            FourCTree<PossibilityPathItem> _tree = GlobalPossibilityTree.GeneratedTree;
+            DrawGeneretedTreeView(_tree);
+        }
+        private void DrawGeneratedGoodPaths() {
+            ClearInterface();
+            List<PossibilityPathItem> _tree = GlobalPossibilityTree.GoodEndsPaths;
+            DrawGeneratedGoodPaths(_tree);
+        }
+        
+
         private void GeneratePossibilityTree() {
-            GlobalPossibilityTree.GeneratePossibilitiesPathTree(3);
+            GlobalPossibilityTree.GeneratePossibilitiesPathTree(4);
+        }
+
+        private void ClearInterface() {
+
+            foreach(var element in _nodeTreeViewDictionary) {
+                this.RemoveElement(element.Value);
+            }
+            foreach(var element in _nodeTreeEdges) {
+                this.RemoveElement(element);
+            }
+            foreach(var element in _nodesGoodEnd) {
+                this.RemoveElement(element);
+            }
+            _nodesGoodEnd = new List<PTDGoodEndView>();
+            _nodeTreeViewDictionary = new Dictionary<string, PTDNodeView>();
+            _nodeTreeEdges = new List<Edge>();
         }
 
         private void AddGridBackground() {

@@ -1,41 +1,50 @@
 namespace PT.Global {
-	using System.Collections.Generic;
+    using System;
+    using System.Collections.Generic;
 	using DataStruct;
     using UnityEngine;
 
     public static class GlobalPossibilityTree {
 
         private static FourCTree<PossibilityPathItem> _tree = new FourCTree<PossibilityPathItem>();
+		private static List<PossibilityPathItem> _goodEndsPaths = new List<PossibilityPathItem>();
 
         private static bool _isTreeGenerated = false;
         public static bool isTreeGenerated {
             get { return _isTreeGenerated; }
         }
 
-        
+		public static FourCTree<PossibilityPathItem> GeneratedTree {
+			get { return _tree; }
+		}
+        public static List<PossibilityPathItem> GoodEndsPaths {
+            get { return _goodEndsPaths; }
+        }
+
 
         public static void GeneratePossibilitiesPathTree(int matrixSize) {
 
             _tree = new FourCTree<PossibilityPathItem>();
+            _goodEndsPaths = new List<PossibilityPathItem>();
 
+            int matSize = matrixSize;
 
-            Vector2Int endPathPosition = new Vector2Int(2, 2);
+            Vector2Int endPathPosition = new Vector2Int(matSize - 1, matSize - 1);
             Vector2Int startPathPosition = new Vector2Int(0, 0);
 
             // generate starting root path
             List<Vector2Int> startingPath = new List<Vector2Int>();
             startingPath.Add(DataDeepCopy.DeepCopy(startPathPosition)); /* deep copy*/
-            _tree.InsRoot(new PossibilityPathItem(3, startPathPosition, endPathPosition, startingPath));
+            _tree.InsRoot(new PossibilityPathItem(matSize, startPathPosition, endPathPosition, startingPath));
 
             
-
-            recursivePossibilitiesPathTreeGeneration(_tree.Root());
-
+            RecursivePossibilitiesPathTreeGeneration(_tree.Root());
+			InitGoodEndPaths();
 
             _isTreeGenerated = true;
         }
 
-        private static void recursivePossibilitiesPathTreeGeneration(FourCTreeNode<PossibilityPathItem> root) {
+        private static void RecursivePossibilitiesPathTreeGeneration(FourCTreeNode<PossibilityPathItem> root) {
 
             PossibilityPathItem pItem = _tree.Read(root);
 
@@ -43,7 +52,7 @@ namespace PT.Global {
 				pItem.pathMatrix[
 					pItem.matrixReachedPos.x,
 					pItem.matrixReachedPos.y
-				].setAsGoodEnd();
+				].SetAsGoodEnd();
 				return;
 			}
 
@@ -68,7 +77,7 @@ namespace PT.Global {
 					newItem
 				);
 
-				recursivePossibilitiesPathTreeGeneration(_tree.Forward(root));
+                RecursivePossibilitiesPathTreeGeneration(_tree.Forward(root));
 			}
 
             if(pItem.isBackPosReachable()) {
@@ -92,7 +101,7 @@ namespace PT.Global {
 					newItem
 				);
 
-                recursivePossibilitiesPathTreeGeneration(_tree.Back(root));
+                RecursivePossibilitiesPathTreeGeneration(_tree.Back(root));
 			}
 
             if(pItem.isRightPosReachable()) {
@@ -116,7 +125,7 @@ namespace PT.Global {
 					newItem
 				);
 
-				recursivePossibilitiesPathTreeGeneration(_tree.Right(root));
+                RecursivePossibilitiesPathTreeGeneration(_tree.Right(root));
 			}
 
             if(pItem.isLeftPosReachable()) {
@@ -140,21 +149,29 @@ namespace PT.Global {
 					newItem
 				);
 
-				recursivePossibilitiesPathTreeGeneration(_tree.Left(root));
+                RecursivePossibilitiesPathTreeGeneration(_tree.Left(root));
 			}
 
             if(pItem.isDeadEnd()) {
                 pItem.pathMatrix[
                     pItem.matrixReachedPos.x,
                     pItem.matrixReachedPos.y
-                ].setAsDeadEnd();
+                ].SetAsDeadEnd();
 				return;
             }
         }
 
 
-        public static FourCTree<PossibilityPathItem> GetGeneratedTree() {
-            return _tree;
+		private static void InitGoodEndPaths() {
+			Action<FourCTreeNode<PossibilityPathItem>, FourCTree<PossibilityPathItem>> onNodeVisit =
+			(FourCTreeNode<PossibilityPathItem> visitedNode, FourCTree<PossibilityPathItem> tree) => {
+
+				if(tree.Read(visitedNode).isGoodEnd()) {
+					_goodEndsPaths.Add(tree.Read(visitedNode));
+                }
+            };
+
+            _tree.VisitTree(_tree.Root(), onNodeVisit);
         }
     }
 }

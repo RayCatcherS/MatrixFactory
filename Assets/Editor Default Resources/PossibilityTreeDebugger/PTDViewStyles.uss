@@ -21,8 +21,8 @@ GridBackground {
 
 
 .pt-matrix-box {
-    width: 30;
-    height: 30;
+    width: 30px;
+    height: 30px;
     background-color: var(--pt-colors-matrixbox-ligh-white-03);
     border-width: 1px;
     border-color: var(--pt-colors-matrixbox-black-1);
@@ -30,8 +30,8 @@ GridBackground {
     justify-content: center;
 }
 .pt-matrix-box {
-    width: 30;
-    height: 30;
+    width: 30px;
+    height: 30px;
     background-color: var(--pt-colors-matrixbox-ligh-white-03);
     border-width: 1px;
     border-color: var(--pt-colors-matrixbox-black-1);
@@ -39,8 +39,8 @@ GridBackground {
     justify-content: center;
 }
 .pt-matrix-box-signed-path {
-    width: 30;
-    height: 30;
+    width: 30px;
+    height: 30px;
     background-color: var(--pt-colors-matrixbox-signedpath-yellow-1);
     border-width: 1px;
     border-color: var(--pt-colors-matrixbox-black-1);
@@ -48,8 +48,8 @@ GridBackground {
     justify-content: center;
 }
 .pt-matrix-box-start-path {
-    width: 30;
-    height: 30;
+    width: 30px;
+    height: 30px;
     background-color: var(--pt-colors-matrixbox-signedpath-green-1);
     border-width: 1px;
     border-color: var(--pt-colors-matrixbox-black-1);
@@ -57,8 +57,8 @@ GridBackground {
     justify-content: center;
 }
 .pt-matrix-box-end-path {
-    width: 30;
-    height: 30;
+    width: 30px;
+    height: 30px;
     background-color: var(--pt-colors-matrixbox-signedpath-green-2);
     border-width: 1px;
     border-color: var(--pt-colors-matrixbox-black-1);

@@ -44,9 +44,6 @@ namespace PT.DebugView {
         public Port leftPort { get {return _leftPort; } }
 
         private PTDPathMatrixView _ptdMatrix;
-        public PTDPathMatrixView ptdMatrix {
-            get { return _ptdMatrix; }
-        }
 
         public void Draw() {
 
@@ -64,8 +61,8 @@ namespace PT.DebugView {
 			}
 
 
-			/* PARENT PORT */
-			_parentPort = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(bool));
+            /* PARENT PORT */
+            _parentPort = base.InstantiatePort(Orientation.Horizontal, UnityEditor.Experimental.GraphView.Direction.Input, Port.Capacity.Single, typeof(bool));
             _parentPort.portName = "parent";
             Color parentPortColor;
             ColorUtility.TryParseHtmlString("#FCA17D", out parentPortColor);
@@ -81,25 +78,25 @@ namespace PT.DebugView {
             ColorUtility.TryParseHtmlString("#266DD3", out childrenPortColor);
 
             /* FORWARD PORT*/
-            _forwardPort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(bool));
+            _forwardPort = base.InstantiatePort(Orientation.Horizontal, UnityEditor.Experimental.GraphView.Direction.Output, Port.Capacity.Single, typeof(bool));
             _forwardPort.portName = "forward";
             _forwardPort.portColor = childrenPortColor;
-            
+
 
             /* BACK PORT*/
-            _backPort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(bool));
+            _backPort = base.InstantiatePort(Orientation.Horizontal, UnityEditor.Experimental.GraphView.Direction.Output, Port.Capacity.Single, typeof(bool));
             _backPort.portName = "back";
             _backPort.portColor = childrenPortColor;
-            
+
 
             /* RIGHT PORT*/
-            _rightPort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(bool));
+            _rightPort = base.InstantiatePort(Orientation.Horizontal, UnityEditor.Experimental.GraphView.Direction.Output, Port.Capacity.Single, typeof(bool));
             _rightPort.portName = "right";
             _rightPort.portColor = childrenPortColor;
 
 
             /* LEFT PORT*/
-            _leftPort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(bool));
+            _leftPort = base.InstantiatePort(Orientation.Horizontal, UnityEditor.Experimental.GraphView.Direction.Output, Port.Capacity.Single, typeof(bool));
             _leftPort.portName = "left";
             _leftPort.portColor = childrenPortColor;
             
@@ -118,14 +115,14 @@ namespace PT.DebugView {
 
             extensionContainer.Add(matrixPathPreviwFoldout);
             _ptdMatrix = new PTDPathMatrixView(_nodeItem);
-            matrixPathPreviwFoldout.Add(ptdMatrix);
+            matrixPathPreviwFoldout.Add(_ptdMatrix);
 
 
             // refresh bottom node visual elements
             RefreshExpandedState();
         }
     
-        public static Vector2 calculateRelativeNodeChildPosition(PTDNodeView parentNode, NodePort nPort, int treeHeight, int nodeHeight) {
+        public static Vector2 calculateRelativeNodeChildPosition(PTDNodeView parentNode, Direction nPort, int treeHeight, int nodeHeight) {
 
             double xNodePosOffset = 100;
 
@@ -139,9 +136,9 @@ namespace PT.DebugView {
 
 
             /* NODE VIEW SIZE */
-            nodeViewHeight = defaultSize.y + parentNode.ptdMatrix.matrixHeigth/*matrix offset*/;
-            if(parentNode.ptdMatrix.matrixWidth > defaultSize.x) {
-                nodeViewWidth = defaultSize.x + (parentNode.ptdMatrix.matrixWidth/*matrix offset*/ - defaultSize.x) + 25/* node border constant*/;
+            nodeViewHeight = defaultSize.y + parentNode._ptdMatrix.matrixHeigth/*matrix offset*/;
+            if(parentNode._ptdMatrix.matrixWidth > defaultSize.x) {
+                nodeViewWidth = defaultSize.x + (parentNode._ptdMatrix.matrixWidth/*matrix offset*/ - defaultSize.x) + 25/* node border constant*/;
             } else {
                 nodeViewWidth = defaultSize.x;
             }
@@ -150,7 +147,7 @@ namespace PT.DebugView {
             double nodeViewWidthPos = 0;
 
 
-            if(nPort == NodePort.forward) {
+            if(nPort == Direction.forward) {
 
 
                 nodeViewHeightPos = (
@@ -162,29 +159,29 @@ namespace PT.DebugView {
                  * The bottom of the tree is (treeHeight - nodeHeight)
                  * 4 is the max degree of nodes
                  */
-                * Math.Log10(Math.Pow(4, (treeHeight - nodeHeight)));
+                * Math.Log(Math.Pow(4, (treeHeight - nodeHeight)));
 
 
-            } else if(nPort == NodePort.back) {
+            } else if(nPort == Direction.back) {
 
 
                 nodeViewHeightPos = (
                     (1 * nodeViewHeight) - (nodeViewHeight * 1.5f)
-                ) * Math.Log10(Math.Pow(4, (treeHeight - nodeHeight)));
+                ) * Math.Log(Math.Pow(4, (treeHeight - nodeHeight)));
 
-            } else if(nPort == NodePort.right) {
+            } else if(nPort == Direction.right) {
 
 
                 nodeViewHeightPos = (
                     (2 * nodeViewHeight) - (nodeViewHeight * 1.5f)
-                ) * Math.Log10(Math.Pow(4, (treeHeight - nodeHeight)));
+                ) * Math.Log(Math.Pow(4, (treeHeight - nodeHeight)));
 
-            } else if(nPort == NodePort.left) {
+            } else if(nPort == Direction.left) {
 
 
                 nodeViewHeightPos = (
                     (3 * nodeViewHeight) - (nodeViewHeight * 1.5f)
-                ) * Math.Log10( Math.Pow(4, (treeHeight - nodeHeight)));
+                ) * Math.Log( Math.Pow(4, (treeHeight - nodeHeight)));
             }
 
 			
@@ -198,10 +195,5 @@ namespace PT.DebugView {
         }
     }
 
-    public enum NodePort {
-        forward,
-        back,
-        right,
-        left
-    }
+    
 }
