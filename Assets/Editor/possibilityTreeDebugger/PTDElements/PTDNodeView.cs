@@ -48,15 +48,15 @@ namespace PT.DebugView {
         public void Draw() {
 
             /* TITLE CONTAINER */
-            Label nodeNameLabel = new Label(_nodeItem.id);
+            Label nodeNameLabel = new Label(_nodeItem.id());
             nodeNameLabel.AddToClassList("pt-node-label");
             titleContainer.Insert(0, nodeNameLabel);
 
-			if (_nodeItem.pathMatrix[_nodeItem.matrixReachedPos.x, _nodeItem.matrixReachedPos.y].goodEnd) {
+			if (_nodeItem.pathMatrix[_nodeItem.LastPos().x, _nodeItem.LastPos().y].goodEnd) {
 				AddToClassList("pt-node-good-end");
 			}
 
-            if(_nodeItem.pathMatrix[_nodeItem.matrixReachedPos.x, _nodeItem.matrixReachedPos.y].deadEnd) {
+            if(_nodeItem.pathMatrix[_nodeItem.LastPos().x, _nodeItem.LastPos().y].deadEnd) {
 				AddToClassList("pt-node-dead-end");
 			}
 

@@ -7,8 +7,9 @@ namespace PT.DebugView {
     public class PTDGoodEndView : Node {
         static public readonly Vector2 defaultSize = new Vector2(175, 190);
 
-        public PTDGoodEndView(PossibilityPathItem nodeItem, Vector2 position) {
-            _nodeItem = nodeItem;
+        
+        public PTDGoodEndView(GoodEndPath goodEndPathItem, Vector2 position) {
+            _goodPathItem = goodEndPathItem;
 
             _position = position;
 
@@ -22,17 +23,26 @@ namespace PT.DebugView {
             get { return _position; }
         }
 
-        private PossibilityPathItem _nodeItem;
         private PTDPathMatrixView _ptdMatrix;
+        private GoodEndPath _goodPathItem;
 
         public void Draw() {
 
 
             /* TITLE CONTAINER */
-            Label nodeNameLabel = new Label(_nodeItem.id);
+            Label nodeNameLabel = new Label(
+                "Position Path:\n" + _goodPathItem.id()
+            );
+
             nodeNameLabel.AddToClassList("pt-node-label");
             titleContainer.Insert(0, nodeNameLabel);
 
+
+            Label nodeInfo = new Label(
+               "Path Score: " + _goodPathItem.score
+            );
+            
+            inputContainer.Add(nodeInfo);
 
             /* MATRIX PATH PREVIEW */
             Foldout matrixPathPreviwFoldout = new Foldout() {
@@ -40,7 +50,7 @@ namespace PT.DebugView {
             };
 
             extensionContainer.Add(matrixPathPreviwFoldout);
-            _ptdMatrix = new PTDPathMatrixView(_nodeItem);
+            _ptdMatrix = new PTDPathMatrixView(_goodPathItem);
             matrixPathPreviwFoldout.Add(_ptdMatrix);
 
 
