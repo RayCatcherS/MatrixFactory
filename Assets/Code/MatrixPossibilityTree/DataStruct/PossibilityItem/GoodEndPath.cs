@@ -26,7 +26,7 @@ namespace PT.DataStruct {
         public Vector2Int MatrixSize() {
             return _matrixSize;
         }
-        public List<GoodEndPathElement> elements {
+        public List<GoodEndPathElement> pathElements {
             get { return _path; }
         }
 

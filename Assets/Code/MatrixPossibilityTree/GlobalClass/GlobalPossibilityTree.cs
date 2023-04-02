@@ -4,7 +4,6 @@ namespace PT.Global {
     using System.Linq;
     using DataStruct;
     using UnityEngine;
-    using static UnityEngine.ParticleSystem;
 
     public static class GlobalPossibilityPath {
 
