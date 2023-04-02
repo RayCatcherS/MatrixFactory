@@ -6,15 +6,17 @@ using UnityEngine;
 public class ControlsController : MonoBehaviour {
 
     [SerializeField] private CameraController cameraController;
+    [SerializeField] private CinemachineFreeLook cinemachineFreeLook;
 
-    [SerializeField] private float rotationSpeed = 100f;
+    [SerializeField] private float rotationSpeed = 0.4f;
     private bool dragRotationActive = false;
 
     private Vector2 lateMousePosition = Vector2.zero;
     Vector2 mouseMovementDelta = Vector2.zero;
+    
 
     void Start() {
-        
+
     }
 
 
@@ -41,14 +43,11 @@ public class ControlsController : MonoBehaviour {
 
 
             lateMousePosition = Input.mousePosition;
-
-
-
         }
 
-        Vector2 rotate = rotationSpeed * Time.deltaTime * mouseMovementDelta;
+        Vector2 rotationValue = rotationSpeed * Time.deltaTime * mouseMovementDelta;
 
-
-        //cameraController.transform.eulerAngles += new Vector3(/*rotate.x*/0, rotate.x, 0);
+        // set rotation to inuput X axis chinemachine value
+        cinemachineFreeLook.m_XAxis.m_InputAxisValue = rotationValue.x;
     }
 }
