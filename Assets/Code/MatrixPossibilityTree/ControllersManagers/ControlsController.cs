@@ -8,7 +8,7 @@ public class ControlsController : MonoBehaviour {
     [SerializeField] private CameraController cameraController;
     [SerializeField] private CinemachineFreeLook cinemachineFreeLook;
 
-    [SerializeField] private float rotationSpeed = 0.4f;
+    [SerializeField] private float rotationSpeed = 1;
     private bool dragRotationActive = false;
 
     private Vector2 lateMousePosition = Vector2.zero;
