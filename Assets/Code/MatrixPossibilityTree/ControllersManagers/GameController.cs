@@ -1,12 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+    [SerializeField] private CameraController _cameraController;
 
-    void Start()
-    {
+    public CameraController cameraController {
+        get { return _cameraController; }
+    }
+
+    void Start() {
         
     }
 }

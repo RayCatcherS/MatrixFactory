@@ -7,13 +7,12 @@ public class LevelManager : MonoBehaviour {
     private PrefabManager _prefabManager;
 
 
-    private readonly int _rotationOffset = 90;
-    private readonly float _heightOffset = 0.25f;
+    private readonly int _CBrotationOffset = 90;
+    private readonly float _CBheightGenerationOffset = 0.25f;
 
 
     private Vector3 _mapPositionStart = Vector3.zero;
     private Vector3 _mapCenter = Vector3.zero;
-    private Vector3 _levelSpawn = Vector3.zero;
 
 
     private ConveyorBelt[,] _conveyorMap;
@@ -21,6 +20,9 @@ public class LevelManager : MonoBehaviour {
 
     public Vector3 MapCenter {
         get { return _mapCenter; }
+    }
+    private CameraController _cameraController {
+        get { return gameObject.GetComponent<GameController>().cameraController; }
     }
     
     void Start() {
@@ -32,7 +34,7 @@ public class LevelManager : MonoBehaviour {
         InitMap(levels[0]);
 
 
-        Camera.main.gameObject.GetComponent<CameraController>().SetCameraTarget(_mapCenter);
+        _cameraController.SetCameraTarget(_mapCenter);
     }
 
     private void InitGameComponents() {
@@ -54,7 +56,7 @@ public class LevelManager : MonoBehaviour {
         // range with which to calculate random heights of the conveyors on the map
         int pathLength = level.pathElements.Count;
         double heightRangeMin = 0.1f;
-        double heightRangeMax = (pathLength * _heightOffset);
+        double heightRangeMax = (pathLength * _CBheightGenerationOffset);
 
 
         /* INIT GAMEOBJECT CONVEYOR MAP*/
@@ -78,7 +80,7 @@ public class LevelManager : MonoBehaviour {
                 Quaternion gRot = Quaternion.identity;
 
                 for(int i = 0; i < translations; i++) {
-                    gRot = Quaternion.Euler(0, gRot.eulerAngles.y + _rotationOffset, 0);
+                    gRot = Quaternion.Euler(0, gRot.eulerAngles.y + _CBrotationOffset, 0);
                 }
 
                 /* SET CONVEYOR RANDOM HEIGHT(in range) */
@@ -102,7 +104,7 @@ public class LevelManager : MonoBehaviour {
         /* INIT GOOD END PATH CONVEYOR CORRECT HEIGHT*/
         for(int i = 0; i < level.pathElements.Count; i++) {
 
-            double conveyorHeight = heightRangeMin + (i * _heightOffset);
+            double conveyorHeight = heightRangeMin + (i * _CBheightGenerationOffset);
 
             _conveyorMap[level.pathElements[i].pos.x, level.pathElements[i].pos.y]
                 .SetConveyorHeight(conveyorHeight);
