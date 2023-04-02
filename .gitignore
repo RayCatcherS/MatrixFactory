@@ -76,3 +76,7 @@ crashlytics-build.properties
 ProjectSettings/._EditorBuildSettings.asset
 iosBuild/Unity-iPhone.xcodeproj/project.xcworkspace/contents.xcworkspacedata
 iosBuild/Unity-iPhone.xcodeproj/project.xcworkspace/xcuserdata/stefanoromanelli.xcuserdatad/UserInterfaceState.xcuserstate
+iosBuild_BurstDebugInformation_DoNotShip/StaticLibraries/lib_burst_generated.txt
+ProjectSettings/BurstAotSettings_iOS.json
+ProjectSettings/EditorBuildSettings.asset
+ProjectSettings/ProjectSettings.asset
