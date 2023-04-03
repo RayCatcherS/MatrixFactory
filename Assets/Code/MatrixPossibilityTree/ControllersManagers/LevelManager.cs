@@ -115,7 +115,17 @@ public class LevelManager : MonoBehaviour {
         /* INIT GOOD END PATH CONVEYOR CORRECT HEIGHT*/
         for(int i = 0; i < level.pathElements.Count; i++) {
 
-            double conveyorHeight = heightRangeMin + (level.pathElements.Count - i) * _CBGenerationOffsetHeight;
+            double conveyorHeight;
+            
+            if(i != 0) {
+                System.Random random = new System.Random();
+                int randomNextHeight = random.Next(i - 1, i); // the random height has value between the current offset and the previous one
+
+                conveyorHeight = heightRangeMin + (level.pathElements.Count - randomNextHeight) * _CBGenerationOffsetHeight;
+            } else {
+                conveyorHeight = heightRangeMin + (level.pathElements.Count - i) * _CBGenerationOffsetHeight;
+            }
+            
 
             _conveyorMap[level.pathElements[i].pos.x, level.pathElements[i].pos.y]
                 .SetConveyorHeight(conveyorHeight);
