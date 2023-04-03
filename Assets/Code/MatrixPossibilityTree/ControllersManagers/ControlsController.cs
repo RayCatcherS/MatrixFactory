@@ -10,7 +10,7 @@ public class ControlsController : MonoBehaviour {
     //[SerializeField] private CinemachineFreeLook _cinemachineFreeLook;
     [SerializeField] private CinemachineVirtualCamera _cinemachineVirtualCamera;
 
-
+    private Camera _camera;
     private CinemachinePOV _pov;
 
 
@@ -24,9 +24,11 @@ public class ControlsController : MonoBehaviour {
     private Vector2 _mouseMovementDelta = Vector2.zero;
 
 
-    private float lerpValue = 0;
+    private float _lerpValue = 0;
+    private float _tapInteractionTimer = 0;
 
     void Start() {
+        InitGameComponents();
         InitCinemachine();
     }
 
@@ -34,8 +36,12 @@ public class ControlsController : MonoBehaviour {
     void Update() {
 
         HandleCameraRotation();
+        TapInteraction();
     }
 
+    private void InitGameComponents() {
+        _camera = _cameraController.gameObject.GetComponent<Camera>();
+    }
     private void InitCinemachine() {
         // cinemachine virtual camera
         _pov = _cinemachineVirtualCamera.GetCinemachineComponent<CinemachinePOV>();
@@ -56,7 +62,7 @@ public class ControlsController : MonoBehaviour {
 
         if(_dragRotationActive) {
             _mouseMovementDelta = (Vector2)Input.mousePosition - _lateMousePosition;
-            lerpValue = 0f;
+            _lerpValue = 0f;
 
             _lateMousePosition = Input.mousePosition;
         }
@@ -74,11 +80,44 @@ public class ControlsController : MonoBehaviour {
 
 
         _mouseMovementDelta = new Vector2(
-            Mathf.Lerp(_mouseMovementDelta.x, 0, lerpValue),
-            Mathf.Lerp(_mouseMovementDelta.y, 0, lerpValue)
+            Mathf.Lerp(_mouseMovementDelta.x, 0, _lerpValue),
+            Mathf.Lerp(_mouseMovementDelta.y, 0, _lerpValue)
         );
 
-        lerpValue += 6 * Time.deltaTime;
+        _lerpValue += 6 * Time.deltaTime;
 
+    }
+
+
+    private void TapInteraction() {
+
+        bool shortTapAction = false;
+
+        if(Input.GetMouseButtonDown(0)) {
+            _tapInteractionTimer = Time.time;
+        }
+
+        if(Input.GetMouseButtonUp(0)) {
+
+            if(Time.time - _tapInteractionTimer < 0.2f) {
+                shortTapAction = true;
+            }
+
+            _tapInteractionTimer = 0;
+        }
+
+
+        if(shortTapAction && _mouseMovementDelta.magnitude < 10) {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if(Physics.Raycast(ray, out hit, 100.0f)) {
+
+                if(hit.transform.gameObject.layer == 3) {
+                    Conveyor conveyor = hit.transform.gameObject.GetComponent<Conveyor>();
+                    conveyor.ConveyorClicked();
+                }
+            }
+        }
     }
 }

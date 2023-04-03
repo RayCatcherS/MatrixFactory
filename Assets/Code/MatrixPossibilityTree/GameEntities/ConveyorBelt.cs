@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ConveyorBelt : MonoBehaviour {
-    [SerializeField] private GameObject _conveyor;
+    [SerializeField] private Conveyor _conveyor;
     [SerializeField] private GameObject _debugTarget;
 
-    private bool initialized = false;
-    private float defaultConveyorHeight = 0f;
-    private float conveyorOffsetHeight = 0.5f;
+    private bool _initialized = false;
+    private float _defaultConveyorHeight = 0f;
+    private float _conveyorOffsetHeight = 0.5f;
 
 
 
@@ -17,7 +17,7 @@ public class ConveyorBelt : MonoBehaviour {
     }
 
     public void InitConveyorBelt(double armConveyorHeight, Quaternion rotation) {
-        if(initialized) {
+        if(_initialized) {
             Debug.LogError("the conveyor has already been initialized");
         }
 
@@ -28,18 +28,18 @@ public class ConveyorBelt : MonoBehaviour {
 
         SetDebugTarget(false);
 
-        initialized = true;
+        _initialized = true;
     }
 
     private void InitConveyorParameters() {
-        defaultConveyorHeight = _conveyor.gameObject.transform.position.y;
+        _defaultConveyorHeight = _conveyor.gameObject.transform.position.y;
     }
 
     public void SetConveyorHeight(double height) {
 
         _conveyor.gameObject.transform.position = new Vector3(
             _conveyor.gameObject.transform.position.x,
-            defaultConveyorHeight + conveyorOffsetHeight + (float) height,
+            _defaultConveyorHeight + _conveyorOffsetHeight + (float)height,
             _conveyor.gameObject.transform.position.z
         );
     }
@@ -50,5 +50,13 @@ public class ConveyorBelt : MonoBehaviour {
 
     public void SetDebugTarget(bool value) {
         _debugTarget.SetActive(value);
+    }
+
+    public void RotateConveyor() {
+        Debug.Log("Rotate Conveyor");
+        _conveyor.gameObject.transform.rotation = Quaternion.Euler(
+            _conveyor.gameObject.transform.eulerAngles.x,
+            _conveyor.gameObject.transform.eulerAngles.y + 90,
+            _conveyor.gameObject.transform.eulerAngles.z);
     }
 }
