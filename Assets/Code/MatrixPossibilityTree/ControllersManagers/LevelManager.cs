@@ -16,7 +16,9 @@ public class LevelManager : MonoBehaviour {
 
 
     private ConveyorBelt[,] _conveyorMap;
-    
+
+
+    [SerializeField] private bool debugPath = false;
 
     public Vector3 MapCenter {
         get { return _mapCenter; }
@@ -25,6 +27,7 @@ public class LevelManager : MonoBehaviour {
         get { return gameObject.GetComponent<GameController>().cameraController; }
     }
     
+
     void Start() {
         InitGameComponents();
 
@@ -130,10 +133,11 @@ public class LevelManager : MonoBehaviour {
             _conveyorMap[level.pathElements[i].pos.x, level.pathElements[i].pos.y]
                 .SetConveyorHeight(conveyorHeight);
 
-
-
-            _conveyorMap[level.pathElements[i].pos.x, level.pathElements[i].pos.y]
-                .SetDebugTarget(true);
+            // show path
+            if(debugPath) {
+                _conveyorMap[level.pathElements[i].pos.x, level.pathElements[i].pos.y]
+                    .SetDebugTarget(true);
+            }
         }
 
 
