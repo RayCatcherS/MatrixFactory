@@ -1,4 +1,5 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,7 +26,7 @@ public class ControlsController : MonoBehaviour {
 
         HandleCameraRotation();
     }
-
+    float lerpValue = 0;
     private void HandleCameraRotation() {
 
         if(Input.GetMouseButtonDown(0)) {
@@ -41,7 +42,7 @@ public class ControlsController : MonoBehaviour {
 
         if(dragRotationActive) {
             mouseMovementDelta = (Vector2)Input.mousePosition - lateMousePosition;
-
+            lerpValue = 0f;
 
             lateMousePosition = Input.mousePosition;
         }
@@ -52,5 +53,15 @@ public class ControlsController : MonoBehaviour {
         // set rotation to inuput axis chinemachine value
         cinemachineFreeLook.m_XAxis.m_InputAxisValue = rotationXValue;
         cinemachineFreeLook.m_YAxis.m_InputAxisValue = rotationYValue;
+
+        
+        mouseMovementDelta = new Vector2(
+            Mathf.Lerp(mouseMovementDelta.x, 0, lerpValue),
+            Mathf.Lerp(mouseMovementDelta.y, 0, lerpValue)
+        );
+
+        lerpValue += 5f / (float) Math.Log10(Mathf.Clamp(mouseMovementDelta.magnitude, 0, 90f)) * Time.deltaTime;
+        
+        //Debug.Log(lerpValue);
     }
 }

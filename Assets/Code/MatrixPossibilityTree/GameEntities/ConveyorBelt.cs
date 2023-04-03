@@ -8,7 +8,7 @@ public class ConveyorBelt : MonoBehaviour {
 
     private bool initialized = false;
     private float defaultConveyorHeight = 0f;
-    private float conveyorOffsetHeight = 1f;
+    private float conveyorOffsetHeight = 0.5f;
 
 
 

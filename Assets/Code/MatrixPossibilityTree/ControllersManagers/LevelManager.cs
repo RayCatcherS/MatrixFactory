@@ -8,7 +8,7 @@ public class LevelManager : MonoBehaviour {
 
 
     private readonly int _CBrotationOffset = 90;
-    private readonly float _CBheightGenerationOffset = 0.25f;
+    private readonly float _CBGenerationOffsetHeight = 0.25f;
 
 
     private Vector3 _mapPositionStart = Vector3.zero;
@@ -93,7 +93,7 @@ public class LevelManager : MonoBehaviour {
 
 
                 /* INIT NEW CONVEYOR*/
-                conveyorBelt.InitConveyorBelt(conveyorHeight * _CBheightGenerationOffset, gRot);
+                conveyorBelt.InitConveyorBelt(conveyorHeight * _CBGenerationOffsetHeight, gRot);
 
 
                 // Set the highest conveyor on the map
@@ -115,7 +115,7 @@ public class LevelManager : MonoBehaviour {
         /* INIT GOOD END PATH CONVEYOR CORRECT HEIGHT*/
         for(int i = 0; i < level.pathElements.Count; i++) {
 
-            double conveyorHeight = heightRangeMin + (level.pathElements.Count - i) * _CBheightGenerationOffset;
+            double conveyorHeight = heightRangeMin + (level.pathElements.Count - i) * _CBGenerationOffsetHeight;
 
             _conveyorMap[level.pathElements[i].pos.x, level.pathElements[i].pos.y]
                 .SetConveyorHeight(conveyorHeight);
