@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour {
-    private PrefabManager _prefabManager;
 
+    [SerializeField] private Transform _packageSpawn;
+    private PrefabManager _prefabManager;
 
     private readonly int _CBrotationOffset = 90;
     private readonly float _CBGenerationOffsetHeight = 0.25f;
@@ -34,19 +35,23 @@ public class LevelManager : MonoBehaviour {
         GlobalPossibilityPath.GeneratePathsFromMatrix();
         List<GoodEndPath> levels = GlobalPossibilityPath.GeneratedGoodEndsPaths;
 
-        InitMap(levels[43]);
+        GoodEndPath levelPath = levels[43];
+
+        InitMap(levelPath);
 
 
         _cameraController.SetCameraTarget(_mapCenter);
+
+        SetPackageSpawnPosition(levelPath);
     }
 
     private void InitGameComponents() {
         _prefabManager = gameObject.GetComponent<PrefabManager>();
     }
 
-    private void InitMap(GoodEndPath level) {
-        int rows = level.MatrixSize().x;
-        int columns = level.MatrixSize().y;
+    private void InitMap(GoodEndPath levelPath) {
+        int rows = levelPath.MatrixSize().x;
+        int columns = levelPath.MatrixSize().y;
         _conveyorMap = new ConveyorBelt[rows, columns];
 
         float conveyorMaxHeight = 0;
@@ -59,16 +64,16 @@ public class LevelManager : MonoBehaviour {
 
         /* CALCULATE HEIGHT RANGE OF CONVEYORS */
         // range with which to calculate random heights of the conveyors on the map
-        int pathLength = level.pathElements.Count;
+        int pathLength = levelPath.pathElements.Count;
         int heightRangeMin = 0;
         int heightRangeMax = pathLength;
 
 
         /* INIT GAMEOBJECT CONVEYOR MAP*/
         // create random conveyor height
-        for(int r = rows - 1; r > -1; r--) {
+        for(int r = 0; r < rows; r++) {
 
-            conveyorBlockOffset = new Vector3(0, 0, conveyorBlockOffset.z);
+            conveyorBlockOffset = new Vector3(conveyorBlockOffset.x, 0, 0);
             for(int c = 0; c < columns; c++) {
                 
 
@@ -106,17 +111,17 @@ public class LevelManager : MonoBehaviour {
 
 
                 // increment column offset
-                conveyorBlockOffset = conveyorBlockOffset + new Vector3(_prefabManager.conveyorBelt.gSize.x, 0, 0);
+                conveyorBlockOffset = conveyorBlockOffset + new Vector3(0, 0, _prefabManager.conveyorBelt.gSize.x);
             }
 
             // increment row offset
-            conveyorBlockOffset = conveyorBlockOffset + new Vector3(0, 0, _prefabManager.conveyorBelt.gSize.x);
+            conveyorBlockOffset = conveyorBlockOffset + new Vector3(_prefabManager.conveyorBelt.gSize.x, 0, 0);
         }
 
 
 
         /* INIT GOOD END PATH CONVEYOR CORRECT HEIGHT*/
-        for(int i = 0; i < level.pathElements.Count; i++) {
+        for(int i = 0; i < levelPath.pathElements.Count; i++) {
 
             double conveyorHeight;
             
@@ -124,18 +129,18 @@ public class LevelManager : MonoBehaviour {
                 System.Random random = new System.Random();
                 int randomNextHeight = random.Next(i - 1, i + 1); // the random height has value between the current offset and the previous one
 
-                conveyorHeight = heightRangeMin + (level.pathElements.Count - randomNextHeight) * _CBGenerationOffsetHeight;
+                conveyorHeight = heightRangeMin + (levelPath.pathElements.Count - randomNextHeight) * _CBGenerationOffsetHeight;
             } else {
-                conveyorHeight = heightRangeMin + (level.pathElements.Count - i) * _CBGenerationOffsetHeight;
+                conveyorHeight = heightRangeMin + (levelPath.pathElements.Count - i) * _CBGenerationOffsetHeight;
             }
             
 
-            _conveyorMap[level.pathElements[i].pos.x, level.pathElements[i].pos.y]
+            _conveyorMap[levelPath.pathElements[i].pos.x, levelPath.pathElements[i].pos.y]
                 .SetConveyorHeight(conveyorHeight);
 
             // show path
             if(debugPath) {
-                _conveyorMap[level.pathElements[i].pos.x, level.pathElements[i].pos.y]
+                _conveyorMap[levelPath.pathElements[i].pos.x, levelPath.pathElements[i].pos.y]
                     .SetDebugTarget(true);
             }
         }
@@ -147,10 +152,17 @@ public class LevelManager : MonoBehaviour {
 
         float _mapCenterHeight = conveyorMaxHeight / 2;
         _mapCenter = new Vector3(
-            (level.MatrixSize().y * _prefabManager.conveyorBelt.gSize.x) / 2,
+            (levelPath.MatrixSize().x * _prefabManager.conveyorBelt.gSize.y) / 2,
             _mapCenterHeight,
-            (level.MatrixSize().x * _prefabManager.conveyorBelt.gSize.y) / 2
+            (levelPath.MatrixSize().y * _prefabManager.conveyorBelt.gSize.x) / 2
         );
     }
 
+    private void SetPackageSpawnPosition(GoodEndPath levelPat) {
+        _packageSpawn.transform.position = new Vector3(
+            levelPat.StartPathPosition().x + _prefabManager.conveyorBelt.gSize.x,
+            0,
+            levelPat.StartPathPosition().y + _prefabManager.conveyorBelt.gSize.y
+        );
+    }
 }

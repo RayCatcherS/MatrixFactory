@@ -53,7 +53,7 @@ public class ConveyorBelt : MonoBehaviour {
     }
 
     public void RotateConveyor() {
-        Debug.Log("Rotate Conveyor");
+
         _conveyor.gameObject.transform.rotation = Quaternion.Euler(
             _conveyor.gameObject.transform.eulerAngles.x,
             _conveyor.gameObject.transform.eulerAngles.y + 90,
