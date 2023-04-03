@@ -122,7 +122,7 @@ public class LevelManager : MonoBehaviour {
             
             if(i != 0) {
                 System.Random random = new System.Random();
-                int randomNextHeight = random.Next(i - 1, i); // the random height has value between the current offset and the previous one
+                int randomNextHeight = random.Next(i - 1, i + 1); // the random height has value between the current offset and the previous one
 
                 conveyorHeight = heightRangeMin + (level.pathElements.Count - randomNextHeight) * _CBGenerationOffsetHeight;
             } else {
