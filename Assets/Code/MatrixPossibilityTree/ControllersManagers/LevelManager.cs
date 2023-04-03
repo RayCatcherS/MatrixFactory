@@ -31,7 +31,7 @@ public class LevelManager : MonoBehaviour {
         GlobalPossibilityPath.GeneratePathsFromMatrix();
         List<GoodEndPath> levels = GlobalPossibilityPath.GeneratedGoodEndsPaths;
 
-        InitMap(levels[0]);
+        InitMap(levels[43]);
 
 
         _cameraController.SetCameraTarget(_mapCenter);
@@ -46,6 +46,8 @@ public class LevelManager : MonoBehaviour {
         int columns = level.MatrixSize().y;
         _conveyorMap = new ConveyorBelt[rows, columns];
 
+        float conveyorMaxHeight = 0;
+
 
         List<ConveyorBelt> gOInstantiaded = new List<ConveyorBelt>();
         Vector3 conveyorBlockOffset = Vector3.zero;
@@ -55,15 +57,15 @@ public class LevelManager : MonoBehaviour {
         /* CALCULATE HEIGHT RANGE OF CONVEYORS */
         // range with which to calculate random heights of the conveyors on the map
         int pathLength = level.pathElements.Count;
-        double heightRangeMin = 0.1f;
-        double heightRangeMax = (pathLength * _CBheightGenerationOffset);
+        int heightRangeMin = 0;
+        int heightRangeMax = pathLength;
 
 
         /* INIT GAMEOBJECT CONVEYOR MAP*/
         // create random conveyor height
-        for(int r = 0; r < rows; r++) {
+        for(int r = rows - 1; r > -1; r--) {
 
-            conveyorBlockOffset = new Vector3(0, (float) -heightRangeMax, conveyorBlockOffset.z);
+            conveyorBlockOffset = new Vector3(0, 0, conveyorBlockOffset.z);
             for(int c = 0; c < columns; c++) {
                 
 
@@ -85,10 +87,19 @@ public class LevelManager : MonoBehaviour {
 
                 /* SET CONVEYOR RANDOM HEIGHT(in range) */
                 System.Random random = new System.Random();
-                double conveyorHeight = (random.NextDouble() * (heightRangeMax - heightRangeMin) + heightRangeMin);
+                int conveyorHeight = random.Next(heightRangeMin, heightRangeMax);
+
+                
+
 
                 /* INIT NEW CONVEYOR*/
-                conveyorBelt.InitConveyorBelt(conveyorHeight, gRot);
+                conveyorBelt.InitConveyorBelt(conveyorHeight * _CBheightGenerationOffset, gRot);
+
+
+                // Set the highest conveyor on the map
+                if(conveyorMaxHeight < conveyorBelt.conveyorHeight) {
+                    conveyorMaxHeight = conveyorHeight;
+                }
 
 
                 // increment column offset
@@ -104,20 +115,27 @@ public class LevelManager : MonoBehaviour {
         /* INIT GOOD END PATH CONVEYOR CORRECT HEIGHT*/
         for(int i = 0; i < level.pathElements.Count; i++) {
 
-            double conveyorHeight = heightRangeMin + (i * _CBheightGenerationOffset);
+            double conveyorHeight = heightRangeMin + (level.pathElements.Count - i) * _CBheightGenerationOffset;
 
             _conveyorMap[level.pathElements[i].pos.x, level.pathElements[i].pos.y]
                 .SetConveyorHeight(conveyorHeight);
+
+
+
+            _conveyorMap[level.pathElements[i].pos.x, level.pathElements[i].pos.y]
+                .SetDebugTarget(true);
         }
 
 
 
         /* CALCULATE CENTER OF THE MAP */
         // this can be used to center the game camera
+
+        float _mapCenterHeight = conveyorMaxHeight / 2;
         _mapCenter = new Vector3(
-            (level.MatrixSize().y * _prefabManager.conveyorBelt.gSize.y) / 2,
-            0,
-            (level.MatrixSize().x * _prefabManager.conveyorBelt.gSize.x) / 2
+            (level.MatrixSize().y * _prefabManager.conveyorBelt.gSize.x) / 2,
+            _mapCenterHeight,
+            (level.MatrixSize().x * _prefabManager.conveyorBelt.gSize.y) / 2
         );
     }
 

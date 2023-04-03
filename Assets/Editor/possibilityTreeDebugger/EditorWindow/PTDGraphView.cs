@@ -11,6 +11,7 @@ namespace PT.View {
     using System;
     using System.Collections.Generic;
     using UnityEngine;
+    using static UnityEditor.Progress;
 
     public class PTDGraphView : GraphView {
         public PTDGraphView() {
@@ -34,9 +35,9 @@ namespace PT.View {
         public void DrawGeneratedGoodPaths(List<GoodEndPath> scoredPaths) {
 
             Vector2 reachedPos = Vector2.zero;
-            foreach(GoodEndPath item in scoredPaths) {
+            for(int i = 0; i < scoredPaths.Count; i++) {
 
-                PTDGoodEndView pathView = new PTDGoodEndView(item, reachedPos);
+                PTDGoodEndView pathView = new PTDGoodEndView(scoredPaths[i], reachedPos, i);
                 AddElement(pathView);
                 reachedPos = new Vector2(reachedPos.x, reachedPos.y + PTDGoodEndView.defaultSize.y);
                 _nodesGoodEnd.Add(pathView);

@@ -8,10 +8,12 @@ namespace PT.DebugView {
         static public readonly Vector2 defaultSize = new Vector2(175, 190);
 
         
-        public PTDGoodEndView(GoodEndPath goodEndPathItem, Vector2 position) {
+        public PTDGoodEndView(GoodEndPath goodEndPathItem, Vector2 position, int index) {
             _goodPathItem = goodEndPathItem;
 
             _position = position;
+
+            _indexLevel = index;
 
             SetPosition(new Rect(position, Vector2.zero));
             Draw();
@@ -26,6 +28,8 @@ namespace PT.DebugView {
         private PTDPathMatrixView _ptdMatrix;
         private GoodEndPath _goodPathItem;
 
+        private int _indexLevel;
+
         public void Draw() {
 
 
@@ -39,7 +43,7 @@ namespace PT.DebugView {
 
 
             Label nodeInfo = new Label(
-               "Path Score: " + _goodPathItem.score
+               "Level: " + _indexLevel + "\nPath Score: " + _goodPathItem.score
             );
             
             inputContainer.Add(nodeInfo);

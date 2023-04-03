@@ -8,7 +8,8 @@ public class ControlsController : MonoBehaviour {
     [SerializeField] private CameraController cameraController;
     [SerializeField] private CinemachineFreeLook cinemachineFreeLook;
 
-    [SerializeField] private float rotationSpeed = 1;
+    [SerializeField] private float XrotationSpeed;
+    [SerializeField] private float YrotationSpeed;
     private bool dragRotationActive = false;
 
     private Vector2 lateMousePosition = Vector2.zero;
@@ -45,9 +46,11 @@ public class ControlsController : MonoBehaviour {
             lateMousePosition = Input.mousePosition;
         }
 
-        Vector2 rotationValue = rotationSpeed * Time.deltaTime * mouseMovementDelta;
+        float rotationXValue = XrotationSpeed * Time.deltaTime * mouseMovementDelta.x;
+        float rotationYValue = YrotationSpeed * Time.deltaTime * mouseMovementDelta.y;
 
-        // set rotation to inuput X axis chinemachine value
-        cinemachineFreeLook.m_XAxis.m_InputAxisValue = rotationValue.x;
+        // set rotation to inuput axis chinemachine value
+        cinemachineFreeLook.m_XAxis.m_InputAxisValue = rotationXValue;
+        cinemachineFreeLook.m_YAxis.m_InputAxisValue = rotationYValue;
     }
 }
