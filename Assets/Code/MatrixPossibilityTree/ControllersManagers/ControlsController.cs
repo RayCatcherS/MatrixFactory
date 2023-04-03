@@ -21,7 +21,7 @@ public class ControlsController : MonoBehaviour {
     private bool _dragRotationActive = false;
 
     private Vector2 _lateMousePosition = Vector2.zero;
-    private Vector2 _ouseMovementDelta = Vector2.zero;
+    private Vector2 _mouseMovementDelta = Vector2.zero;
 
 
     private float lerpValue = 0;
@@ -55,14 +55,14 @@ public class ControlsController : MonoBehaviour {
         }
 
         if(_dragRotationActive) {
-            _ouseMovementDelta = (Vector2)Input.mousePosition - _lateMousePosition;
+            _mouseMovementDelta = (Vector2)Input.mousePosition - _lateMousePosition;
             lerpValue = 0f;
 
             _lateMousePosition = Input.mousePosition;
         }
 
-        float rotationXValue = _XrotationSpeed * Time.deltaTime * _ouseMovementDelta.x;
-        float rotationYValue = _YrotationSpeed * Time.deltaTime * _ouseMovementDelta.y;
+        float rotationXValue = _XrotationSpeed * Time.deltaTime * _mouseMovementDelta.x;
+        float rotationYValue = _YrotationSpeed * Time.deltaTime * _mouseMovementDelta.y;
 
 
 
@@ -72,13 +72,13 @@ public class ControlsController : MonoBehaviour {
         _pov.m_VerticalAxis.Value = Mathf.Clamp(_pov.m_VerticalAxis.Value - rotationYValue, _minY, _maxY);
 
 
-        /*mouseMovementDelta = new Vector2(
-            Mathf.Lerp(mouseMovementDelta.x, 0, lerpValue),
-            Mathf.Lerp(mouseMovementDelta.y, 0, lerpValue)
+
+        _mouseMovementDelta = new Vector2(
+            Mathf.Lerp(_mouseMovementDelta.x, 0, lerpValue),
+            Mathf.Lerp(_mouseMovementDelta.y, 0, lerpValue)
         );
 
-        lerpValue += 5f / (float) Math.Log10(Mathf.Clamp(mouseMovementDelta.magnitude, 0, 90f)) * Time.deltaTime;*/
+        lerpValue += 6 * Time.deltaTime;
 
-        //Debug.Log(lerpValue);
     }
 }
