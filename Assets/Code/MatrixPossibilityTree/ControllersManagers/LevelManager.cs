@@ -12,6 +12,7 @@ public class LevelManager : MonoBehaviour {
     private float _packageSpawnOffsetHeight = 5;
 
     [SerializeField] private GameObject _spawnLight;
+    private float _lightHeightOffset = 2;
 
     [SerializeField] private bool debugPath = false;
 
@@ -183,8 +184,14 @@ public class LevelManager : MonoBehaviour {
 
     private void StartGame() {
         _spawnLight.gameObject.SetActive(false);
-        _spawnLight.gameObject.transform.position = _packageSpawnTransform.position;
 
+        _spawnLight.gameObject.transform.position = new Vector3(
+            _packageSpawnTransform.position.x,
+            _conveyorMaxHeight + _lightHeightOffset,
+            _packageSpawnTransform.position.z
+        );
+
+        
 
         StartCoroutine(WaitAndStartLight());
     }
