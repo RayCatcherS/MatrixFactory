@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ConveyorBelt : MonoBehaviour {
-    [SerializeField] private Conveyor _conveyor;
+    [SerializeField] private RollerConveyor _conveyor;
     [SerializeField] private GameObject _debugTarget;
+
+
+    [SerializeField] private int _rollerConveyorForce;
 
     private bool _initialized = false;
     private float _defaultConveyorHeight = 0f;
@@ -14,6 +17,10 @@ public class ConveyorBelt : MonoBehaviour {
 
     public float conveyorHeight {
         get { return _conveyor.gameObject.transform.position.y; }
+    }
+
+    public int rollerConveyorForce {
+        get { return _rollerConveyorForce; }
     }
 
     public void InitConveyorBelt(double armConveyorHeight, Quaternion rotation) {

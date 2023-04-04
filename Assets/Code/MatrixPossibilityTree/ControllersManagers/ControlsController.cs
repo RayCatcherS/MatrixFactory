@@ -26,6 +26,8 @@ public class ControlsController : MonoBehaviour {
 
     private float _lerpValue = 0;
     private float _tapInteractionTimer = 0;
+    readonly private int _conveyorRollerLayer = 3;
+
 
     void Start() {
         InitGameComponents();
@@ -113,8 +115,8 @@ public class ControlsController : MonoBehaviour {
 
             if(Physics.Raycast(ray, out hit, 100.0f)) {
 
-                if(hit.transform.gameObject.layer == 3) {
-                    Conveyor conveyor = hit.transform.gameObject.GetComponent<Conveyor>();
+                if(hit.transform.gameObject.layer == _conveyorRollerLayer) {
+                    RollerConveyor conveyor = hit.transform.gameObject.GetComponent<RollerConveyor>();
                     conveyor.ConveyorClicked();
                 }
             }
