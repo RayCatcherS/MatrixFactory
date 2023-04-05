@@ -16,7 +16,7 @@ public class LevelManager : MonoBehaviour {
 
     [SerializeField] private bool debugPath = false;
 
-    private readonly int _CBrotationOffset = 90;
+    
     private readonly float _CBGenerationOffsetHeight = 0.25f;
 
 
@@ -98,26 +98,31 @@ public class LevelManager : MonoBehaviour {
                 /* SET CONVEYOR RANDOM ROTATION */
                 SecureRandom randomRotationSteps = new SecureRandom();
                 int translations = randomRotationSteps.Next(0, 3);
-                Quaternion gRot = Quaternion.identity;
+                Direction rollerConveyorDirection = Direction.stay;
 
-                for(int i = 0; i < translations; i++) {
-                    gRot = Quaternion.Euler(0, gRot.eulerAngles.y + _CBrotationOffset, 0);
+                if(translations == 0) {
+                    rollerConveyorDirection = Direction.forward;
+                } else if (translations == 1) {
+                    rollerConveyorDirection = Direction.right;
+                } else if (translations == 2) {
+                    rollerConveyorDirection = Direction.back;
+                } else if (translations == 3) {
+                    rollerConveyorDirection = Direction.left;
                 }
+
+
 
                 /* SET CONVEYOR RANDOM HEIGHT(in range) */
                 System.Random random = new System.Random();
                 int conveyorUnitHeight = random.Next(heightRangeMin, heightRangeMax);
 
-                
-
-
                 /* INIT NEW CONVEYOR*/
-                conveyorBelt.InitConveyorBelt(conveyorUnitHeight * _CBGenerationOffsetHeight, gRot);
+                conveyorBelt.InitConveyorBelt(conveyorUnitHeight * _CBGenerationOffsetHeight, rollerConveyorDirection);
 
 
                 // Set/Update the highest conveyor on the map
-                if(_conveyorMaxHeight < conveyorBelt.conveyorHeight) {
-                    _conveyorMaxHeight = conveyorBelt.conveyorHeight;
+                if(_conveyorMaxHeight < conveyorBelt.RollerConveyorHeight) {
+                    _conveyorMaxHeight = conveyorBelt.RollerConveyorHeight;
                 }
 
 
@@ -150,8 +155,8 @@ public class LevelManager : MonoBehaviour {
             pathCurrentConveyor.SetConveyorHeight(conveyorHeight);
 
             // Set/Update the highest conveyor on the map
-            if(_conveyorMaxHeight < pathCurrentConveyor.conveyorHeight) {
-                _conveyorMaxHeight = pathCurrentConveyor.conveyorHeight;
+            if(_conveyorMaxHeight < pathCurrentConveyor.RollerConveyorHeight) {
+                _conveyorMaxHeight = pathCurrentConveyor.RollerConveyorHeight;
             }
 
             // show path

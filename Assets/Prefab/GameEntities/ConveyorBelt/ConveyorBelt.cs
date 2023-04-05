@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using PT.DataStruct;
 using UnityEngine;
 
 public class ConveyorBelt : MonoBehaviour {
-    [SerializeField] private RollerConveyor _conveyor;
+    private readonly int _CBrotationOffset = 90;
+
+
+    [SerializeField] private RollerConveyor _rollerConveyor;
     [SerializeField] private GameObject _debugTarget;
-
-
-    [SerializeField] private int _rollerConveyorForce;
+    [SerializeField] private float _rollerConveyorSpeed;
 
     private bool _initialized = false;
     private float _defaultConveyorHeight = 0f;
@@ -15,15 +17,15 @@ public class ConveyorBelt : MonoBehaviour {
 
 
 
-    public float conveyorHeight {
-        get { return _conveyor.gameObject.transform.position.y; }
+    public float RollerConveyorHeight {
+        get { return _rollerConveyor.gameObject.transform.position.y; }
     }
 
-    public int rollerConveyorForce {
-        get { return _rollerConveyorForce; }
+    public float RollerConveyorSpeed {
+        get { return _rollerConveyorSpeed; }
     }
 
-    public void InitConveyorBelt(double armConveyorHeight, Quaternion rotation) {
+    public void InitConveyorBelt(double armConveyorHeight, Direction direction) {
         if(_initialized) {
             Debug.LogError("the conveyor has already been initialized");
         }
@@ -31,7 +33,7 @@ public class ConveyorBelt : MonoBehaviour {
         InitConveyorParameters();
 
         SetConveyorHeight(armConveyorHeight);
-        SetConveyorRotation(rotation);
+        SetConveyorDirectionTarget(direction);
 
         SetDebugTarget(false);
 
@@ -39,20 +41,32 @@ public class ConveyorBelt : MonoBehaviour {
     }
 
     private void InitConveyorParameters() {
-        _defaultConveyorHeight = _conveyor.gameObject.transform.position.y;
+        _defaultConveyorHeight = _rollerConveyor.gameObject.transform.position.y;
     }
 
     public void SetConveyorHeight(double height) {
 
-        _conveyor.gameObject.transform.position = new Vector3(
-            _conveyor.gameObject.transform.position.x,
+        _rollerConveyor.gameObject.transform.position = new Vector3(
+            _rollerConveyor.gameObject.transform.position.x,
             _defaultConveyorHeight + _conveyorOffsetHeight + (float)height,
-            _conveyor.gameObject.transform.position.z
+            _rollerConveyor.gameObject.transform.position.z
         );
     }
 
-    private void SetConveyorRotation(Quaternion rotation) {
-        _conveyor.gameObject.transform.rotation = rotation;
+    private void SetConveyorDirectionTarget(Direction direction) {
+
+
+        if(direction == Direction.forward) {
+            _rollerConveyor.gameObject.transform.rotation = Quaternion.Euler(0, -90, 0);
+        } else if(direction == Direction.right) {
+            _rollerConveyor.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+        } else if(direction == Direction.back) {
+            _rollerConveyor.gameObject.transform.rotation = Quaternion.Euler(0, 90, 0);
+        } else if (direction == Direction.left) {
+            _rollerConveyor.gameObject.transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+
+        //_conveyor.gameObject.transform.rotation = rotation;
     }
 
     public void SetDebugTarget(bool value) {
@@ -61,9 +75,9 @@ public class ConveyorBelt : MonoBehaviour {
 
     public void RotateConveyor() {
 
-        _conveyor.gameObject.transform.rotation = Quaternion.Euler(
-            _conveyor.gameObject.transform.eulerAngles.x,
-            _conveyor.gameObject.transform.eulerAngles.y + 90,
-            _conveyor.gameObject.transform.eulerAngles.z);
+        _rollerConveyor.gameObject.transform.rotation = Quaternion.Euler(
+            _rollerConveyor.gameObject.transform.eulerAngles.x,
+            _rollerConveyor.gameObject.transform.eulerAngles.y + 90,
+            _rollerConveyor.gameObject.transform.eulerAngles.z);
     }
 }

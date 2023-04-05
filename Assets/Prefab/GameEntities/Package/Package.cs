@@ -11,7 +11,7 @@ public class Package : MonoBehaviour {
     [SerializeField] private AnimationCurve _fallAnimationCurve;
 
     [SerializeField] private float _packageFallSpeed = 3;
-    [SerializeField] private float _packageMoveSpeed = 3;
+    private float _packageRollerMoveSpeed;
 
     private Vector3 _targetPoint;
     private Vector3 _startPoint;
@@ -87,7 +87,7 @@ public class Package : MonoBehaviour {
                     _moveAnimationCurve.Evaluate(_animationTimePosition)
                 );
 
-                _animationTimePosition += _packageMoveSpeed * Time.deltaTime;
+                _animationTimePosition += _packageRollerMoveSpeed * Time.deltaTime;
             }
 
 
@@ -138,16 +138,16 @@ public class Package : MonoBehaviour {
 
         RaycastHit hit;
         if(Physics.Raycast(transform.position, -Vector3.up, out hit, Mathf.Infinity)) {
-
             if(hit.collider.gameObject.layer == _rollerConveyorLayer) {
 
+                // set new target
                 RollerConveyor rollerConveyor = hit.collider.gameObject.GetComponent<RollerConveyor>();
-
-                Vector3 direction = rollerConveyor.GetRollerConveyorDirection();
+                Vector3 direction = rollerConveyor.RollerConveyorDirection();
                 _targetPoint = _targetPoint + (direction);
 
+                _packageRollerMoveSpeed = rollerConveyor.RollerConveyorSpeed();
+
                 targetReached = false;
-                //new Vector3(hit.point.x, hit.point.y + (_packageSize.y / 2), hit.point.z);
             }
         }
     }

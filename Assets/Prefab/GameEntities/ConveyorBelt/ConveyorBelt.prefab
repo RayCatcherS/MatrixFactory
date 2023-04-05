@@ -256,9 +256,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a22ce85a7d48e854685168a9704eb048, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _conveyor: {fileID: 7847183021355409996}
+  _rollerConveyor: {fileID: 7847183021355409996}
   _debugTarget: {fileID: 8174394858245867595}
-  _rollerConveyorForce: 2
+  _rollerConveyorSpeed: 22
 --- !u!1 &6112093039928232629
 GameObject:
   m_ObjectHideFlags: 0
