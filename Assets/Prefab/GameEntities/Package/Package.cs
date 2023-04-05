@@ -1,14 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class Package : MonoBehaviour {
     readonly private int _rollerConveyorLayer = 3;
 
 
-    [SerializeField] private AnimationCurve _moveAnimationCurve;
-    [SerializeField] private AnimationCurve _fallAnimationCurve;
+    [SerializeField] private AnimationCurve _moveLerpCurve;
+    [SerializeField] private AnimationCurve _fallLerpCurve;
 
     [SerializeField] private float _packageFallSpeed = 3;
     private float _packageRollerMoveSpeed;
@@ -74,7 +71,7 @@ public class Package : MonoBehaviour {
                 transform.position = Vector3.Lerp(
                     _startPoint,
                     _targetPoint,
-                    _fallAnimationCurve.Evaluate(_animationTimePosition)
+                    _fallLerpCurve.Evaluate(_animationTimePosition)
                 );
 
                 _animationTimePosition += (_packageFallSpeed / unitDistance) * Time.deltaTime;
@@ -84,7 +81,7 @@ public class Package : MonoBehaviour {
                 transform.position = Vector3.Lerp(
                     _startPoint,
                     _targetPoint,
-                    _moveAnimationCurve.Evaluate(_animationTimePosition)
+                    _moveLerpCurve.Evaluate(_animationTimePosition)
                 );
 
                 _animationTimePosition += _packageRollerMoveSpeed * Time.deltaTime;
@@ -142,7 +139,7 @@ public class Package : MonoBehaviour {
 
                 // set new target
                 RollerConveyor rollerConveyor = hit.collider.gameObject.GetComponent<RollerConveyor>();
-                Vector3 direction = rollerConveyor.RollerConveyorDirection();
+                Vector3 direction = rollerConveyor.RollerConveyorDirectionVector();
                 _targetPoint = _targetPoint + (direction);
 
                 _packageRollerMoveSpeed = rollerConveyor.RollerConveyorSpeed();

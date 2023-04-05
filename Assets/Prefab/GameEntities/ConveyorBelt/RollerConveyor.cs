@@ -1,3 +1,4 @@
+using PT.DataStruct;
 using UnityEngine;
 
 public class RollerConveyor : MonoBehaviour {
@@ -6,16 +7,12 @@ public class RollerConveyor : MonoBehaviour {
 
 
     public void ConveyorClicked() {
-        _conveyorBelt.RotateConveyor();
+        _conveyorBelt.ApplyRollerConveyorRotation();
     }
 
-    public Vector3 RollerConveyorDirection() {
+    public Vector3 RollerConveyorDirectionVector() {
 
-        return transform.forward;
-    }
-
-    public Vector3 RollerConveyorTargetPos() {
-        return transform.position;
+        return _conveyorBelt.RollerConveyorDirectionVector;
     }
 
     public float RollerConveyorSpeed() {

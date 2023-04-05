@@ -152,7 +152,7 @@ public class LevelManager : MonoBehaviour {
 
 
             ConveyorBelt pathCurrentConveyor = _conveyorMap[levelPath.pathElements[i].pos.x, levelPath.pathElements[i].pos.y];
-            pathCurrentConveyor.SetConveyorHeight(conveyorHeight);
+            pathCurrentConveyor.SetRollerConveyorHeight(conveyorHeight);
 
             // Set/Update the highest conveyor on the map
             if(_conveyorMaxHeight < pathCurrentConveyor.RollerConveyorHeight) {
@@ -161,7 +161,7 @@ public class LevelManager : MonoBehaviour {
 
             // show path
             if(debugPath) {
-                pathCurrentConveyor.SetDebugTarget(true);
+                pathCurrentConveyor.EnableDebugShowPath(true);
             }
         }
 

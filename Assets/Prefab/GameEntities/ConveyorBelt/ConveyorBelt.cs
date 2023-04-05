@@ -5,24 +5,58 @@ using UnityEngine;
 
 public class ConveyorBelt : MonoBehaviour {
     private readonly int _CBrotationOffset = 90;
-
+    readonly private float _conveyorOffsetHeight = 0.5f;
+    private float _defaultConveyorHeight = 0f;
 
     [SerializeField] private RollerConveyor _rollerConveyor;
-    [SerializeField] private GameObject _debugTarget;
+    [SerializeField] private GameObject _debugShowPath;
     [SerializeField] private float _rollerConveyorSpeed;
 
+
+    private Quaternion _rollerConveyorRotationTarget = Quaternion.identity;
+    [SerializeField] private float _rollerRotationSpeed = 2f;
+    [SerializeField] private AnimationCurve _rollerRotationLerpCurve;
+    private Direction _rollerConveyorDirection = Direction.stay;
+    public Direction RollerConveyorDirection {
+        get { return _rollerConveyorDirection; } 
+    }
+    public Vector3 RollerConveyorDirectionVector  {
+        get {
+
+            Vector3 value = Vector3.zero;
+
+            if(_rollerConveyorDirection == Direction.forward) {
+                value = new Vector3(-1, 0, 0);
+            } else if(_rollerConveyorDirection == Direction.right) {
+                value = new Vector3(0, 0, 1);
+            } else if(_rollerConveyorDirection == Direction.back) {
+                value = new Vector3(1, 0, 0);
+            } else if(_rollerConveyorDirection == Direction.left) {
+                value = new Vector3(0, 0, -1);
+            }
+
+            return value;
+        }
+        
+    }
+
     private bool _initialized = false;
-    private float _defaultConveyorHeight = 0f;
-    private float _conveyorOffsetHeight = 0.5f;
-
-
 
     public float RollerConveyorHeight {
         get { return _rollerConveyor.gameObject.transform.position.y; }
     }
+    public float RollerConveyorSpeed {get { return _rollerConveyorSpeed; }}
 
-    public float RollerConveyorSpeed {
-        get { return _rollerConveyorSpeed; }
+
+
+
+    public void Update() {
+        if(_initialized) {
+            UpdateRollerConveyorRotation();
+        }
+        //_rollerConveyorRotationTarget
+        //_rollerConveyor.gameObject.transform.rotation
+
     }
 
     public void InitConveyorBelt(double armConveyorHeight, Direction direction) {
@@ -32,10 +66,10 @@ public class ConveyorBelt : MonoBehaviour {
 
         InitConveyorParameters();
 
-        SetConveyorHeight(armConveyorHeight);
-        SetConveyorDirectionTarget(direction);
+        SetRollerConveyorHeight(armConveyorHeight);
+        SetRollerConveyorDirectionTarget(direction, false);
 
-        SetDebugTarget(false);
+        EnableDebugShowPath(false);
 
         _initialized = true;
     }
@@ -44,7 +78,7 @@ public class ConveyorBelt : MonoBehaviour {
         _defaultConveyorHeight = _rollerConveyor.gameObject.transform.position.y;
     }
 
-    public void SetConveyorHeight(double height) {
+    public void SetRollerConveyorHeight(double height) {
 
         _rollerConveyor.gameObject.transform.position = new Vector3(
             _rollerConveyor.gameObject.transform.position.x,
@@ -53,31 +87,65 @@ public class ConveyorBelt : MonoBehaviour {
         );
     }
 
-    private void SetConveyorDirectionTarget(Direction direction) {
+    private void SetRollerConveyorDirectionTarget(Direction direction, bool animated) {
 
+        Quaternion rotationVal = Quaternion.identity;
 
         if(direction == Direction.forward) {
-            _rollerConveyor.gameObject.transform.rotation = Quaternion.Euler(0, -90, 0);
+            rotationVal = Quaternion.Euler(0, -_CBrotationOffset, 0);
+            
+
         } else if(direction == Direction.right) {
-            _rollerConveyor.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+            rotationVal = Quaternion.Euler(0, 0, 0);
+
         } else if(direction == Direction.back) {
-            _rollerConveyor.gameObject.transform.rotation = Quaternion.Euler(0, 90, 0);
+            rotationVal = Quaternion.Euler(0, _CBrotationOffset, 0);
         } else if (direction == Direction.left) {
-            _rollerConveyor.gameObject.transform.rotation = Quaternion.Euler(0, 180, 0);
+            rotationVal = Quaternion.Euler(0, _CBrotationOffset * 2, 0);
         }
 
-        //_conveyor.gameObject.transform.rotation = rotation;
+        if(!animated) {
+            _rollerConveyor.gameObject.transform.rotation = rotationVal;
+        }
+        _rollerConveyorRotationTarget = rotationVal;
+
+        _rollerConveyorDirection = direction;
     }
 
-    public void SetDebugTarget(bool value) {
-        _debugTarget.SetActive(value);
+    public void EnableDebugShowPath(bool value) {
+        _debugShowPath.SetActive(value);
     }
 
-    public void RotateConveyor() {
+    private Direction NextRollerConveyorDirection() {
+        Direction nextDirection = Direction.stay;
 
-        _rollerConveyor.gameObject.transform.rotation = Quaternion.Euler(
-            _rollerConveyor.gameObject.transform.eulerAngles.x,
-            _rollerConveyor.gameObject.transform.eulerAngles.y + 90,
-            _rollerConveyor.gameObject.transform.eulerAngles.z);
+        if(_rollerConveyorDirection == Direction.forward) {
+
+            nextDirection = Direction.right;
+        } else if(_rollerConveyorDirection == Direction.right) {
+            nextDirection = Direction.back;
+        } else if(_rollerConveyorDirection == Direction.back) {
+            nextDirection = Direction.left;
+        } else if(_rollerConveyorDirection == Direction.left) {
+            nextDirection = Direction.forward;
+        } 
+        
+        return nextDirection; 
+        
     }
+    public void ApplyRollerConveyorRotation() {
+        Direction newDir = NextRollerConveyorDirection();
+
+        SetRollerConveyorDirectionTarget(newDir, true);
+    }
+
+    private void UpdateRollerConveyorRotation() {
+        if(_rollerConveyor.gameObject.transform.rotation != _rollerConveyorRotationTarget) {
+            _rollerConveyor.gameObject.transform.rotation = Quaternion.Lerp(
+                _rollerConveyor.gameObject.transform.rotation,
+                _rollerConveyorRotationTarget,
+                _rollerRotationLerpCurve.Evaluate(Time.deltaTime * _rollerRotationSpeed)
+            );
+        }
+    }   
 }
