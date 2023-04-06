@@ -41,20 +41,24 @@ public class LevelManager : MonoBehaviour {
     void Start() {
 
         InitGameComponents();
+        
+        GlobalPossibilityPath.GeneratePaths(4, 5, true);
+        
 
 
-        GlobalPossibilityPath.GeneratePathsFromMatrix();
         List<GoodEndPath> levels = GlobalPossibilityPath.GeneratedGoodEndsPaths;
-        GoodEndPath levelPath = levels[43];
+        GoodEndPath levelPath = levels[0];
+        
 
         InitMap(levelPath);
 
 
         _cameraController.SetCameraTarget(_mapCenter);
         SetPackageSpawnPosition(levelPath);
-
-
         StartGame();
+
+        
+        
     }
 
     private void InitGameComponents() {

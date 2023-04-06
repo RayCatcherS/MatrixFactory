@@ -222,7 +222,7 @@ namespace PT.View {
 
         private IManipulator GeneratePossibilityTreeContextualMenu() {
             ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
-                menuEvent => menuEvent.menu.AppendAction("Generate Possibility Tree", actionEvent => GeneratePossibilityTree())
+                menuEvent => menuEvent.menu.AppendAction("Generate Possibility Tree Example (3x3)", actionEvent => GeneratePossibilityTree())
             );
 
             return contextualMenuManipulator;
@@ -248,7 +248,7 @@ namespace PT.View {
         
 
         private void GeneratePossibilityTree() {
-            GlobalPossibilityPath.GeneratePathsFromMatrix();
+            GlobalPossibilityPath.GeneratePaths(3, 3, true, true);
         }
 
         private void ClearInterface() {

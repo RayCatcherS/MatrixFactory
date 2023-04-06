@@ -3,10 +3,21 @@ using System;
 using UnityEngine;
 
 namespace PT.DataStruct {
+
+    public enum NodeChildType {
+        Root,
+        Forward,
+        Back,
+        Right,
+        Left
+    }
+
     public class FourCTree<T> {
         public FourCTree() {
 
         }
+        
+
         private FourCTreeNode<T> _root;
         private int _treeHeight = 0;
         public int treeHeight {
@@ -53,6 +64,25 @@ namespace PT.DataStruct {
             return value;
         }
 
+
+        public void InsNode(NodeChildType type, FourCTreeNode<T> node, T nodeData) {
+            switch (type) {
+                case NodeChildType.Forward:
+                    InsForward(node, nodeData);
+                    break;
+                case NodeChildType.Back:
+                    InsBack(node, nodeData);
+                    break;
+                case NodeChildType.Right:
+                    InsRight(node, nodeData);
+                    break;
+                case NodeChildType.Left:
+                    InsLeft(node, nodeData);
+                    break;
+                default:
+                    break;
+            }
+        }
         public void InsRoot(T nodeData) {
             if (!TreeIsEmpty()) {
                 Debug.LogError("Root node already added");
