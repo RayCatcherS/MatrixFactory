@@ -68,10 +68,10 @@ namespace PT.DebugView
                 }
 
             }
-            for(int i = 0; i < path.pathElements.Count; i++) {
+            for(int i = 0; i < path.PathElements.Count; i++) {
 
 
-                Vector2Int pos = path.pathElements[i].pos;
+                Vector2Int pos = path.PathElements[i].pos;
                 PossibilityMatrixPathElement element = _pathMatrix[
                     pos.x,
                     pos.y
@@ -81,8 +81,8 @@ namespace PT.DebugView
 
 
                 // set trace direction
-                if(path.pathElements[i].pos != path.LastPos()) {
-                    Vector2Int direction = path.pathElements[i + 1].pos - path.pathElements[i].pos;
+                if(path.PathElements[i].pos != path.LastPos()) {
+                    Vector2Int direction = path.PathElements[i + 1].pos - path.PathElements[i].pos;
 
                     if(direction == new Vector2Int(-1, 0)) {
                         element.SetTracedMoveDirection(Direction.forward);

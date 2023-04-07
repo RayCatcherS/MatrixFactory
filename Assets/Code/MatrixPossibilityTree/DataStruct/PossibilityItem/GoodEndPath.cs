@@ -11,7 +11,6 @@ namespace PT.DataStruct {
             _endPathPosition = new Vector2Int(endPathPosition.x, endPathPosition.y);
             _matrixSize = matrixSize;
 
-            _score = _maxScore;
 
             InitGoodEndPath(tracedPathPositions);
         }
@@ -19,17 +18,19 @@ namespace PT.DataStruct {
         private Vector2Int _startPathPosition;
         private Vector2Int _endPathPosition;
         private Vector2Int _matrixSize;
-        private double _maxScore = 1; 
-        private double _score;
+        readonly private double _maxScore = 1; 
+        private double _score = 0;
 
 
         public Vector2Int MatrixSize() {
             return _matrixSize;
         }
-        public List<GoodEndPathElement> pathElements {
+        public List<GoodEndPathElement> PathElements {
             get { return _path; }
         }
-
+        public int PathLenght {
+            get { return _path.Count; }
+        }
         
 
         public Vector2Int LastPos() {
