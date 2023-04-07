@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace PT.DataStruct {
@@ -18,7 +19,6 @@ namespace PT.DataStruct {
         private Vector2Int _startPathPosition;
         private Vector2Int _endPathPosition;
         private Vector2Int _matrixSize;
-        readonly private double _maxScore = 1; 
         private double _score = 0;
 
 
@@ -69,6 +69,10 @@ namespace PT.DataStruct {
         }
         public double score {
             get { return _score; }
+        }
+
+        public int packageToSpawn {
+            get { return _path.Count(); }
         }
 
         public string id() {

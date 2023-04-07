@@ -30,7 +30,7 @@ public class LevelManager : MonoBehaviour {
     private float _conveyorMaxHeight = 0;
 
 
-    
+    private int _packageToSpawn = 0;
 
     public Vector3 MapCenter {
         get { return _mapCenter; }
@@ -56,6 +56,9 @@ public class LevelManager : MonoBehaviour {
 
         _cameraController.SetCameraTarget(_mapCenter);
         SetPackageSpawnPosition(levelPath);
+
+
+        _packageToSpawn = levelPath.packageToSpawn;
 
         _levelInitialized = true;
 	}
@@ -218,14 +221,18 @@ public class LevelManager : MonoBehaviour {
     }
 
     private IEnumerator WaitAndSpawnPackage() {
-        // TODO number of package is lenght of path / difficult in calculated in the GoodPath instance
 
-        yield return new WaitForSeconds(2);
-        GameObject obj = Instantiate(_prefabManager.package.GetGameobject, _packageSpawnTransform.position, Quaternion.identity);
-        Package package = obj.GetComponent<Package>();
-        package.Init(_prefabManager.package.GameobjectSize);
+        if(_packageToSpawn != 0) {
+            yield return new WaitForSeconds(2);
+            GameObject obj = Instantiate(_prefabManager.package.GetGameobject, _packageSpawnTransform.position, Quaternion.identity);
+            Package package = obj.GetComponent<Package>();
+            package.Init(_prefabManager.package.GameobjectSize);
 
-        yield return new WaitForSeconds(0.7f);
-        StartCoroutine(WaitAndSpawnPackage());
+            yield return new WaitForSeconds(0.7f);
+            StartCoroutine(WaitAndSpawnPackage());
+
+            _packageToSpawn--;
+        }
+        
     }
 }
