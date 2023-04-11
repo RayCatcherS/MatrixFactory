@@ -3,9 +3,13 @@ using PT.Global;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Cinemachine.DocumentationSortingAttribute;
+using static PT.Global.GlobalPossibilityPath;
+using static UnityEngine.Rendering.ReloadAttribute;
 
 public class LevelManager : MonoBehaviour {
-    
+
+    [SerializeField] private GameController _gameController;
 
     [SerializeField] private CameraController _cameraController;
     private PrefabManager _prefabManager;
@@ -17,8 +21,6 @@ public class LevelManager : MonoBehaviour {
     private float _lightHeightOffset = 2;
 
     
-
-    
     private readonly float _CBGenerationOffsetHeight = 0.25f;
 
 
@@ -27,54 +29,87 @@ public class LevelManager : MonoBehaviour {
 
 
     private ConveyorBelt[,] _conveyorMap;
+    private List<ConveyorBelt> _conveyorMapList = new List<ConveyorBelt>();
     private float _conveyorMaxHeight = 0;
-
-
+    private List<Package> _packages = new List<Package>();
     private int _packageToSpawn = 0;
+    
+
 
     public Vector3 MapCenter {
         get { return _mapCenter; }
     }
 
-	[SerializeField] private bool _debugPath = false;
+    private LevelInfo _levelInfo;
+    public LevelInfo LevelInfo {
+
+        get {
+            if(_levelInfo.Chapter == Chapter.NotSelected || _levelInfo.LevelIndex == -1) {
+                throw new System.InvalidOperationException("No Chapter or level selected");
+            }
+            return _levelInfo;
+        }
+    }
+
+
+    [SerializeField] private bool _debugPath = false;
     private bool _levelInitialized = false;
 
-	public void InitLevel(/* GoodEndPath level */) {
+	public void InitLevel(Chapter chapter, int levelIndex) {
+        _levelInfo = new LevelInfo(chapter, levelIndex);
+
 
         InitGameComponents();
-        
-        GlobalPossibilityPath.GeneratePaths(4, 5, true);
-        
 
+        GeneratedLevel level = GlobalPossibilityPath.GetChapterLevels(chapter)[levelIndex];
 
-        List<GoodEndPath> levels = GlobalPossibilityPath.GeneratedGoodEndsPaths;
-        GoodEndPath levelPath = levels[0];
-        
+        InitMatrixMap(level);
 
-        InitMatrixMap(levelPath);
-
-
+        _cameraController.SetRotation(new Vector3(-90, 35, 0)); // reset camera rotation
         _cameraController.SetCameraTarget(_mapCenter);
-        SetPackageSpawnPosition(levelPath);
+        SetPackageSpawnPosition(level);
 
 
-        _packageToSpawn = levelPath.packageToSpawn;
+        _packageToSpawn = level.packageToSpawn;
 
         _levelInitialized = true;
 	}
+
+    public void DestroyLevel() {
+
+        if(_levelInitialized) {
+            _levelInitialized = false;
+            _levelInfo = new LevelInfo(Chapter.NotSelected, -1);
+
+            foreach(ConveyorBelt conveyor in _conveyorMapList) {
+                Destroy(conveyor.gameObject);
+            }
+            _conveyorMapList.Clear();
+
+            foreach(Package package in _packages) {
+                Destroy(package.gameObject);
+            }
+            _packages.Clear();
+        }
+    }
 
     private void InitGameComponents() {
         _prefabManager = gameObject.GetComponent<PrefabManager>();
     }
 
-    private void InitMatrixMap(GoodEndPath levelPath) {
+    private void InitMatrixMap(GeneratedLevel levelPath) {
+
+        if (_levelInitialized) {
+
+        }
+
         int rows = levelPath.MatrixSize().x;
         int columns = levelPath.MatrixSize().y;
         _conveyorMap = new ConveyorBelt[rows, columns];
         
 
 
-        List<ConveyorBelt> gOInstantiaded = new List<ConveyorBelt>();
+        
         Vector3 conveyorBlockOffset = Vector3.zero;
 
 
@@ -97,7 +132,7 @@ public class LevelManager : MonoBehaviour {
                 GameObject obj = Instantiate(_prefabManager.conveyorBelt.GetGameobject, _mapPositionStart + conveyorBlockOffset, Quaternion.identity);
 
                 ConveyorBelt conveyorBelt = obj.GetComponent<ConveyorBelt>();
-                gOInstantiaded.Add(conveyorBelt);
+                _conveyorMapList.Add(conveyorBelt);
                 _conveyorMap[r, c] = conveyorBelt;
 
 
@@ -184,7 +219,9 @@ public class LevelManager : MonoBehaviour {
         );
     }
 
-    private void SetPackageSpawnPosition(GoodEndPath levelPat) {
+
+
+    private void SetPackageSpawnPosition(GeneratedLevel levelPat) {
         _packageSpawnTransform.transform.position = new Vector3(
             levelPat.StartPathPosition().x + (_prefabManager.conveyorBelt.GameobjectSize.x / 2),
             _conveyorMaxHeight + _packageSpawnOffsetHeight,
@@ -218,6 +255,9 @@ public class LevelManager : MonoBehaviour {
 
 
         StartCoroutine(WaitAndSpawnPackage());
+
+        yield return new WaitForSeconds(2.5f);
+        _spawnLight.gameObject.SetActive(false);
     }
 
     private IEnumerator WaitAndSpawnPackage() {
@@ -226,13 +266,28 @@ public class LevelManager : MonoBehaviour {
             yield return new WaitForSeconds(2);
             GameObject obj = Instantiate(_prefabManager.package.GetGameobject, _packageSpawnTransform.position, Quaternion.identity);
             Package package = obj.GetComponent<Package>();
+            _packages.Add(package);
             package.Init(_prefabManager.package.GameobjectSize);
 
             yield return new WaitForSeconds(0.7f);
             StartCoroutine(WaitAndSpawnPackage());
 
             _packageToSpawn--;
+        } else {
+            EvaluateEndLevelStatus();
         }
-        
+    }
+
+    private void EvaluateEndLevelStatus() {
+
+        bool win = true;
+
+        if(win) {
+            _gameController.EndLevelWin();
+            
+        } else {
+            _gameController.EndLevelLose();
+
+        }
     }
 }

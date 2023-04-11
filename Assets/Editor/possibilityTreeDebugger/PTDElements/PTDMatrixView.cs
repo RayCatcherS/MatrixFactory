@@ -15,7 +15,7 @@ namespace PT.DebugView
 
             Draw(possibilityPath);
         }
-        public PTDPathMatrixView(GoodEndPath goodEndPath) {
+        public PTDPathMatrixView(GeneratedLevel goodEndPath) {
             rows = goodEndPath.MatrixSize().x;
             columns = goodEndPath.MatrixSize().y;
             _goodEndPath = goodEndPath;
@@ -24,7 +24,7 @@ namespace PT.DebugView
         }
 
         private PossibilityPathItem _possibilityPath;
-        private GoodEndPath _goodEndPath;
+        private GeneratedLevel _goodEndPath;
         private int rows;
         private int columns;
         public int matrixHeigth {
@@ -55,7 +55,7 @@ namespace PT.DebugView
                 this.Add(row);
             }
         }
-        public void Draw(GoodEndPath path) {
+        public void Draw(GeneratedLevel path) {
 
             PossibilityMatrixPathElement[,] _pathMatrix = new PossibilityMatrixPathElement[rows, columns];
 

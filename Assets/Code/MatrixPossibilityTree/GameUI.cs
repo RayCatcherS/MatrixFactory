@@ -11,6 +11,18 @@ public class GameUI : MonoBehaviour {
     private float _backgroundAnimationTransitionTime;
     private float _backgroundAnimationSpeed = 0.1f;
 
+    [SerializeField] private GameObject _mainMenuUI;
+    [SerializeField] private GameObject _levelEndedWinMenuUI;
+    [SerializeField] private GameObject _levelEndedLoseMenuUI;
+
+    [SerializeField] private GameObject _levelStartedMenuUI;
+    [SerializeField] private GameObject _levelStartedGameStateUI;
+
+
+    private GameUIState _state;
+    public GameUIState State => _state;
+
+
     public async Task SetBlackBackgroundLerp(bool isBlackBackground) {
 
 
@@ -45,4 +57,46 @@ public class GameUI : MonoBehaviour {
         
     }
     
+
+
+    public void OpenMainMenu() {
+        _state = GameUIState.MainMenu;
+        _mainMenuUI.SetActive(true);
+        _levelEndedWinMenuUI.SetActive(false);
+        _levelStartedMenuUI.SetActive(false);
+        _levelStartedGameStateUI.SetActive(false);
+    }
+
+    public void OpenGameLevelStarted() {
+        _state = GameUIState.LevelStartedMenu;
+        _mainMenuUI.SetActive(false);
+        _levelEndedWinMenuUI.SetActive(false);
+        _levelStartedMenuUI.SetActive(true);
+        _levelStartedGameStateUI.SetActive(true);
+    }
+
+    public void OpenGameLevelEndedWin() {
+        _state = GameUIState.LevelEndedWinMenu;
+        _mainMenuUI.SetActive(false);
+        _levelEndedWinMenuUI.SetActive(true);
+        _levelStartedMenuUI.SetActive(false);
+        _levelStartedGameStateUI.SetActive(true);
+    }
+
+    public void OpenGameLevelEndedLose() {
+        _state = GameUIState.LevelEndedLoseMenu;
+        _mainMenuUI.SetActive(false);
+        _levelEndedWinMenuUI.SetActive(false);
+        _levelStartedMenuUI.SetActive(false);
+        _levelStartedGameStateUI.SetActive(true);
+    }
+
+    public enum GameUIState {
+        MainMenu,
+        LevelStartedMenu,
+        LevelEndedWinMenu,
+        LevelEndedLoseMenu,
+        PauseMenu,
+        GameOverMenu
+    }
 }

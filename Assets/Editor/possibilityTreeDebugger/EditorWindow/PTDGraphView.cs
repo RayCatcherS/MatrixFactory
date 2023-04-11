@@ -32,7 +32,7 @@ namespace PT.View {
         }
         
         
-        public void DrawGeneratedGoodPaths(List<GoodEndPath> scoredPaths) {
+        public void DrawGeneratedGoodPaths(List<GeneratedLevel> scoredPaths) {
 
             Vector2 reachedPos = Vector2.zero;
             for(int i = 0; i < scoredPaths.Count; i++) {
@@ -222,7 +222,7 @@ namespace PT.View {
 
         private IManipulator GeneratePossibilityTreeContextualMenu() {
             ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
-                menuEvent => menuEvent.menu.AppendAction("Generate Possibility Tree Example (3x3)", actionEvent => GeneratePossibilityTree())
+                menuEvent => menuEvent.menu.AppendAction("Generate Possibility Tree Example (2x2)", actionEvent => GeneratePossibilityTree())
             );
 
             return contextualMenuManipulator;
@@ -242,13 +242,13 @@ namespace PT.View {
         }
         private void DrawGeneratedGoodPaths() {
             ClearInterface();
-            List<GoodEndPath> _paths = GlobalPossibilityPath.GeneratedGoodEndsPaths;
+            List<GeneratedLevel> _paths = GlobalPossibilityPath.GetChapterLevels(GlobalPossibilityPath.Chapter.Chapter1);
             DrawGeneratedGoodPaths(_paths);
         }
         
 
         private void GeneratePossibilityTree() {
-            GlobalPossibilityPath.GeneratePaths(3, 3, true, true);
+            GlobalPossibilityPath.GenerateChaptersPaths(true, true);
         }
 
         private void ClearInterface() {

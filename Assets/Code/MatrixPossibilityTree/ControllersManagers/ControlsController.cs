@@ -7,7 +7,6 @@ using UnityEngine;
 public class ControlsController : MonoBehaviour {
 
     [SerializeField] private CameraController _cameraController;
-    //[SerializeField] private CinemachineFreeLook _cinemachineFreeLook;
     [SerializeField] private CinemachineVirtualCamera _cinemachineVirtualCamera;
 
     private Camera _camera;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SettingsController : MonoBehaviour {
-    public void SetSettings() {
+    public void InitSettings() {
         Application.targetFrameRate = Screen.currentResolution.refreshRate;
     }
 }

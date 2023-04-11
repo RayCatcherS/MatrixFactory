@@ -8,7 +8,7 @@ namespace PT.DebugView {
         static public readonly Vector2 defaultSize = new Vector2(175, 190);
 
         
-        public PTDGoodEndView(GoodEndPath goodEndPathItem, Vector2 position, int index) {
+        public PTDGoodEndView(GeneratedLevel goodEndPathItem, Vector2 position, int index) {
             _goodPathItem = goodEndPathItem;
 
             _position = position;
@@ -26,7 +26,7 @@ namespace PT.DebugView {
         }
 
         private PTDPathMatrixView _ptdMatrix;
-        private GoodEndPath _goodPathItem;
+        private GeneratedLevel _goodPathItem;
 
         private int _indexLevel;
 

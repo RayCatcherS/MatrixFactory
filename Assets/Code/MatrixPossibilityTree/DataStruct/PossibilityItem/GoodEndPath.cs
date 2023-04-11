@@ -4,8 +4,8 @@ using System.Linq;
 using UnityEngine;
 
 namespace PT.DataStruct {
-    public class GoodEndPath : Path {
-        public GoodEndPath(List<PossibilityMatrixPathElement> tracedPathPositions, Vector2Int startPathPosition, Vector2Int endPathPosition, Vector2Int matrixSize) {
+    public class GeneratedLevel : Path {
+        public GeneratedLevel(List<PossibilityMatrixPathElement> tracedPathPositions, Vector2Int startPathPosition, Vector2Int endPathPosition, Vector2Int matrixSize) {
 
 
             _startPathPosition = new Vector2Int(startPathPosition.x, startPathPosition.y);
