@@ -5,35 +5,39 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Cinemachine.DocumentationSortingAttribute;
 using static PT.Global.GlobalPossibilityPath;
-using static UnityEngine.Rendering.ReloadAttribute;
 
 public class LevelManager : MonoBehaviour {
 
-    [SerializeField] private GameController _gameController;
+    [Header("Game Components")]
 
+    [SerializeField] private GameController _gameController;
     [SerializeField] private CameraController _cameraController;
     private PrefabManager _prefabManager;
-
-    [SerializeField] private Transform _packageSpawnTransform;
-    private float _packageSpawnOffsetHeight = 5;
-
-    [SerializeField] private GameObject _spawnLight;
-    private float _lightHeightOffset = 2;
-
     
+    
+
+
+    [Header("Conveyor Belt Generation")]
     private readonly float _CBGenerationOffsetHeight = 0.25f;
-
-
     private Vector3 _mapPositionStart = Vector3.zero;
     private Vector3 _mapCenter = Vector3.zero;
-
-
     private ConveyorBelt[,] _conveyorMap;
     private List<ConveyorBelt> _conveyorMapList = new List<ConveyorBelt>();
     private float _conveyorMaxHeight = 0;
+
+    [Header("Package Generation")]
     private List<Package> _packages = new List<Package>();
-    private int _packageToSpawn = 0;
-    
+    private int _packagesToSpawn = 0;
+    private int _packagesDestroyed = 0;
+    private int _packagesDelivered = 0;
+
+
+    [Header("Level")]
+    [SerializeField] private Transform _packageSpawnTransform;
+    private float _packageSpawnOffsetHeight = 5;
+    [SerializeField] private GameObject _spawnLight;
+    private float _lightHeightOffset = 2;
+    private GeneratedLevel _loadedLevel;
 
 
     public Vector3 MapCenter {
@@ -61,16 +65,17 @@ public class LevelManager : MonoBehaviour {
 
         InitGameComponents();
 
-        GeneratedLevel level = GlobalPossibilityPath.GetChapterLevels(chapter)[levelIndex];
+        _loadedLevel = GlobalPossibilityPath.GetChapterLevels(chapter)[levelIndex];
 
-        InitMatrixMap(level);
+        InitMatrixMap(_loadedLevel);
 
         _cameraController.SetRotation(new Vector3(-90, 35, 0)); // reset camera rotation
         _cameraController.SetCameraTarget(_mapCenter);
-        SetPackageSpawnPosition(level);
+        SetPackageSpawnPosition(_loadedLevel);
 
 
-        _packageToSpawn = level.packageToSpawn;
+        _packagesToSpawn = _loadedLevel.packageToSpawn;
+        _packagesDestroyed = 0;
 
         _levelInitialized = true;
 	}
@@ -79,6 +84,7 @@ public class LevelManager : MonoBehaviour {
 
         if(_levelInitialized) {
             _levelInitialized = false;
+            _loadedLevel = null;
             _levelInfo = new LevelInfo(Chapter.NotSelected, -1);
 
             foreach(ConveyorBelt conveyor in _conveyorMapList) {
@@ -262,32 +268,42 @@ public class LevelManager : MonoBehaviour {
 
     private IEnumerator WaitAndSpawnPackage() {
 
-        if(_packageToSpawn > 1) {
+        if(_packagesToSpawn > 1) {
             yield return new WaitForSeconds(2);
             GameObject obj = Instantiate(_prefabManager.Package.GetGameobject, _packageSpawnTransform.position, Quaternion.identity);
             Package package = obj.GetComponent<Package>();
             _packages.Add(package);
-            package.Init(_prefabManager.Package.GameobjectSize, _prefabManager.PackageDestroyedParticles.GetGameobject);
+            package.Init(
+                _prefabManager.Package.GameobjectSize,
+                _prefabManager.PackageDestroyedParticles.GetGameobject,
+                this
+            );
 
             yield return new WaitForSeconds(0.7f);
             StartCoroutine(WaitAndSpawnPackage());
 
-            _packageToSpawn--;
-        } else {
-            EvaluateEndLevelStatus();
+            _packagesToSpawn--;
         }
     }
 
+    public void PackageDestroyedEvent() {
+        _packagesDestroyed++;
+        EvaluateEndLevelStatus();
+    }
+
     private void EvaluateEndLevelStatus() {
+        Debug.Log(_packagesDestroyed);
+        bool lose = true;
 
-        bool win = true;
-
-        if(win) {
-            _gameController.EndLevelWin();
-            
+        if(_packagesDestroyed == _loadedLevel.packageToSpawn) {
+            lose = true;
         } else {
-            _gameController.EndLevelLose();
+            lose = false;
+        }
 
+        if(lose) {
+            _gameController.EndLevelLose();
+            // stop game
         }
     }
 }

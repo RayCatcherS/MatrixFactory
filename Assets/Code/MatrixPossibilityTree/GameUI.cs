@@ -68,33 +68,53 @@ public class GameUI : MonoBehaviour {
     public void OpenMainMenu() {
         _state = GameUIState.MainMenu;
         _mainMenuUI.SetActive(true);
+
         _levelEndedWinMenuUI.SetActive(false);
+        _levelEndedLoseMenuUI.SetActive(false);
+
         _levelStartedMenuUI.SetActive(false);
         _levelStartedGameStateUI.SetActive(false);
     }
 
-    public void OpenGameLevelStarted() {
+    public void OpenGameLevelStartedMenu() {
         _state = GameUIState.LevelStartedMenu;
         _mainMenuUI.SetActive(false);
+
         _levelEndedWinMenuUI.SetActive(false);
+        _levelEndedLoseMenuUI.SetActive(false);
+
         _levelStartedMenuUI.SetActive(true);
         _levelStartedGameStateUI.SetActive(true);
     }
 
-    public void OpenGameLevelEndedWin() {
+    public void OpenGameLevelEndedWinMenu() {
         _state = GameUIState.LevelEndedWinMenu;
         _mainMenuUI.SetActive(false);
+
         _levelEndedWinMenuUI.SetActive(true);
+        _levelEndedLoseMenuUI.SetActive(false);
+
         _levelStartedMenuUI.SetActive(false);
         _levelStartedGameStateUI.SetActive(true);
     }
 
-    public void OpenGameLevelEndedLose() {
+    public void OpenGameLevelEndedLoseMenu() {
         _state = GameUIState.LevelEndedLoseMenu;
         _mainMenuUI.SetActive(false);
+
         _levelEndedWinMenuUI.SetActive(false);
+        _levelEndedLoseMenuUI.SetActive(true);
+
         _levelStartedMenuUI.SetActive(false);
         _levelStartedGameStateUI.SetActive(true);
+    }
+
+    public void CloseAllUIMenus() {
+        _mainMenuUI.SetActive(false);
+        _levelEndedWinMenuUI.SetActive(false);
+        _levelEndedLoseMenuUI.SetActive(false);
+        _levelStartedMenuUI.SetActive(false);
+        _levelStartedGameStateUI.SetActive(false);
     }
 
     public void SetGameStateValuesUI(LevelInfo levelInfo) {

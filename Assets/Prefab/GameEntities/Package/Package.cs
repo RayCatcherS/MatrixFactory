@@ -7,6 +7,9 @@ public class Package : MonoBehaviour {
         ElevatorCannon
     }
 
+
+    private LevelManager _levelManager;
+
     [Header("Layers")]
     readonly private int _rollerConveyorLayer = 3;
     readonly private int _packageDamageColliderLayer = 7;
@@ -34,9 +37,10 @@ public class Package : MonoBehaviour {
 
     private GameObject _packageDestroyedParticles;
 
-    public void Init(Vector3 packageSize, GameObject packageDestroyedParticles) {
+    public void Init(Vector3 packageSize, GameObject packageDestroyedParticles, LevelManager levelManager) {
         _packageSize = packageSize;
         _packageDestroyedParticles = packageDestroyedParticles;
+        _levelManager = levelManager;
 
         _packageInitialized = true;
 
@@ -180,7 +184,8 @@ public class Package : MonoBehaviour {
         if(particleSystem != null) {
             particleSystem.Play();
         }
-        // level package --;
+
+        _levelManager.PackageDestroyedEvent();
     }
 
     private void PackageDestinationReached() {

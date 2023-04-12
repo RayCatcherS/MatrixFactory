@@ -3,7 +3,6 @@ using PT.DataStruct;
 using PT.Global;
 using System.Threading.Tasks;
 using UnityEngine;
-using static PT.Global.GlobalPossibilityPath;
 
 public class GameController : MonoBehaviour {
     [SerializeField] private SettingsController _settingsController;
@@ -31,16 +30,18 @@ public class GameController : MonoBehaviour {
     public async Task StartLevel(LevelInfo levelInfo) {
 
         
+        _gameUI.CloseAllUIMenus();
+
         await _gameUI.SetBlackBackgroundLerp(true);
+
+        _gameUI.OpenGameLevelStartedMenu();
+        _gameUI.SetGameStateValuesUI(levelInfo);
 
 
         _levelManager.DestroyLevel();
         _levelManager.InitLevel(levelInfo.Chapter, levelInfo.LevelIndex);
         _levelManager.StartLevel();
-
-
-        _gameUI.OpenGameLevelStarted();
-        _gameUI.SetGameStateValuesUI(levelInfo);
+        
 
 
         await _gameUI.SetBlackBackgroundLerp(false);
@@ -48,14 +49,18 @@ public class GameController : MonoBehaviour {
 
     public void EndLevelWin() {
         GameSaveManager.SaveChapter(_levelManager.LevelInfo);
-        _gameUI.OpenGameLevelEndedWin();
+        _gameUI.OpenGameLevelEndedWinMenu();
     }
 
     public async void NextLevel() {
         await StartLevel(GlobalPossibilityPath.GetNextLevel(GameSaveManager.CurrentLevelInfo));
     }
 
+    public async void RestartLevel() {
+        await StartLevel(GameSaveManager.CurrentLevelInfo);
+    }
+
     public void EndLevelLose() {
-        _gameUI.OpenGameLevelEndedLose();
+        _gameUI.OpenGameLevelEndedLoseMenu();
     }
 }
