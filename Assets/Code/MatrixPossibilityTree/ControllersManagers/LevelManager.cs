@@ -213,6 +213,9 @@ public class LevelManager : MonoBehaviour {
         }
 
 
+        /* SPAWN DELIVERY POINT*/
+        //TODO delivery point;
+
 
         /* CALCULATE CENTER OF THE MAP */
         // this can be used to center the game camera
@@ -292,18 +295,15 @@ public class LevelManager : MonoBehaviour {
     }
 
     private void EvaluateEndLevelStatus() {
-        Debug.Log(_packagesDestroyed);
-        bool lose = true;
 
-        if(_packagesDestroyed == _loadedLevel.packageToSpawn) {
-            lose = true;
-        } else {
-            lose = false;
-        }
-
-        if(lose) {
+        if(IsLose()) {
             _gameController.EndLevelLose();
-            // stop game
+            // TODO stop game
+            _packagesToSpawn = 0;
         }
+    }
+
+    private bool IsLose() {
+        return _packagesDestroyed < _loadedLevel.packageToSpawn / 2;
     }
 }
