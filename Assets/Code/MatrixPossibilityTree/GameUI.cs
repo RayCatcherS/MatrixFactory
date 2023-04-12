@@ -1,7 +1,9 @@
+using PT.DataStruct;
 using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using static PT.Global.GlobalPossibilityPath;
 
 public class GameUI : MonoBehaviour {
     [SerializeField] private Image _background;
@@ -17,6 +19,10 @@ public class GameUI : MonoBehaviour {
 
     [SerializeField] private GameObject _levelStartedMenuUI;
     [SerializeField] private GameObject _levelStartedGameStateUI;
+    [SerializeField] private Text _levelStartedLevelNameText;
+    [SerializeField] private Text _levelStartedChapterNameText;
+    readonly private string _levelStartedLevelNameTextFormat = "Level: ";
+    readonly private string _levelStartedChapterNameTextFormat = "Chapter: ";
 
 
     private GameUIState _state;
@@ -89,6 +95,12 @@ public class GameUI : MonoBehaviour {
         _levelEndedWinMenuUI.SetActive(false);
         _levelStartedMenuUI.SetActive(false);
         _levelStartedGameStateUI.SetActive(true);
+    }
+
+    public void SetGameStateValuesUI(LevelInfo levelInfo) {
+
+        _levelStartedLevelNameText.text = _levelStartedLevelNameTextFormat + levelInfo.GetLevelName();
+        _levelStartedChapterNameText.text = _levelStartedChapterNameTextFormat + levelInfo.GetChapterName();
     }
 
     public enum GameUIState {

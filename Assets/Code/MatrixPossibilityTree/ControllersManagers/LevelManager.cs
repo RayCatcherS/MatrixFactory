@@ -262,7 +262,7 @@ public class LevelManager : MonoBehaviour {
 
     private IEnumerator WaitAndSpawnPackage() {
 
-        if(_packageToSpawn != 0) {
+        if(_packageToSpawn > 1) {
             yield return new WaitForSeconds(2);
             GameObject obj = Instantiate(_prefabManager.package.GetGameobject, _packageSpawnTransform.position, Quaternion.identity);
             Package package = obj.GetComponent<Package>();

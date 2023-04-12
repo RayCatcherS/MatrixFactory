@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PrefabManager : MonoBehaviour {
+    [Header("Map Elements")]
     [SerializeField] private GameObject _conveyorBelt;
     [SerializeField] private GameObject _package;
+    [Header("Particles")]
+    [SerializeField] private GameObject _packageDestroyed;
 
     public Prefab conveyorBelt {
         get { return new Prefab(_conveyorBelt, new Vector3(1, 1, 1)); }

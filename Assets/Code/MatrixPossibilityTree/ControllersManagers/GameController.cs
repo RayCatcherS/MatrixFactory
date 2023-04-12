@@ -30,13 +30,17 @@ public class GameController : MonoBehaviour {
 
     public async Task StartLevel(LevelInfo levelInfo) {
 
-        _gameUI.OpenGameLevelStarted();
+        
         await _gameUI.SetBlackBackgroundLerp(true);
 
 
         _levelManager.DestroyLevel();
         _levelManager.InitLevel(levelInfo.Chapter, levelInfo.LevelIndex);
         _levelManager.StartLevel();
+
+
+        _gameUI.OpenGameLevelStarted();
+        _gameUI.SetGameStateValuesUI(levelInfo);
 
 
         await _gameUI.SetBlackBackgroundLerp(false);
