@@ -1,29 +1,42 @@
 using UnityEngine;
 
 public class Package : MonoBehaviour {
+    private enum PackageMovementType {
+        Move,
+        Fall,
+        ElevatorCannon
+    }
+
+    [Header("Layers")]
     readonly private int _rollerConveyorLayer = 3;
+    readonly private int _packageDamageColliderLayer = 7;
+    readonly private int _packageColliderLayer = 6;
 
 
+    [Header("Movement")]
     [SerializeField] private AnimationCurve _moveLerpCurve;
     [SerializeField] private AnimationCurve _fallLerpCurve;
-
     [SerializeField] private float _packageFallSpeed = 3;
     private float _packageRollerMoveSpeed;
-
     private Vector3 _targetPoint;
     private Vector3 _startPoint;
     private float _animationTimePosition;
     private bool targetReached = true;
     private float targetReachedTollerance = 0.005f;
-
     private float _groundedTollerance = 0.04f;
     private PackageMovementType packageMovementType;
+
+
 
     private Vector3 _packageSize;
     private bool _packageInitialized = false;
 
-    public void Init(Vector3 packageSize) {
+
+    private GameObject _packageDestroyedParticles;
+
+    public void Init(Vector3 packageSize, GameObject packageDestroyedParticles) {
         _packageSize = packageSize;
+        _packageDestroyedParticles = packageDestroyedParticles;
 
         _packageInitialized = true;
 
@@ -149,9 +162,28 @@ public class Package : MonoBehaviour {
         }
     }
 
-    private enum PackageMovementType {
-        Move,
-        Fall,
-        ElevatorCannon
+    
+
+    void OnCollisionEnter(Collision collision) {
+
+        if(collision.gameObject.layer == _packageDamageColliderLayer || collision.gameObject.layer == _packageColliderLayer) {
+            DestroyPackage();
+        }
+        
+    }
+
+    private void DestroyPackage() {
+        gameObject.SetActive(false);
+
+        GameObject particle = Instantiate(_packageDestroyedParticles, transform.position, Quaternion.identity);
+        ParticleSystem particleSystem = particle.GetComponent<ParticleSystem>();
+        if(particleSystem != null) {
+            particleSystem.Play();
+        }
+        // level package --;
+    }
+
+    private void PackageDestinationReached() {
+        Debug.Log("PackageDestinationReached");
     }
 }
