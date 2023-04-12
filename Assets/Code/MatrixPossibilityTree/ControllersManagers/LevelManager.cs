@@ -304,6 +304,6 @@ public class LevelManager : MonoBehaviour {
     }
 
     private bool IsLose() {
-        return _packagesDestroyed < _loadedLevel.packageToSpawn / 2;
+        return _packagesDestroyed >= _loadedLevel.packageToSpawn / 2;
     }
 }
