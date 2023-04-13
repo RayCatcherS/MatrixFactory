@@ -1,14 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using PT.DataStruct;
 using UnityEngine;
 
 public class ConveyorBelt : MonoBehaviour {
+    public enum ConveyorBeltType {
+        roller,
+        destroyer,
+        elevator
+    }
+
     private readonly int _CBrotationOffset = 90;
     readonly private float _conveyorOffsetHeight = 0.5f;
     private float _defaultConveyorHeight = 0f;
 
+    [Header("Conveyor Belt Type")]
     [SerializeField] private RollerConveyor _rollerConveyor;
+    [SerializeField] private GameObject _conveyorDestroyer;
+
+
+
+
     [SerializeField] private GameObject _debugShowPath;
     [SerializeField] private float _rollerConveyorSpeed;
 
@@ -59,10 +69,12 @@ public class ConveyorBelt : MonoBehaviour {
 
     }
 
-    public void InitConveyorBelt(double armConveyorHeight, Direction direction) {
+    public void InitConveyorBelt(double armConveyorHeight, Direction direction, ConveyorBeltType conveyorBeltType) {
         if(_initialized) {
             Debug.LogError("the conveyor has already been initialized");
         }
+
+        SetConveyorType(conveyorBeltType);
 
         InitConveyorParameters();
 
@@ -147,5 +159,18 @@ public class ConveyorBelt : MonoBehaviour {
                 _rollerRotationLerpCurve.Evaluate(Time.deltaTime * _rollerRotationSpeed)
             );
         }
-    }   
+    }
+
+    public void SetConveyorType(ConveyorBeltType conveyorBeltType) {
+        if(conveyorBeltType == ConveyorBeltType.roller) {
+            _rollerConveyor.gameObject.SetActive(true);
+            _conveyorDestroyer.gameObject.SetActive(false);
+        } else if(conveyorBeltType == ConveyorBeltType.destroyer) {
+            _rollerConveyor.gameObject.SetActive(false);
+            _conveyorDestroyer.gameObject.SetActive(true);
+        } else if(conveyorBeltType == ConveyorBeltType.elevator) {
+            _rollerConveyor.gameObject.SetActive(false);
+            _conveyorDestroyer.gameObject.SetActive(false);
+        }
+    }
 }

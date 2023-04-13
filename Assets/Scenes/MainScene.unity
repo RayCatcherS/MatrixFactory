@@ -1131,7 +1131,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 628648276}
-  m_LocalRotation: {x: -0.418912, y: -0.56966025, z: 0.41891217, w: -0.56966}
+  m_LocalRotation: {x: -0.41891217, y: -0.5696601, z: 0.41891217, w: -0.5696601}
   m_LocalPosition: {x: -2.499997, y: 8.7867985, z: 22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2508,7 +2508,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1053360924}
-  m_LocalRotation: {x: -0.40242454, y: -0.58142453, z: 0.40242466, w: -0.5814244}
+  m_LocalRotation: {x: -0.4024246, y: -0.5814245, z: 0.4024246, w: -0.5814245}
   m_LocalPosition: {x: -2.499997, y: 8.7867985, z: 22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3786,8 +3786,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cameraController: {fileID: 1634783206}
   _cinemachineVirtualCamera: {fileID: 1634783210}
-  _XrotationSpeed: 5
-  _YrotationSpeed: 5
+  _XrotationSpeed: 5.5
+  _YrotationSpeed: 5.5
   _minY: 35
   _maxY: 80
 --- !u!1 &1945914521

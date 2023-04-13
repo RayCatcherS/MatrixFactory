@@ -72,7 +72,7 @@ public class LevelManager : MonoBehaviour {
 
         InitMatrixMap(_loadedLevel);
 
-        _cameraController.SetRotation(new Vector3(-90, 35, 0)); // reset camera rotation
+        _cameraController.SetRotation(new Vector3(-135, 35, 0)); // reset camera rotation
         _cameraController.SetCameraTarget(_mapCenter);
         SetPackageSpawnPosition(_loadedLevel);
 
@@ -170,8 +170,15 @@ public class LevelManager : MonoBehaviour {
                 System.Random random = new System.Random();
                 int conveyorUnitHeight = random.Next(heightRangeMin, heightRangeMax);
 
+
                 /* INIT NEW CONVEYOR*/
-                conveyorBelt.InitConveyorBelt(conveyorUnitHeight * _CBGenerationOffsetHeight, rollerConveyorDirection);
+                random = new System.Random();
+                bool conveyorIsDestroyer = random.Next(0, 4) == 3 ? true : false;
+                if(conveyorIsDestroyer) {
+                    conveyorBelt.InitConveyorBelt(conveyorUnitHeight * _CBGenerationOffsetHeight, rollerConveyorDirection, ConveyorBelt.ConveyorBeltType.destroyer);
+                } else {
+                    conveyorBelt.InitConveyorBelt(conveyorUnitHeight * _CBGenerationOffsetHeight, rollerConveyorDirection, ConveyorBelt.ConveyorBeltType.roller);
+                }
 
 
                 // Set/Update the highest conveyor on the map
@@ -206,6 +213,8 @@ public class LevelManager : MonoBehaviour {
 
 
             ConveyorBelt pathCurrentConveyor = _conveyorMap[levelPath.PathElements[i].pos.x, levelPath.PathElements[i].pos.y];
+            /* INIT NEW CONVEYOR*/
+            pathCurrentConveyor.SetConveyorType(ConveyorBelt.ConveyorBeltType.roller);
             pathCurrentConveyor.SetRollerConveyorHeight(conveyorHeight);
 
             // Set/Update the highest conveyor on the map
