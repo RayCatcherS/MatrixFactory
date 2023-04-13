@@ -9,9 +9,9 @@ namespace PT.Global {
 
         private static Dictionary<Chapter, int> _levelChaptersSaves;
 
-        private static LevelInfo _currentLevelInfo;
-        public static LevelInfo CurrentLevelInfo {
-            get { return _currentLevelInfo; }
+        private static LevelInfo _levelReachedInfo;
+        public static LevelInfo LevelReachedInfo {
+            get { return _levelReachedInfo; }
         }
 
         public static int GetLevelChapterSave(Chapter chapter) {
@@ -33,12 +33,12 @@ namespace PT.Global {
         }
 
         private static async Task LoadSaves() {
-            _currentLevelInfo = new LevelInfo(Chapter.Chapter1, 0);
+            _levelReachedInfo = new LevelInfo(Chapter.Chapter1, 0);
         }
 
-        public static async void SaveChapter(LevelInfo levelInfo) {
+        public static async void SaveReachedLevel(LevelInfo levelInfo) {
             _levelChaptersSaves[levelInfo.Chapter] = levelInfo.LevelIndex;
-            _currentLevelInfo = levelInfo;
+            _levelReachedInfo = levelInfo;
             await SaveSaves();
         }
 

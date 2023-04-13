@@ -1266,10 +1266,10 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 10
-  m_Range: 2.5
-  m_SpotAngle: 28.265163
-  m_InnerSpotAngle: 1.3378172
+  m_Intensity: 7
+  m_Range: 3.1664562
+  m_SpotAngle: 25
+  m_InnerSpotAngle: 23
   m_CookieSize: 10
   m_Shadows:
     m_Type: 1
@@ -2508,7 +2508,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1053360924}
-  m_LocalRotation: {x: -0.4024246, y: -0.58142453, z: 0.40242454, w: -0.58142453}
+  m_LocalRotation: {x: -0.40242454, y: -0.58142453, z: 0.40242466, w: -0.5814244}
   m_LocalPosition: {x: -2.499997, y: 8.7867985, z: 22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3295,6 +3295,8 @@ MonoBehaviour:
   _package: {fileID: 1098775643271299328, guid: 129909a2ada5c4b48bdeecccae75ad73,
     type: 3}
   _packageDestroyedParticles: {fileID: 3144296426681435694, guid: d8173f6460c8c414ea011d8c3544f7dd,
+    type: 3}
+  _packageDeliveredEffect: {fileID: 3265801029081816176, guid: d5876fc2f665a724b9cba2c49f1c1a29,
     type: 3}
 --- !u!114 &1497837089
 MonoBehaviour:

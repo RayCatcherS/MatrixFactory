@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class Package : MonoBehaviour {
     private enum PackageMovementType {
@@ -37,10 +38,12 @@ public class Package : MonoBehaviour {
 
 
     private GameObject _packageDestroyedParticles;
+    private GameObject _packageDeliveredEffect;
 
-    public void Init(Vector3 packageSize, GameObject packageDestroyedParticles, LevelManager levelManager) {
+    public void Init(Vector3 packageSize, GameObject packageDestroyedParticles, GameObject packageDeliveredEffect, LevelManager levelManager) {
         _packageSize = packageSize;
         _packageDestroyedParticles = packageDestroyedParticles;
+        _packageDeliveredEffect = packageDeliveredEffect;
         _levelManager = levelManager;
 
         _packageInitialized = true;
@@ -194,6 +197,12 @@ public class Package : MonoBehaviour {
 
     private void PackageDestinationReached() {
         gameObject.SetActive(false);
+
+        GameObject particle = Instantiate(_packageDeliveredEffect, transform.position, Quaternion.identity);
+        VisualEffect visualEffect = particle.GetComponent<VisualEffect>();
+        if(visualEffect != null) {
+            visualEffect.Play();
+        }
 
         _levelManager.PackageDeliveredEvent();
     }

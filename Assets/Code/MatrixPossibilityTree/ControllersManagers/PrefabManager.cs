@@ -7,8 +7,9 @@ public class PrefabManager : MonoBehaviour {
     [SerializeField] private GameObject _conveyorBelt;
     [SerializeField] private GameObject _deliveryPoint;
     [SerializeField] private GameObject _package;
-    [Header("Particles")]
+    [Header("Particles-Effects")]
     [SerializeField] private GameObject _packageDestroyedParticles;
+    [SerializeField] private GameObject _packageDeliveredEffect;
 
     public Prefab ConveyorBelt {
         get { return new Prefab(_conveyorBelt, new Vector3(1, 1, 1)); }
@@ -21,6 +22,9 @@ public class PrefabManager : MonoBehaviour {
     }
     public Prefab PackageDestroyedParticles {
         get { return new Prefab(_packageDestroyedParticles, new Vector3(1, 1, 1)); }
+    }
+    public Prefab PackageDeliveredEffect {
+        get { return new Prefab(_packageDeliveredEffect, new Vector3(1, 1, 1)); }
     }
 }
 

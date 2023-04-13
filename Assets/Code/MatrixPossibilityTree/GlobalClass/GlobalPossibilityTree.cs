@@ -22,6 +22,7 @@ namespace PT.Global {
 
 
         private static List<GeneratedLevel> _goodEndsPathsC1 = new List<GeneratedLevel>();
+        private static List<GeneratedLevel> _goodEndsPathsC2 = new List<GeneratedLevel>();
         private static List<GeneratedLevel> _goodEndsPathsC6 = new List<GeneratedLevel>();
         private static bool _chaptersInitialized = false;
 
@@ -42,6 +43,8 @@ namespace PT.Global {
             switch(chapter) {
                 case Chapter.Chapter1:
                     return _goodEndsPathsC1;
+                case Chapter.Chapter2:
+                    return _goodEndsPathsC2;
                 case Chapter.Chapter6:
                     return _goodEndsPathsC6;
                 default:
@@ -55,15 +58,20 @@ namespace PT.Global {
             switch(levelInfo.Chapter) {
                 case Chapter.Chapter1:
                     if(levelInfo.LevelIndex == _goodEndsPathsC1.Count - 1) { 
+                        return new LevelInfo(Chapter.Chapter2, 0);
+                    }
+                    break;
+                case Chapter.Chapter2:
+                    if(levelInfo.LevelIndex == _goodEndsPathsC2.Count - 1) {
                         return new LevelInfo(Chapter.Chapter6, 0);
                     }
-                break;
+                    break;
                 case Chapter.Chapter6:
                     if(levelInfo.LevelIndex == _goodEndsPathsC6.Count - 1) {
                         return new LevelInfo(Chapter.End, 0);
                     }
 
-                break;
+                    break;
 
             }
 
@@ -101,6 +109,9 @@ namespace PT.Global {
             _goodEndsPathsC1 = GenerateChapter1(memorizeAllPossibilityPathTree)
                 .OrderByDescending(item => item.score).ToList();
 
+            _goodEndsPathsC2 = GenerateChapter2(memorizeAllPossibilityPathTree)
+                .OrderByDescending(item => item.score).ToList();
+
             _goodEndsPathsC6 = GenerateChapter6(memorizeAllPossibilityPathTree)
                 .OrderByDescending(item => item.score).ToList();
 
@@ -126,7 +137,23 @@ namespace PT.Global {
 
 
             startPathPosition = new Vector2Int(0, 0);
-            endPathPosition = new Vector2Int(0, 1);
+            endPathPosition = new Vector2Int(1, 1);
+            List<GeneratedLevel> goodEndsPaths2 = new List<GeneratedLevel>();
+            goodEndsPaths2 = GeneratePossibilitiesPathTree(_rows, _columns, startPathPosition, endPathPosition);
+
+            return goodEndsPaths1.Concat(goodEndsPaths2).ToList();
+        }
+        static private List<GeneratedLevel> GenerateChapter2(bool memorizeAllPossibilityPathTree = false) {
+
+            int _rows = 2; int _columns = 3;
+
+            Vector2Int startPathPosition = new Vector2Int(0, 0);
+            Vector2Int endPathPosition = new Vector2Int(0, 2);
+            List<GeneratedLevel> goodEndsPaths1 = GeneratePossibilitiesPathTree(_rows, _columns, startPathPosition, endPathPosition, memorizeAllPossibilityPathTree);
+
+
+            startPathPosition = new Vector2Int(0, 0);
+            endPathPosition = new Vector2Int(1, 2);
             List<GeneratedLevel> goodEndsPaths2 = new List<GeneratedLevel>();
             goodEndsPaths2 = GeneratePossibilitiesPathTree(_rows, _columns, startPathPosition, endPathPosition);
 

@@ -291,6 +291,7 @@ public class LevelManager : MonoBehaviour {
             package.Init(
                 _prefabManager.Package.GameobjectSize,
                 _prefabManager.PackageDestroyedParticles.GetGameobject,
+                _prefabManager.PackageDeliveredEffect.GetGameobject,
                 this
             );
 

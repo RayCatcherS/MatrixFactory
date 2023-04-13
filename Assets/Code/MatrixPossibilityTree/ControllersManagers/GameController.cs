@@ -24,7 +24,7 @@ public class GameController : MonoBehaviour {
     }
 
     public async void ContinueGame() {
-        await StartLevel(GameSaveManager.CurrentLevelInfo);
+        await StartLevel(GameSaveManager.LevelReachedInfo);
     }
 
     public async Task StartLevel(LevelInfo levelInfo) {
@@ -48,16 +48,16 @@ public class GameController : MonoBehaviour {
     }
 
     public void EndLevelWin() {
-        GameSaveManager.SaveChapter(_levelManager.LevelInfo);
+        GameSaveManager.SaveReachedLevel(GlobalPossibilityPath.GetNextLevel(_levelManager.LevelInfo));
         _gameUI.OpenGameLevelEndedWinMenu();
     }
 
     public async void NextLevel() {
-        await StartLevel(GlobalPossibilityPath.GetNextLevel(GameSaveManager.CurrentLevelInfo));
+        await StartLevel(GameSaveManager.LevelReachedInfo);
     }
 
     public async void RestartLevel() {
-        await StartLevel(GameSaveManager.CurrentLevelInfo);
+        await StartLevel(GameSaveManager.LevelReachedInfo);
     }
 
     public void EndLevelLose() {
