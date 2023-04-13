@@ -5,6 +5,7 @@ using UnityEngine;
 public class PrefabManager : MonoBehaviour {
     [Header("Map Elements")]
     [SerializeField] private GameObject _conveyorBelt;
+    [SerializeField] private GameObject _deliveryPoint;
     [SerializeField] private GameObject _package;
     [Header("Particles")]
     [SerializeField] private GameObject _packageDestroyedParticles;
@@ -12,11 +13,12 @@ public class PrefabManager : MonoBehaviour {
     public Prefab ConveyorBelt {
         get { return new Prefab(_conveyorBelt, new Vector3(1, 1, 1)); }
     }
-
+    public Prefab DeliveryPoint {
+        get { return new Prefab(_deliveryPoint, new Vector3(1, 1, 1)); }
+    }
     public Prefab Package {
         get { return new Prefab(_package, new Vector3(0.3f, 0.3f, 0.3f)); }
     }
-
     public Prefab PackageDestroyedParticles {
         get { return new Prefab(_packageDestroyedParticles, new Vector3(1, 1, 1)); }
     }

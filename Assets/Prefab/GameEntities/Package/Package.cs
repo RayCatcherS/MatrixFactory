@@ -14,6 +14,7 @@ public class Package : MonoBehaviour {
     readonly private int _rollerConveyorLayer = 3;
     readonly private int _packageDamageColliderLayer = 7;
     readonly private int _packageColliderLayer = 6;
+    readonly private int _deliveryPointCollider = 8;
 
 
     [Header("Movement")]
@@ -172,6 +173,9 @@ public class Package : MonoBehaviour {
 
         if(collision.gameObject.layer == _packageDamageColliderLayer || collision.gameObject.layer == _packageColliderLayer) {
             DestroyPackage();
+
+        } else if(collision.gameObject.layer == _deliveryPointCollider) {
+            PackageDestinationReached();
         }
         
     }
@@ -189,6 +193,8 @@ public class Package : MonoBehaviour {
     }
 
     private void PackageDestinationReached() {
-        Debug.Log("PackageDestinationReached");
+        gameObject.SetActive(false);
+
+        _levelManager.PackageDeliveredEvent();
     }
 }

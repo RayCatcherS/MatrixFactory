@@ -25,6 +25,9 @@ public class LevelManager : MonoBehaviour {
     private List<ConveyorBelt> _conveyorMapList = new List<ConveyorBelt>();
     private float _conveyorMaxHeight = 0;
 
+    [Header("Delivery Point Generation")]
+    private GameObject _deliveryPoint;
+
     [Header("Package Generation")]
     private List<Package> _packages = new List<Package>();
     private int _packagesToSpawn = 0;
@@ -86,6 +89,10 @@ public class LevelManager : MonoBehaviour {
             _levelInitialized = false;
             _loadedLevel = null;
             _levelInfo = new LevelInfo(Chapter.NotSelected, -1);
+            _packagesDelivered = 0;
+            _packagesToSpawn = 0;
+
+            Destroy(_deliveryPoint);
 
             foreach(ConveyorBelt conveyor in _conveyorMapList) {
                 Destroy(conveyor.gameObject);
@@ -214,7 +221,12 @@ public class LevelManager : MonoBehaviour {
 
 
         /* SPAWN DELIVERY POINT*/
-        //TODO delivery point;
+        Vector3 deliveryPointPos = new Vector3(
+            (levelPath.EndPathPosition().x * _prefabManager.ConveyorBelt.GameobjectSize.x),
+            0,
+            (levelPath.EndPathPosition().y * _prefabManager.ConveyorBelt.GameobjectSize.x) + (_prefabManager.ConveyorBelt.GameobjectSize.x)
+        );
+        _deliveryPoint = Instantiate(_prefabManager.DeliveryPoint.GetGameobject, deliveryPointPos, Quaternion.identity);
 
 
         /* CALCULATE CENTER OF THE MAP */
@@ -294,16 +306,27 @@ public class LevelManager : MonoBehaviour {
         EvaluateEndLevelStatus();
     }
 
+    public void PackageDeliveredEvent() {
+        _packagesDelivered++;
+        EvaluateEndLevelStatus();
+    }
+
     private void EvaluateEndLevelStatus() {
 
-        if(IsLose()) {
-            _gameController.EndLevelLose();
-            // TODO stop game
-            _packagesToSpawn = 0;
+        if(IsLevelEnded()) {
+            if(IsLevelLose()) {
+                _gameController.EndLevelLose();
+            } else {
+                _gameController.EndLevelWin();
+            }
         }
     }
 
-    private bool IsLose() {
+    private bool IsLevelEnded() {
+        return _loadedLevel.packageToSpawn <= _packagesDestroyed + _packagesDelivered;
+    }
+
+    private bool IsLevelLose() {
         return _packagesDestroyed >= _loadedLevel.packageToSpawn / 2;
     }
 }
