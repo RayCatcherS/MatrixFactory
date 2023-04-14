@@ -112,9 +112,6 @@ public class LevelManager : MonoBehaviour {
 
     private void InitMatrixMap(GeneratedLevel levelPath) {
 
-        if (_levelInitialized) {
-
-        }
 
         int rows = levelPath.MatrixSize().x;
         int columns = levelPath.MatrixSize().y;
@@ -293,7 +290,7 @@ public class LevelManager : MonoBehaviour {
     private IEnumerator WaitAndSpawnPackage() {
 
         if(_packagesToSpawn > 1) {
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(1);
             GameObject obj = Instantiate(_prefabManager.Package.GetGameobject, _packageSpawnTransform.position, Quaternion.identity);
             Package package = obj.GetComponent<Package>();
             _packages.Add(package);
@@ -303,8 +300,6 @@ public class LevelManager : MonoBehaviour {
                 _prefabManager.PackageDeliveredEffect.GetGameobject,
                 this
             );
-
-            yield return new WaitForSeconds(0.7f);
             StartCoroutine(WaitAndSpawnPackage());
 
             _packagesToSpawn--;

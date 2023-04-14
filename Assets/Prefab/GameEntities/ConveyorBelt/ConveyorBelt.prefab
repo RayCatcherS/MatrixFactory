@@ -247,7 +247,7 @@ MonoBehaviour:
   _rollerConveyor: {fileID: 7847183021355409996}
   _conveyorDestroyer: {fileID: 4767797546526778102}
   _debugShowPath: {fileID: 8174394858245867595}
-  _rollerConveyorSpeed: 2.5
+  _rollerConveyorSpeed: 2
   _rollerRotationSpeed: 10
   _rollerRotationLerpCurve:
     serializedVersion: 2
