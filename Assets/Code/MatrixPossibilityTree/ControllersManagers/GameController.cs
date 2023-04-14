@@ -27,6 +27,11 @@ public class GameController : MonoBehaviour {
         await StartLevel(GameSaveManager.LevelReachedInfo);
     }
 
+    /// <summary>
+    /// Load and start level
+    /// </summary>
+    /// <param name="levelInfo">Level info to start</param>
+    /// <returns></returns>
     public async Task StartLevel(LevelInfo levelInfo) {
 
         
@@ -38,8 +43,8 @@ public class GameController : MonoBehaviour {
         _gameUI.SetGameStateValuesUI(levelInfo);
 
 
-        _levelManager.DestroyLevel();
-        _levelManager.InitLevel(levelInfo.Chapter, levelInfo.LevelIndex);
+        _levelManager.WipeLevel();
+        _levelManager.LoadLevel(levelInfo);
         _levelManager.StartLevel();
         
 
@@ -51,6 +56,9 @@ public class GameController : MonoBehaviour {
         GameSaveManager.SaveReachedLevel(GlobalPossibilityPath.GetNextLevel(_levelManager.LevelInfo));
         _gameUI.OpenGameLevelEndedWinMenu();
     }
+    public void EndLevelLose() {
+        _gameUI.OpenGameLevelEndedLoseMenu();
+    }
 
     public async void NextLevel() {
         await StartLevel(GameSaveManager.LevelReachedInfo);
@@ -59,8 +67,5 @@ public class GameController : MonoBehaviour {
     public async void RestartLevel() {
         await StartLevel(GameSaveManager.LevelReachedInfo);
     }
-
-    public void EndLevelLose() {
-        _gameUI.OpenGameLevelEndedLoseMenu();
-    }
+    
 }

@@ -5,8 +5,11 @@ using UnityEngine;
 
 namespace PT.DataStruct {
     public class GeneratedLevel : Path {
-        public GeneratedLevel(List<PossibilityMatrixPathElement> tracedPathPositions, Vector2Int startPathPosition, Vector2Int endPathPosition, Vector2Int matrixSize) {
-
+        public GeneratedLevel(List<PossibilityMatrixPathElement> tracedPathPositions,
+            Vector2Int startPathPosition,
+            Vector2Int endPathPosition,
+            Vector2Int matrixSize
+        ) {
 
             _startPathPosition = new Vector2Int(startPathPosition.x, startPathPosition.y);
             _endPathPosition = new Vector2Int(endPathPosition.x, endPathPosition.y);

@@ -3,7 +3,6 @@ using PT.Global;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Cinemachine.DocumentationSortingAttribute;
 using static PT.Global.GlobalPossibilityPath;
 
 public class LevelManager : MonoBehaviour {
@@ -12,7 +11,7 @@ public class LevelManager : MonoBehaviour {
 
     [SerializeField] private GameController _gameController;
     [SerializeField] private CameraController _cameraController;
-    private PrefabManager _prefabManager;
+    [SerializeField] private PrefabManager _prefabManager;
     
     
 
@@ -60,37 +59,47 @@ public class LevelManager : MonoBehaviour {
 
 
     [SerializeField] private bool _debugPath = false;
-    private bool _levelInitialized = false;
+    private bool _levelLoaded = false;
 
-	public void InitLevel(Chapter chapter, int levelIndex) {
-        _levelInfo = new LevelInfo(chapter, levelIndex);
+    /// <summary>
+    /// Init level, generate the map and set the level variables
+    /// </summary>
+    /// <param name="chapter"></param>
+    /// <param name="levelIndex"></param>
+	public void LoadLevel(LevelInfo levelInfo) {
+        if(_levelLoaded) {
+            throw new System.InvalidOperationException("Another level is already loaded, unload the the previous one");
+        }
 
+        _levelInfo = levelInfo;
+        _loadedLevel = GlobalPossibilityPath.GetChapterLevels(levelInfo.Chapter)[levelInfo.LevelIndex];
+        
 
-        InitGameComponents();
-
-        _loadedLevel = GlobalPossibilityPath.GetChapterLevels(chapter)[levelIndex];
-
-        InitMatrixMap(_loadedLevel);
-
-        _cameraController.SetRotation(new Vector3(-135, 35, 0)); // reset camera rotation
-        _cameraController.SetCameraTarget(_mapCenter);
+        GenerateLevelMap(_loadedLevel);
         SetPackageSpawnPosition(_loadedLevel);
 
 
         _packagesToSpawn = _loadedLevel.packageToSpawn;
-        _packagesDestroyed = 0;
 
-        _levelInitialized = true;
+
+        _cameraController.ResetRotation();
+        _cameraController.SetCameraTarget(_mapCenter);
+
+        _levelLoaded = true;
 	}
 
-    public void DestroyLevel() {
+    /// <summary>
+    /// Destroy all the level gameobjects and reset the level variables
+    /// </summary>
+    public void WipeLevel() {
 
-        if(_levelInitialized) {
-            _levelInitialized = false;
+        if(_levelLoaded) {
+            _levelLoaded = false;
             _loadedLevel = null;
             _levelInfo = new LevelInfo(Chapter.NotSelected, -1);
             _packagesDelivered = 0;
             _packagesToSpawn = 0;
+            _packagesDestroyed = 0;
 
             Destroy(_deliveryPoint);
 
@@ -106,38 +115,47 @@ public class LevelManager : MonoBehaviour {
         }
     }
 
-    private void InitGameComponents() {
-        _prefabManager = gameObject.GetComponent<PrefabManager>();
+    private void GenerateLevelMap(GeneratedLevel levelPath) {
+
+        InitMap(levelPath);
+        GenerateMapConveyors(levelPath);
+        GenerateMapTraps(levelPath);
+        GeneratePath(levelPath);
+        GenerateDeliveryPoint(levelPath);
+        CalculateCenterOfTheMap(levelPath);
     }
-
-    private void InitMatrixMap(GeneratedLevel levelPath) {
-
-
+    /// <summary>
+    /// Init the conveyor map
+    /// </summary>
+    /// <param name="levelPath"></param>
+    private void InitMap(GeneratedLevel levelPath) {
         int rows = levelPath.MatrixSize().x;
         int columns = levelPath.MatrixSize().y;
         _conveyorMap = new ConveyorBelt[rows, columns];
-        
+    }
+    /// <summary>
+    /// Generate the gameobjects (conveyors) on the map and set the conveyor map
+    /// </summary>
+    /// <param name="levelPath"></param>
+    private void GenerateMapConveyors(GeneratedLevel levelPath) {
 
-
-        
+        int rows = levelPath.MatrixSize().x;
+        int columns = levelPath.MatrixSize().y;
         Vector3 conveyorBlockOffset = Vector3.zero;
-
-
+        int pathLength = levelPath.PathElements.Count;
 
         /* CALCULATE HEIGHT RANGE OF CONVEYORS */
         // range with which to calculate random heights of the conveyors on the map
-        int pathLength = levelPath.PathElements.Count;
-        int heightRangeMin = 0;
-        int heightRangeMax = pathLength;
-
+        int conveyorHeightRangeMin = 0;
+        int conveyorHeightRangeMax = pathLength;
 
         /* INIT GAMEOBJECT CONVEYOR MAP*/
-        // create random conveyor height
+        // instantiate conveyor with random height
         for(int r = 0; r < rows; r++) {
 
             conveyorBlockOffset = new Vector3(conveyorBlockOffset.x, 0, 0);
             for(int c = 0; c < columns; c++) {
-                
+
 
                 GameObject obj = Instantiate(_prefabManager.ConveyorBelt.GetGameobject, _mapPositionStart + conveyorBlockOffset, Quaternion.identity);
 
@@ -153,11 +171,11 @@ public class LevelManager : MonoBehaviour {
 
                 if(translations == 0) {
                     rollerConveyorDirection = Direction.forward;
-                } else if (translations == 1) {
+                } else if(translations == 1) {
                     rollerConveyorDirection = Direction.right;
-                } else if (translations == 2) {
+                } else if(translations == 2) {
                     rollerConveyorDirection = Direction.back;
-                } else if (translations == 3) {
+                } else if(translations == 3) {
                     rollerConveyorDirection = Direction.left;
                 }
 
@@ -165,17 +183,11 @@ public class LevelManager : MonoBehaviour {
 
                 /* SET CONVEYOR RANDOM HEIGHT(in range) */
                 System.Random random = new System.Random();
-                int conveyorUnitHeight = random.Next(heightRangeMin, heightRangeMax);
+                int conveyorUnitHeight = random.Next(conveyorHeightRangeMin, conveyorHeightRangeMax);
 
 
                 /* INIT NEW CONVEYOR*/
-                random = new System.Random();
-                bool conveyorIsDestroyer = random.Next(0, 4) == 3 ? true : false;
-                if(conveyorIsDestroyer) {
-                    conveyorBelt.InitConveyorBelt(conveyorUnitHeight * _CBGenerationOffsetHeight, rollerConveyorDirection, ConveyorBelt.ConveyorBeltType.destroyer);
-                } else {
-                    conveyorBelt.InitConveyorBelt(conveyorUnitHeight * _CBGenerationOffsetHeight, rollerConveyorDirection, ConveyorBelt.ConveyorBeltType.roller);
-                }
+                conveyorBelt.InitConveyorBelt(conveyorUnitHeight * _CBGenerationOffsetHeight, rollerConveyorDirection, ConveyorBelt.ConveyorBeltType.roller);
 
 
                 // Set/Update the highest conveyor on the map
@@ -191,21 +203,30 @@ public class LevelManager : MonoBehaviour {
             // increment row offset
             conveyorBlockOffset = conveyorBlockOffset + new Vector3(_prefabManager.ConveyorBelt.GameobjectSize.x, 0, 0);
         }
+    }
+    /// <summary>
+    /// Set map conveyors with correct height for the path
+    /// </summary>
+    /// <param name="levelPath"></param>
+    private void GeneratePath(GeneratedLevel levelPath) {
+
+        /* CALCULATE HEIGHT RANGE OF CONVEYORS */
+        // range with which to calculate random heights of the conveyors on the map
+        int conveyorHeightRangeMin = 0;
 
 
-
-        /* INIT GOOD END PATH CONVEYOR CORRECT HEIGHT*/
+        /* INIT GAME PATH CONVEYOR CORRECT HEIGHT*/
         for(int i = 0; i < levelPath.PathElements.Count; i++) {
 
             double conveyorHeight;
-            
+
             if(i != 0) {
                 System.Random random = new System.Random();
                 int randomNextHeight = random.Next(i - 1, i + 1); // the random height has value between the current offset and the previous one
 
-                conveyorHeight = heightRangeMin + (levelPath.PathElements.Count - randomNextHeight) * _CBGenerationOffsetHeight;
+                conveyorHeight = conveyorHeightRangeMin + (levelPath.PathElements.Count - randomNextHeight) * _CBGenerationOffsetHeight;
             } else {
-                conveyorHeight = heightRangeMin + (levelPath.PathElements.Count - i) * _CBGenerationOffsetHeight;
+                conveyorHeight = conveyorHeightRangeMin + (levelPath.PathElements.Count - i) * _CBGenerationOffsetHeight;
             }
 
 
@@ -224,8 +245,15 @@ public class LevelManager : MonoBehaviour {
                 pathCurrentConveyor.EnableDebugShowPath(true);
             }
         }
+    }
+    private void GenerateMapTraps(GeneratedLevel levelPath) {
 
-
+    }
+    /// <summary>
+    /// Generate the delivery point onto the map
+    /// </summary>
+    /// <param name="levelPath"></param>
+    private void GenerateDeliveryPoint(GeneratedLevel levelPath) {
         /* SPAWN DELIVERY POINT*/
         Vector3 deliveryPointPos = new Vector3(
             (levelPath.EndPathPosition().x * _prefabManager.ConveyorBelt.GameobjectSize.x),
@@ -233,8 +261,12 @@ public class LevelManager : MonoBehaviour {
             (levelPath.EndPathPosition().y * _prefabManager.ConveyorBelt.GameobjectSize.x) + (_prefabManager.ConveyorBelt.GameobjectSize.x)
         );
         _deliveryPoint = Instantiate(_prefabManager.DeliveryPoint.GetGameobject, deliveryPointPos, Quaternion.identity);
-
-
+    }
+    /// <summary>
+    /// Claculate the center of the map
+    /// </summary>
+    /// <param name="levelPath"></param>
+    private void CalculateCenterOfTheMap(GeneratedLevel levelPath) {
         /* CALCULATE CENTER OF THE MAP */
         // this can be used to center the game camera
 
@@ -245,9 +277,6 @@ public class LevelManager : MonoBehaviour {
             (levelPath.MatrixSize().y * _prefabManager.ConveyorBelt.GameobjectSize.x) / 2
         );
     }
-
-
-
     private void SetPackageSpawnPosition(GeneratedLevel levelPat) {
         _packageSpawnTransform.transform.position = new Vector3(
             levelPat.StartPathPosition().x + (_prefabManager.ConveyorBelt.GameobjectSize.x / 2),
@@ -258,8 +287,8 @@ public class LevelManager : MonoBehaviour {
 
 
     public void StartLevel() {
-        if(!_levelInitialized) {
-            throw new System.InvalidOperationException("There is no initilized level");
+        if(!_levelLoaded) {
+            throw new System.InvalidOperationException("There is no loaded level");
 		}
 
         _spawnLight.gameObject.SetActive(false);
@@ -334,4 +363,5 @@ public class LevelManager : MonoBehaviour {
     private bool IsLevelLose() {
         return _packagesDestroyed >= _loadedLevel.packageToSpawn / 2;
     }
+
 }

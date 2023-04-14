@@ -18,6 +18,9 @@ public class CameraController : MonoBehaviour {
         _pov.m_HorizontalAxis.Value = pos.x;
         _pov.m_VerticalAxis.Value = pos.y;
     }
+    public void ResetRotation() {
+        SetRotation(new Vector3(-135, 35, 0));
+    }
     public void SetCameraTarget(Vector3 pos) {
         cameraTarget.transform.position = pos;
     }
