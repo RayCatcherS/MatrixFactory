@@ -338,3 +338,4 @@ Assets/StreamingAssets/crashlytics-build.properties
 # End of https://www.gitignore.io/api/xcode,swift,macos,ios,android,unity,Intellij
 LINE_SDK_Unity/.idea/
 iosBuild_BurstDebugInformation_DoNotShip/StaticLibraries/lib_burst_generated.txt
+UserSettings/Layouts/default-2021.dwlt
