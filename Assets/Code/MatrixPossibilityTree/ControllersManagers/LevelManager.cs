@@ -149,15 +149,19 @@ public class LevelManager : MonoBehaviour {
         int conveyorHeightRangeMin = 0;
         int conveyorHeightRangeMax = pathLength;
 
-        /* INIT GAMEOBJECT CONVEYOR MAP*/
-        // instantiate conveyor with random height
-        for(int r = 0; r < rows; r++) {
+
+        // conveyor prefab data
+        Prefab conveyorPrefab = _prefabManager.GetPrefab("ConveyorBelt");
+
+		/* INIT GAMEOBJECT CONVEYOR MAP*/
+		// instantiate conveyor with random height
+		for (int r = 0; r < rows; r++) {
 
             conveyorBlockOffset = new Vector3(conveyorBlockOffset.x, 0, 0);
             for(int c = 0; c < columns; c++) {
 
 
-                GameObject obj = Instantiate(_prefabManager.ConveyorBelt.GetGameobject, _mapPositionStart + conveyorBlockOffset, Quaternion.identity);
+                GameObject obj = Instantiate(conveyorPrefab.GetGameobject, _mapPositionStart + conveyorBlockOffset, Quaternion.identity);
 
                 ConveyorBelt conveyorBelt = obj.GetComponent<ConveyorBelt>();
                 _conveyorMapList.Add(conveyorBelt);
@@ -197,11 +201,11 @@ public class LevelManager : MonoBehaviour {
 
 
                 // increment column offset
-                conveyorBlockOffset = conveyorBlockOffset + new Vector3(0, 0, _prefabManager.ConveyorBelt.GameobjectSize.x);
+                conveyorBlockOffset = conveyorBlockOffset + new Vector3(0, 0, conveyorPrefab.GameobjectSize.x);
             }
 
             // increment row offset
-            conveyorBlockOffset = conveyorBlockOffset + new Vector3(_prefabManager.ConveyorBelt.GameobjectSize.x, 0, 0);
+            conveyorBlockOffset = conveyorBlockOffset + new Vector3(conveyorPrefab.GameobjectSize.x, 0, 0);
         }
     }
     /// <summary>
@@ -254,34 +258,47 @@ public class LevelManager : MonoBehaviour {
     /// </summary>
     /// <param name="levelPath"></param>
     private void GenerateDeliveryPoint(GeneratedLevel levelPath) {
-        /* SPAWN DELIVERY POINT*/
-        Vector3 deliveryPointPos = new Vector3(
-            (levelPath.EndPathPosition().x * _prefabManager.ConveyorBelt.GameobjectSize.x),
+
+		// deliveryPoint prefab data
+		Prefab deliveryPoint = _prefabManager.GetPrefab("DeliveryPoint");
+
+
+		/* SPAWN DELIVERY POINT*/
+		Vector3 deliveryPointPos = new Vector3(
+            (levelPath.EndPathPosition().x * deliveryPoint.GameobjectSize.x),
             0,
-            (levelPath.EndPathPosition().y * _prefabManager.ConveyorBelt.GameobjectSize.x) + (_prefabManager.ConveyorBelt.GameobjectSize.x)
+            (levelPath.EndPathPosition().y * deliveryPoint.GameobjectSize.x) + (deliveryPoint.GameobjectSize.x)
         );
-        _deliveryPoint = Instantiate(_prefabManager.DeliveryPoint.GetGameobject, deliveryPointPos, Quaternion.identity);
+        _deliveryPoint = Instantiate(deliveryPoint.GetGameobject, deliveryPointPos, Quaternion.identity);
     }
     /// <summary>
     /// Claculate the center of the map
     /// </summary>
     /// <param name="levelPath"></param>
     private void CalculateCenterOfTheMap(GeneratedLevel levelPath) {
-        /* CALCULATE CENTER OF THE MAP */
-        // this can be used to center the game camera
 
-        float _mapCenterHeight = _conveyorMaxHeight / 2;
+		// conveyor prefab data
+		Prefab conveyorPrefab = _prefabManager.GetPrefab("ConveyorBelt");
+
+		/* CALCULATE CENTER OF THE MAP */
+		// this can be used to center the game camera
+		float _mapCenterHeight = _conveyorMaxHeight / 2;
         _mapCenter = new Vector3(
-            (levelPath.MatrixSize().x * _prefabManager.ConveyorBelt.GameobjectSize.y) / 2,
+            (levelPath.MatrixSize().x * conveyorPrefab.GameobjectSize.y) / 2,
             _mapCenterHeight,
-            (levelPath.MatrixSize().y * _prefabManager.ConveyorBelt.GameobjectSize.x) / 2
+            (levelPath.MatrixSize().y * conveyorPrefab.GameobjectSize.x) / 2
         );
     }
     private void SetPackageSpawnPosition(GeneratedLevel levelPat) {
-        _packageSpawnTransform.transform.position = new Vector3(
-            levelPat.StartPathPosition().x + (_prefabManager.ConveyorBelt.GameobjectSize.x / 2),
+
+		// conveyor prefab data
+		Prefab conveyorPrefab = _prefabManager.GetPrefab("ConveyorBelt");
+
+
+		_packageSpawnTransform.transform.position = new Vector3(
+            levelPat.StartPathPosition().x + (conveyorPrefab.GameobjectSize.x / 2),
             _conveyorMaxHeight + _packageSpawnOffsetHeight,
-            levelPat.StartPathPosition().y + (_prefabManager.ConveyorBelt.GameobjectSize.y / 2)
+            levelPat.StartPathPosition().y + (conveyorPrefab.GameobjectSize.y / 2)
         );
     }
 
@@ -301,30 +318,54 @@ public class LevelManager : MonoBehaviour {
 
         
 
-        StartCoroutine(WaitAndStartLight());
+        StartCoroutine(WaitStartingAnimationAndStart());
     }
 
-    private IEnumerator WaitAndStartLight() {
+    private IEnumerator TrailIndicator() {
+
+		// package prefab data
+		Prefab levelMapTrail = _prefabManager.GetPrefab("LevelMapTrail");
+
+		/* TRAIL PACKAGE */
+		GameObject trail = Instantiate(_prefabManager.TrailPackage.GetGameobject, _packageSpawnTransform.position, Quaternion.identity);
+		TransportedObject trailPackage = trail.GetComponent<TransportedObject>();
+
+        // TODO level trail indicator
+		trailPackage.Init(
+			levelMapTrail.GameobjectSize,
+			_prefabManager.PackageDestroyedParticles.GetGameobject,
+			_prefabManager.PackageDeliveredEffect.GetGameobject,
+			this
+		);
+		yield return new WaitForSeconds(0.3f);
+		StartCoroutine(TrailIndicator());
+	}
+
+	private IEnumerator WaitStartingAnimationAndStart() {
 
         yield return new WaitForSeconds(2);
         _spawnLight.gameObject.SetActive(true);
 
 
         StartCoroutine(WaitAndSpawnPackage());
+        StartCoroutine(TrailIndicator());
 
-        yield return new WaitForSeconds(2.5f);
+		yield return new WaitForSeconds(2.5f);
         _spawnLight.gameObject.SetActive(false);
     }
 
     private IEnumerator WaitAndSpawnPackage() {
 
-        if(_packagesToSpawn > 1) {
+		// package prefab data
+		Prefab packagePrefab = _prefabManager.GetPrefab("Package");
+
+		if (_packagesToSpawn > 1) {
             yield return new WaitForSeconds(1);
-            GameObject obj = Instantiate(_prefabManager.Package.GetGameobject, _packageSpawnTransform.position, Quaternion.identity);
+            GameObject obj = Instantiate(packagePrefab.GetGameobject, _packageSpawnTransform.position, Quaternion.identity);
             Package package = obj.GetComponent<Package>();
             _packages.Add(package);
             package.Init(
-                _prefabManager.Package.GameobjectSize,
+				packagePrefab.GameobjectSize,
                 _prefabManager.PackageDestroyedParticles.GetGameobject,
                 _prefabManager.PackageDeliveredEffect.GetGameobject,
                 this
@@ -332,7 +373,7 @@ public class LevelManager : MonoBehaviour {
             StartCoroutine(WaitAndSpawnPackage());
 
             _packagesToSpawn--;
-        }
+		}
     }
 
     public void PackageDestroyedEvent() {
