@@ -6,12 +6,17 @@ using UnityEngine;
 using static PT.Global.GlobalPossibilityPath;
 
 public class LevelManager : MonoBehaviour {
+    public enum LevelState {
+        NotStarted,
+        Started,
+        Paused,
+        FinishedLose,
+        FinishedWin
+    }
 
     [Header("Game Components")]
-
     [SerializeField] private GameController _gameController;
     [SerializeField] private CameraController _cameraController;
-    
     
 
 
@@ -38,6 +43,11 @@ public class LevelManager : MonoBehaviour {
     [SerializeField] private GameObject _spawnLight;
     private float _lightHeightOffset = 2;
     private GeneratedLevel _loadedLevel;
+    private LevelState _levelState = LevelState.NotStarted;
+
+    public LevelState State {
+        get { return _levelState; }
+    }
 
 
     public Vector3 MapCenter {
@@ -84,7 +94,8 @@ public class LevelManager : MonoBehaviour {
         _cameraController.SetCameraTarget(_mapCenter);
 
         _levelLoaded = true;
-	}
+
+    }
 
     /// <summary>
     /// Destroy all the level gameobjects and reset the level variables
@@ -105,6 +116,10 @@ public class LevelManager : MonoBehaviour {
                 Destroy(conveyor.gameObject);
             }
             _conveyorMapList.Clear();
+
+            //PrefabManager.Instance.ReinitPool();
+
+            _levelState = LevelState.NotStarted;
         }
     }
 
@@ -306,8 +321,8 @@ public class LevelManager : MonoBehaviour {
             _packageSpawnTransform.position.z
         );
 
-        
 
+        _levelState = LevelState.Started;
         StartCoroutine(WaitStartingAnimationAndStart());
     }
 
@@ -317,35 +332,39 @@ public class LevelManager : MonoBehaviour {
         yield return new WaitForSeconds(2);
         _spawnLight.gameObject.SetActive(true);
 
-
+        StartCoroutine(DrawTrailIndicator());
         StartCoroutine(WaitAndSpawnPackage());
-        DrawTrailIndicator();
+        
 
 
         yield return new WaitForSeconds(2.5f);
         _spawnLight.gameObject.SetActive(false);
     }
 
-    public void DrawTrailIndicator() {
+    public IEnumerator DrawTrailIndicator() {
+
+        if(_levelState == LevelState.Started) {
+            // package prefab data
+            string levelMapTrailPoolId = "LevelMapTrail";
+            Prefab levelMapTrail = PrefabManager.Instance.GetPrefab("LevelMapTrail");
+
+            /* TRAIL PACKAGE */
+            GameObject obj = PrefabManager.Instance.SpawnFromPool(
+                levelMapTrailPoolId,
+                _packageSpawnTransform.position,
+                Quaternion.identity
+            );
+            TrailIndicator trail = obj.GetComponent<TrailIndicator>();
 
 
-        // package prefab data
-        string levelMapTrailPoolId = "LevelMapTrail";
-        Prefab levelMapTrail = PrefabManager.Instance.GetPrefab("LevelMapTrail");
-
-        /* TRAIL PACKAGE */
-        GameObject obj = PrefabManager.Instance.SpawnFromPool(
-            levelMapTrailPoolId,
-            _packageSpawnTransform.position,
-            Quaternion.identity
-        );
-        Trail trail = obj.GetComponent<Trail>();
-        
-
-        trail.Init(
-            levelMapTrail.GameobjectSize,
-            this
-        );
+            trail.Init(
+                levelMapTrail.GameobjectSize,
+                this
+            );
+            yield return new WaitForSeconds(0.4f);
+            StartCoroutine(DrawTrailIndicator());
+        }
+            
     }
 
     private IEnumerator WaitAndSpawnPackage() {
@@ -388,8 +407,10 @@ public class LevelManager : MonoBehaviour {
         if(IsLevelEnded()) {
             if(IsLevelLose()) {
                 _gameController.EndLevelLose();
+                _levelState = LevelState.FinishedLose;
             } else {
                 _gameController.EndLevelWin();
+                _levelState = LevelState.FinishedWin;
             }
         }
     }

@@ -11,7 +11,7 @@ public class GameUI : MonoBehaviour {
     private Color _targetColor;
     [SerializeField] private AnimationCurve _backgroundtransitionLerpCurve;
     private float _backgroundAnimationTransitionTime;
-    private float _backgroundAnimationSpeed = 0.1f;
+    private float _backgroundAnimationSpeed = 0.2f;
 
     [SerializeField] private GameObject _mainMenuUI;
     [SerializeField] private GameObject _levelEndedWinMenuUI;

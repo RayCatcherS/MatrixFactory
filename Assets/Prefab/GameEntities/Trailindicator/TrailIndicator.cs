@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Trail : TransportedObject {
+public class TrailIndicator : TransportedObject {
 
     private TrailRenderer _trailRenderer;
     public new void Init(Vector3 objectSize, LevelManager levelManager) {
@@ -14,14 +14,13 @@ public class Trail : TransportedObject {
     }
 
 
-    void OnCollisionEnter(Collision collision) {
+    /*void OnCollisionEnter(Collision collision) {
 		if (collision.gameObject.layer == _packageDamageColliderLayer || collision.gameObject.layer == _packageColliderLayer || collision.gameObject.layer == _deliveryPointCollider) {
 
-			// redraw trail, call a method from level manager to redraw a trail
-            _levelManager.DrawTrailIndicator();
+            
 		}
 
-	}
+	}*/
 
 	
 }

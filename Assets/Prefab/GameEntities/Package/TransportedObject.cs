@@ -176,7 +176,7 @@ public class TransportedObject : MonoBehaviour {
 		objMovementType = TransportedObjMovementType.Move;
 
 		RaycastHit hit;
-		if (Physics.Raycast(transform.position, -Vector3.up, out hit, Mathf.Infinity)) {
+		if (Physics.Raycast(transform.position, -Vector3.up, out hit, Mathf.Infinity, GroundLayerMask())) {
 			if (hit.collider.gameObject.layer == _rollerConveyorLayer) {
 
 				// set new target
