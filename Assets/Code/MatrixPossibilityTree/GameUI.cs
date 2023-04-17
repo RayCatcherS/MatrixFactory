@@ -1,9 +1,7 @@
 using PT.DataStruct;
-using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
-using static PT.Global.GlobalPossibilityPath;
 
 public class GameUI : MonoBehaviour {
     [SerializeField] private Image _background;
@@ -21,6 +19,7 @@ public class GameUI : MonoBehaviour {
     [SerializeField] private GameObject _levelStartedGameStateUI;
     [SerializeField] private Text _levelStartedLevelNameText;
     [SerializeField] private Text _levelStartedChapterNameText;
+    [SerializeField] private Text _packageToSpawnText;
     readonly private string _levelStartedLevelNameTextFormat = "Level: ";
     readonly private string _levelStartedChapterNameTextFormat = "Chapter: ";
 
@@ -28,6 +27,14 @@ public class GameUI : MonoBehaviour {
     private GameUIState _state;
     public GameUIState State => _state;
 
+    public static GameUI Instance { get; private set; }
+    private void Awake() {
+        if(Instance != null && Instance != this) {
+            Destroy(this);
+            return;
+        }
+        Instance = this;
+    }
 
     public async Task SetBlackBackgroundLerp(bool isBlackBackground) {
 
@@ -121,6 +128,12 @@ public class GameUI : MonoBehaviour {
 
         _levelStartedLevelNameText.text = _levelStartedLevelNameTextFormat + levelInfo.GetLevelName();
         _levelStartedChapterNameText.text = _levelStartedChapterNameTextFormat + levelInfo.GetChapterName();
+    }
+    public void SetLevelStateDebugValuesUI(string packageToSpawn, string totalPackages, string packagesDestroyed, string packageDelivered) {
+        _packageToSpawnText.text = "Packages to spawn: " + packageToSpawn + "\n" +
+            "Total packages: " + totalPackages + "\n" + 
+            "Packages destroyed: " + packagesDestroyed + "\n" +
+            "Packages delivered: " + packageDelivered;
     }
 
     public enum GameUIState {

@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.VFX;
 using UnityEngine;
 
 public class TransportedObject : MonoBehaviour {

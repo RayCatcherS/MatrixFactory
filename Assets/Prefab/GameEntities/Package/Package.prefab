@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23eff1e23d496e348bf69f703d3096ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _groundLayerToIgnore: 09000000
+  _groundLayerToIgnore: 0900000006000000
   _moveLerpCurve:
     serializedVersion: 2
     m_Curve:

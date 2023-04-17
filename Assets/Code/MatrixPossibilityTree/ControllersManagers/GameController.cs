@@ -6,7 +6,6 @@ using UnityEngine;
 public class GameController : MonoBehaviour {
     [SerializeField] private SettingsController _settingsController;
     [SerializeField] private LevelManager _levelManager;
-    [SerializeField] private GameUI _gameUI;
 
     public static GameController Instance { get; private set; }
 
@@ -30,7 +29,7 @@ public class GameController : MonoBehaviour {
         GlobalPossibilityPath.GenerateChaptersPaths(true);
         GameSaveManager.InitSaves();
 
-        _gameUI.OpenMainMenu();
+        GameUI.Instance.OpenMainMenu();
     }
 
     public async void ContinueGame() {
@@ -45,12 +44,12 @@ public class GameController : MonoBehaviour {
     public async Task StartLevel(LevelInfo levelInfo) {
 
         
-        _gameUI.CloseAllUIMenus();
+        GameUI.Instance.CloseAllUIMenus();
 
-        await _gameUI.SetBlackBackgroundLerp(true);
+        await GameUI.Instance.SetBlackBackgroundLerp(true);
 
-        _gameUI.OpenGameLevelStartedMenu();
-        _gameUI.SetGameStateValuesUI(levelInfo);
+        GameUI.Instance.OpenGameLevelStartedMenu();
+        GameUI.Instance.SetGameStateValuesUI(levelInfo);
 
 
         _levelManager.WipeLevel();
@@ -59,15 +58,15 @@ public class GameController : MonoBehaviour {
         
 
 
-        await _gameUI.SetBlackBackgroundLerp(false);
+        await GameUI.Instance.SetBlackBackgroundLerp(false);
     }
 
     public void EndLevelWin() {
         GameSaveManager.SaveReachedLevel(GlobalPossibilityPath.GetNextLevel(_levelManager.LevelInfo));
-        _gameUI.OpenGameLevelEndedWinMenu();
+        GameUI.Instance.OpenGameLevelEndedWinMenu();
     }
     public void EndLevelLose() {
-        _gameUI.OpenGameLevelEndedLoseMenu();
+        GameUI.Instance.OpenGameLevelEndedLoseMenu();
     }
 
     public async void NextLevel() {

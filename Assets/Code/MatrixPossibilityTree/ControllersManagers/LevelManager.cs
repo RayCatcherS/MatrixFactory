@@ -366,7 +366,6 @@ public class LevelManager : MonoBehaviour {
         }
             
     }
-
     private IEnumerator WaitAndSpawnPackage() {
 
 		// package prefab data
@@ -389,7 +388,8 @@ public class LevelManager : MonoBehaviour {
             StartCoroutine(WaitAndSpawnPackage());
 
             _packagesToSpawn--;
-		}
+            DrawUI();
+        }
     }
 
     public void PackageDestroyedEvent() {
@@ -403,7 +403,7 @@ public class LevelManager : MonoBehaviour {
     }
 
     private void EvaluateEndLevelStatus() {
-
+        DrawUI();
         if(IsLevelEnded()) {
             if(IsLevelLose()) {
                 _gameController.EndLevelLose();
@@ -423,4 +423,13 @@ public class LevelManager : MonoBehaviour {
         return _packagesDestroyed >= _loadedLevel.packageToSpawn / 2;
     }
 
+
+    private void DrawUI() {
+        GameUI.Instance.SetLevelStateDebugValuesUI(
+            _packagesToSpawn.ToString(),
+            _loadedLevel.packageToSpawn.ToString(),
+            _packagesDestroyed.ToString(),
+            _packagesDelivered.ToString()
+        );
+    }
 }
