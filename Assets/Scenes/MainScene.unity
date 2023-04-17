@@ -2508,7 +2508,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1053360924}
-  m_LocalRotation: {x: -0.4024246, y: -0.5814245, z: 0.4024246, w: -0.5814245}
+  m_LocalRotation: {x: -0.40242454, y: -0.58142453, z: 0.40242466, w: -0.5814244}
   m_LocalPosition: {x: -2.499997, y: 8.7867985, z: 22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3273,7 +3273,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameController: {fileID: 1497837086}
   _cameraController: {fileID: 1634783206}
-  _prefabManager: {fileID: 1497837088}
   _packageSpawnTransform: {fileID: 283552998}
   _spawnLight: {fileID: 795262059}
   _debugPath: 0
@@ -3294,20 +3293,39 @@ MonoBehaviour:
     _gObject: {fileID: 4724466559744545297, guid: 393734a2b16c07049bd804a55f5a9075,
       type: 3}
     _gSize: {x: 1, y: 1, z: 1}
+    _poolPrefab: 0
+    _objPoolSize: 0
   - _prefabID: DeliveryPoint
     _gObject: {fileID: 151652005196825498, guid: 7eda8fb644d0cc74ead688d37fee1a16,
       type: 3}
     _gSize: {x: 1, y: 1, z: 1}
+    _poolPrefab: 0
+    _objPoolSize: 0
   - _prefabID: Package
     _gObject: {fileID: 1098775643271299328, guid: 129909a2ada5c4b48bdeecccae75ad73,
       type: 3}
     _gSize: {x: 0.3, y: 0.3, z: 0.3}
-  _trailPackage: {fileID: 1098775643271299328, guid: 9be481eb5b57349b888d91a88bc08076,
-    type: 3}
-  _packageDestroyedParticles: {fileID: 3144296426681435694, guid: d8173f6460c8c414ea011d8c3544f7dd,
-    type: 3}
-  _packageDeliveredEffect: {fileID: 3265801029081816176, guid: d5876fc2f665a724b9cba2c49f1c1a29,
-    type: 3}
+    _poolPrefab: 1
+    _objPoolSize: 30
+  - _prefabID: LevelMapTrail
+    _gObject: {fileID: 1098775643271299328, guid: 9be481eb5b57349b888d91a88bc08076,
+      type: 3}
+    _gSize: {x: 0.3, y: 0.3, z: 0.3}
+    _poolPrefab: 1
+    _objPoolSize: 5
+  _particleEffects:
+  - _prefabID: ParticleObjectDestroyed
+    _gObject: {fileID: 3144296426681435694, guid: d8173f6460c8c414ea011d8c3544f7dd,
+      type: 3}
+    _gSize: {x: 1, y: 1, z: 1}
+    _poolPrefab: 1
+    _objPoolSize: 15
+  - _prefabID: StylizedSmokePoof
+    _gObject: {fileID: 3265801029081816176, guid: d5876fc2f665a724b9cba2c49f1c1a29,
+      type: 3}
+    _gSize: {x: 1, y: 1, z: 1}
+    _poolPrefab: 1
+    _objPoolSize: 4
 --- !u!114 &1497837089
 MonoBehaviour:
   m_ObjectHideFlags: 0

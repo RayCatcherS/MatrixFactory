@@ -38,21 +38,22 @@ public class TransportedObject : MonoBehaviour {
 
 
 
-	private Vector3 _objectSize;
-	private bool _objectInitialized = false;
+	protected Vector3 _objectSize;
+    protected bool _objectInitialized = false;
 
+	
 
-	protected GameObject _objectDestroyedParticles;
-	protected GameObject _objectDeliveredEffect;
-
-	public void Init(Vector3 objectSize, GameObject objectDestroyedParticles, GameObject objectDeliveredEffect, LevelManager levelManager) {
+	public void Init(Vector3 objectSize, LevelManager levelManager) {
 		_objectSize = objectSize;
-		_objectDestroyedParticles = objectDestroyedParticles;
-		_objectDeliveredEffect = objectDeliveredEffect;
 		_levelManager = levelManager;
 
-		_objectInitialized = true;
+		_objectRollerMoveSpeed = 0;
+		_targetPoint = Vector3.zero;
+        _startPoint = Vector3.zero;
+		_animationTimePosition = 0;
+		targetReached = true;
 
+        _objectInitialized = true;
 	}
 
 	private void Update() {
@@ -188,20 +189,5 @@ public class TransportedObject : MonoBehaviour {
 				targetReached = false;
 			}
 		}
-	}
-
-
-
-	void OnCollisionEnter(Collision collision) {
-		
-
-	}
-
-	private void DestroyPackage() {
-		
-	}
-
-	private void ObjectDestinationReached() {
-		
 	}
 }

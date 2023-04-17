@@ -18,7 +18,12 @@ public class Package : TransportedObject {
 	private void DestroyPackage() {
 		gameObject.SetActive(false);
 
-		GameObject particle = Instantiate(_objectDestroyedParticles, transform.position, Quaternion.identity);
+        string particleObjectDestroyedPoolId = "ParticleObjectDestroyed";
+		GameObject particle = PrefabManager.Instance.SpawnFromPool(
+			particleObjectDestroyedPoolId,
+			transform.position,
+			Quaternion.identity
+		);
 		ParticleSystem particleSystem = particle.GetComponent<ParticleSystem>();
 		if (particleSystem != null) {
 			particleSystem.Play();
@@ -30,8 +35,14 @@ public class Package : TransportedObject {
 	private void ObjectDestinationReached() {
 		gameObject.SetActive(false);
 
-		GameObject particle = Instantiate(_objectDeliveredEffect, transform.position, Quaternion.identity);
-		VisualEffect visualEffect = particle.GetComponent<VisualEffect>();
+        string objectDeliveredEffectPoolId = "StylizedSmokePoof";
+
+		GameObject effect = PrefabManager.Instance.SpawnFromPool(
+			objectDeliveredEffectPoolId,
+			transform.position,
+			Quaternion.identity
+		);
+		VisualEffect visualEffect = effect.GetComponent<VisualEffect>();
 		if (visualEffect != null) {
 			visualEffect.Play();
 		}

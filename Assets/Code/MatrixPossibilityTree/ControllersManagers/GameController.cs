@@ -1,4 +1,3 @@
-
 using PT.DataStruct;
 using PT.Global;
 using System.Threading.Tasks;
@@ -9,6 +8,16 @@ public class GameController : MonoBehaviour {
     [SerializeField] private LevelManager _levelManager;
     [SerializeField] private GameUI _gameUI;
 
+    public static GameController Instance { get; private set; }
+
+    private void Awake() {
+        if (Instance != null && Instance != this) {
+            Destroy(this);
+            return;
+        }
+        Instance = this;
+    }
+
     void Start() {
 
         StartGame();
@@ -17,6 +26,7 @@ public class GameController : MonoBehaviour {
     private void StartGame() {
 
         _settingsController.InitSettings();
+        PrefabManager.Instance.InitPrefabPool();
         GlobalPossibilityPath.GenerateChaptersPaths(true);
         GameSaveManager.InitSaves();
 

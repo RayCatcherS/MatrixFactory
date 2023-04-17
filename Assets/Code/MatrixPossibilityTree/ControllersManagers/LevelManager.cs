@@ -11,7 +11,6 @@ public class LevelManager : MonoBehaviour {
 
     [SerializeField] private GameController _gameController;
     [SerializeField] private CameraController _cameraController;
-    [SerializeField] private PrefabManager _prefabManager;
     
     
 
@@ -28,7 +27,6 @@ public class LevelManager : MonoBehaviour {
     private GameObject _deliveryPoint;
 
     [Header("Package Generation")]
-    private List<Package> _packages = new List<Package>();
     private int _packagesToSpawn = 0;
     private int _packagesDestroyed = 0;
     private int _packagesDelivered = 0;
@@ -107,11 +105,6 @@ public class LevelManager : MonoBehaviour {
                 Destroy(conveyor.gameObject);
             }
             _conveyorMapList.Clear();
-
-            foreach(Package package in _packages) {
-                Destroy(package.gameObject);
-            }
-            _packages.Clear();
         }
     }
 
@@ -119,7 +112,6 @@ public class LevelManager : MonoBehaviour {
 
         InitMap(levelPath);
         GenerateMapConveyors(levelPath);
-        GenerateMapTraps(levelPath);
         GeneratePath(levelPath);
         GenerateDeliveryPoint(levelPath);
         CalculateCenterOfTheMap(levelPath);
@@ -151,7 +143,7 @@ public class LevelManager : MonoBehaviour {
 
 
         // conveyor prefab data
-        Prefab conveyorPrefab = _prefabManager.GetPrefab("ConveyorBelt");
+        Prefab conveyorPrefab = PrefabManager.Instance.GetPrefab("ConveyorBelt");
 
 		/* INIT GAMEOBJECT CONVEYOR MAP*/
 		// instantiate conveyor with random height
@@ -250,9 +242,7 @@ public class LevelManager : MonoBehaviour {
             }
         }
     }
-    private void GenerateMapTraps(GeneratedLevel levelPath) {
-
-    }
+   
     /// <summary>
     /// Generate the delivery point onto the map
     /// </summary>
@@ -260,7 +250,7 @@ public class LevelManager : MonoBehaviour {
     private void GenerateDeliveryPoint(GeneratedLevel levelPath) {
 
 		// deliveryPoint prefab data
-		Prefab deliveryPoint = _prefabManager.GetPrefab("DeliveryPoint");
+		Prefab deliveryPoint = PrefabManager.Instance.GetPrefab("DeliveryPoint");
 
 
 		/* SPAWN DELIVERY POINT*/
@@ -278,7 +268,7 @@ public class LevelManager : MonoBehaviour {
     private void CalculateCenterOfTheMap(GeneratedLevel levelPath) {
 
 		// conveyor prefab data
-		Prefab conveyorPrefab = _prefabManager.GetPrefab("ConveyorBelt");
+		Prefab conveyorPrefab = PrefabManager.Instance.GetPrefab("ConveyorBelt");
 
 		/* CALCULATE CENTER OF THE MAP */
 		// this can be used to center the game camera
@@ -292,7 +282,7 @@ public class LevelManager : MonoBehaviour {
     private void SetPackageSpawnPosition(GeneratedLevel levelPat) {
 
 		// conveyor prefab data
-		Prefab conveyorPrefab = _prefabManager.GetPrefab("ConveyorBelt");
+		Prefab conveyorPrefab = PrefabManager.Instance.GetPrefab("ConveyorBelt");
 
 
 		_packageSpawnTransform.transform.position = new Vector3(
@@ -321,25 +311,6 @@ public class LevelManager : MonoBehaviour {
         StartCoroutine(WaitStartingAnimationAndStart());
     }
 
-    private IEnumerator TrailIndicator() {
-
-		// package prefab data
-		Prefab levelMapTrail = _prefabManager.GetPrefab("LevelMapTrail");
-
-		/* TRAIL PACKAGE */
-		GameObject trail = Instantiate(_prefabManager.TrailPackage.GetGameobject, _packageSpawnTransform.position, Quaternion.identity);
-		TransportedObject trailPackage = trail.GetComponent<TransportedObject>();
-
-        // TODO level trail indicator
-		trailPackage.Init(
-			levelMapTrail.GameobjectSize,
-			_prefabManager.PackageDestroyedParticles.GetGameobject,
-			_prefabManager.PackageDeliveredEffect.GetGameobject,
-			this
-		);
-		yield return new WaitForSeconds(0.3f);
-		StartCoroutine(TrailIndicator());
-	}
 
 	private IEnumerator WaitStartingAnimationAndStart() {
 
@@ -348,26 +319,52 @@ public class LevelManager : MonoBehaviour {
 
 
         StartCoroutine(WaitAndSpawnPackage());
-        StartCoroutine(TrailIndicator());
+        DrawTrailIndicator();
 
-		yield return new WaitForSeconds(2.5f);
+
+        yield return new WaitForSeconds(2.5f);
         _spawnLight.gameObject.SetActive(false);
+    }
+
+    public void DrawTrailIndicator() {
+
+
+        // package prefab data
+        string levelMapTrailPoolId = "LevelMapTrail";
+        Prefab levelMapTrail = PrefabManager.Instance.GetPrefab("LevelMapTrail");
+
+        /* TRAIL PACKAGE */
+        GameObject obj = PrefabManager.Instance.SpawnFromPool(
+            levelMapTrailPoolId,
+            _packageSpawnTransform.position,
+            Quaternion.identity
+        );
+        Trail trail = obj.GetComponent<Trail>();
+        
+
+        trail.Init(
+            levelMapTrail.GameobjectSize,
+            this
+        );
     }
 
     private IEnumerator WaitAndSpawnPackage() {
 
 		// package prefab data
-		Prefab packagePrefab = _prefabManager.GetPrefab("Package");
+		string packagePoolId = "Package";
+        Prefab packagePrefab = PrefabManager.Instance.GetPrefab("Package");
 
-		if (_packagesToSpawn > 1) {
+        if (_packagesToSpawn > 1) {
             yield return new WaitForSeconds(1);
-            GameObject obj = Instantiate(packagePrefab.GetGameobject, _packageSpawnTransform.position, Quaternion.identity);
+            GameObject obj = PrefabManager.Instance.SpawnFromPool(
+                packagePoolId,
+                _packageSpawnTransform.position,
+                Quaternion.identity
+            );
+
             Package package = obj.GetComponent<Package>();
-            _packages.Add(package);
             package.Init(
 				packagePrefab.GameobjectSize,
-                _prefabManager.PackageDestroyedParticles.GetGameobject,
-                _prefabManager.PackageDeliveredEffect.GetGameobject,
                 this
             );
             StartCoroutine(WaitAndSpawnPackage());
