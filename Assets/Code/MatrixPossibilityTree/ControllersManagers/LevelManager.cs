@@ -198,7 +198,7 @@ public class LevelManager : MonoBehaviour {
 
 
                 /* INIT NEW CONVEYOR*/
-                conveyorBelt.InitConveyorBelt(conveyorUnitHeight * _CBGenerationOffsetHeight, rollerConveyorDirection, ConveyorBelt.ConveyorBeltType.roller);
+                conveyorBelt.InitConveyorBelt(conveyorUnitHeight * _CBGenerationOffsetHeight, rollerConveyorDirection, ConveyorBelt.ConveyorBeltType.Roller);
 
 
                 // Set/Update the highest conveyor on the map
@@ -243,7 +243,7 @@ public class LevelManager : MonoBehaviour {
 
             ConveyorBelt pathCurrentConveyor = _conveyorMap[levelPath.PathElements[i].pos.x, levelPath.PathElements[i].pos.y];
             /* INIT NEW CONVEYOR*/
-            pathCurrentConveyor.SetConveyorType(ConveyorBelt.ConveyorBeltType.roller);
+            pathCurrentConveyor.SetConveyorType(ConveyorBelt.ConveyorBeltType.Roller);
             pathCurrentConveyor.SetRollerConveyorHeight(conveyorHeight);
 
             // Set/Update the highest conveyor on the map

@@ -3,9 +3,10 @@ using UnityEngine;
 
 public class ConveyorBelt : MonoBehaviour {
     public enum ConveyorBeltType {
-        roller,
-        destroyer,
-        elevator
+        Roller,
+        TrapPackageDestroyer,
+        Elevator,
+        PackageDestroyer
     }
 
     private readonly int _CBrotationOffset = 90;
@@ -162,13 +163,13 @@ public class ConveyorBelt : MonoBehaviour {
     }
 
     public void SetConveyorType(ConveyorBeltType conveyorBeltType) {
-        if(conveyorBeltType == ConveyorBeltType.roller) {
+        if(conveyorBeltType == ConveyorBeltType.Roller) {
             _rollerConveyor.gameObject.SetActive(true);
             _conveyorDestroyer.gameObject.SetActive(false);
-        } else if(conveyorBeltType == ConveyorBeltType.destroyer) {
+        } else if(conveyorBeltType == ConveyorBeltType.TrapPackageDestroyer) {
             _rollerConveyor.gameObject.SetActive(false);
             _conveyorDestroyer.gameObject.SetActive(true);
-        } else if(conveyorBeltType == ConveyorBeltType.elevator) {
+        } else if(conveyorBeltType == ConveyorBeltType.Elevator) {
             _rollerConveyor.gameObject.SetActive(false);
             _conveyorDestroyer.gameObject.SetActive(false);
         }
