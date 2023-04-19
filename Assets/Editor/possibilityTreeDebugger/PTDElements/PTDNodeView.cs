@@ -13,7 +13,7 @@ namespace PT.DebugView {
         static public readonly Vector2 defaultSize = new Vector2(175, 190);
 
 
-        public PTDNodeView(PossibilityPathItem nodeItem, PTNodeType nodeType, Vector2 position) {
+        public PTDNodeView(GeneratedLevelWithMatrix nodeItem, PTNodeType nodeType, Vector2 position) {
             _nodeItem = nodeItem;
             NodeType = nodeType;
 
@@ -29,7 +29,7 @@ namespace PT.DebugView {
         }
 
         private PTNodeType NodeType { get; set; }
-        private PossibilityPathItem _nodeItem;
+        private GeneratedLevelWithMatrix _nodeItem;
 
         private Port _parentPort;
         private Port _forwardPort;
@@ -43,7 +43,7 @@ namespace PT.DebugView {
         public Port rightPort { get {return _rightPort; } }
         public Port leftPort { get {return _leftPort; } }
 
-        private PTDPathMatrixView _ptdMatrix;
+        private GeneratedLevelMatrixView _ptdMatrix;
 
         public void Draw() {
 
@@ -52,11 +52,11 @@ namespace PT.DebugView {
             nodeNameLabel.AddToClassList("pt-node-label");
             titleContainer.Insert(0, nodeNameLabel);
 
-			if (_nodeItem.pathMatrix[_nodeItem.LastPos().x, _nodeItem.LastPos().y].goodEnd) {
+			if (_nodeItem.pathMatrix[_nodeItem.LastPathPos().x, _nodeItem.LastPathPos().y].goodEnd) {
 				AddToClassList("pt-node-good-end");
 			}
 
-            if(_nodeItem.pathMatrix[_nodeItem.LastPos().x, _nodeItem.LastPos().y].deadEnd) {
+            if(_nodeItem.pathMatrix[_nodeItem.LastPathPos().x, _nodeItem.LastPathPos().y].deadEnd) {
 				AddToClassList("pt-node-dead-end");
 			}
 
@@ -114,7 +114,7 @@ namespace PT.DebugView {
             };
 
             extensionContainer.Add(matrixPathPreviwFoldout);
-            _ptdMatrix = new PTDPathMatrixView(_nodeItem);
+            _ptdMatrix = new GeneratedLevelMatrixView(_nodeItem);
             matrixPathPreviwFoldout.Add(_ptdMatrix);
 
 

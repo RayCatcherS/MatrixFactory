@@ -2,26 +2,29 @@ using PT.DataStruct;
 using UnityEngine;
 
 public class ConveyorBelt : MonoBehaviour {
-    public enum ConveyorBeltType {
+    public enum ConveyorBeltPlatformType {
         Roller,
         TrapPackageDestroyer,
-        Elevator,
+        ElevatorCannon,
         PackageDestroyer
     }
 
     private readonly int _CBrotationOffset = 90;
     readonly private float _conveyorOffsetHeight = 0.5f;
-    private float _defaultConveyorHeight = 0f;
+    private float _defaultConveyorPlatformHeight = 0f;
 
     [Header("Conveyor Belt Type")]
-    [SerializeField] private RollerConveyor _rollerConveyor;
-    [SerializeField] private GameObject _conveyorDestroyer;
+    [SerializeField] private ConveyorBeltPlatform _rollerConveyorPlatform;
+    [SerializeField] private ConveyorBeltPlatform _conveyorElevatorPlatform;
+    private ConveyorBeltPlatform _currentConveyorPlatform;
+    private ConveyorBeltPlatformType _currentConveyorPlatformType;
 
 
-
-
+    [Header("Debug")]
     [SerializeField] private GameObject _debugShowPath;
-    [SerializeField] private float _rollerConveyorSpeed;
+    [Header ("Conveyor parameters")]
+    [SerializeField] private float _rollerConveyorPlatformSpeed;
+    [SerializeField] private float _elevatorCannonConveyorPlatformSpeed;
 
 
     private Quaternion _rollerConveyorRotationTarget = Quaternion.identity;
@@ -31,33 +34,51 @@ public class ConveyorBelt : MonoBehaviour {
     public Direction RollerConveyorDirection {
         get { return _rollerConveyorDirection; } 
     }
-    public Vector3 RollerConveyorDirectionVector  {
-        get {
 
-            Vector3 value = Vector3.zero;
+    /// <summary>
+    /// Insert the transported object target point into the conveyor belt and get the new target point
+    /// </summary>
+    /// <param name="oldTargetPoint"></param>
+    /// <returns></returns>
+    public ConveyorPlatformMove GetConveyorBeltPlatformMove(Vector3 oldTargetPoint)  {
+        ConveyorPlatformMove move = new ConveyorPlatformMove();
 
-            if(_rollerConveyorDirection == Direction.forward) {
-                value = new Vector3(-1, 0, 0);
-            } else if(_rollerConveyorDirection == Direction.right) {
-                value = new Vector3(0, 0, 1);
-            } else if(_rollerConveyorDirection == Direction.back) {
-                value = new Vector3(1, 0, 0);
-            } else if(_rollerConveyorDirection == Direction.left) {
-                value = new Vector3(0, 0, -1);
-            }
-
-            return value;
+        Vector3 direction = Vector3.zero;
+        if(_rollerConveyorDirection == Direction.forward) {
+            direction = new Vector3(-1, 0, 0);
+        } else if(_rollerConveyorDirection == Direction.right) {
+            direction = new Vector3(0, 0, 1);
+        } else if(_rollerConveyorDirection == Direction.back) {
+            direction = new Vector3(1, 0, 0);
+        } else if(_rollerConveyorDirection == Direction.left) {
+            direction = new Vector3(0, 0, -1);
         }
-        
+
+        if(_currentConveyorPlatformType == ConveyorBeltPlatformType.Roller) {
+
+            
+
+            move = new ConveyorPlatformMove(
+                TransportedObject.TransportedObjMovementType.Move,
+                oldTargetPoint + direction,
+                _rollerConveyorPlatformSpeed
+            );
+        } else if(_currentConveyorPlatformType == ConveyorBeltPlatformType.ElevatorCannon) {
+            move = new ConveyorPlatformMove(
+                TransportedObject.TransportedObjMovementType.ElevatorCannon,
+                new Vector3(oldTargetPoint.x, oldTargetPoint.y + 1, oldTargetPoint.z) + direction,
+                _elevatorCannonConveyorPlatformSpeed
+            );
+        }
+
+        return move;
     }
 
     private bool _initialized = false;
 
     public float RollerConveyorHeight {
-        get { return _rollerConveyor.gameObject.transform.position.y; }
+        get { return _rollerConveyorPlatform.gameObject.transform.position.y; }
     }
-    public float RollerConveyorSpeed {get { return _rollerConveyorSpeed; }}
-
 
 
 
@@ -65,22 +86,19 @@ public class ConveyorBelt : MonoBehaviour {
         if(_initialized) {
             UpdateRollerConveyorRotation();
         }
-        //_rollerConveyorRotationTarget
-        //_rollerConveyor.gameObject.transform.rotation
-
     }
 
-    public void InitConveyorBelt(double armConveyorHeight, Direction direction, ConveyorBeltType conveyorBeltType) {
+    public void InitConveyorBelt(double conveyorPlatformHeight, Direction platformDirection, ConveyorBeltPlatformType platformType) {
         if(_initialized) {
             Debug.LogError("the conveyor has already been initialized");
         }
 
-        SetConveyorType(conveyorBeltType);
+        SetConveyorType(platformType);
 
         InitConveyorParameters();
 
-        SetRollerConveyorHeight(armConveyorHeight);
-        SetRollerConveyorDirectionTarget(direction, false);
+        SetRollerConveyorHeight(conveyorPlatformHeight);
+        SetRollerConveyorDirectionTarget(platformDirection, false);
 
         EnableDebugShowPath(false);
 
@@ -88,16 +106,7 @@ public class ConveyorBelt : MonoBehaviour {
     }
 
     private void InitConveyorParameters() {
-        _defaultConveyorHeight = _rollerConveyor.gameObject.transform.position.y;
-    }
-
-    public void SetRollerConveyorHeight(double height) {
-
-        _rollerConveyor.gameObject.transform.position = new Vector3(
-            _rollerConveyor.gameObject.transform.position.x,
-            _defaultConveyorHeight + _conveyorOffsetHeight + (float)height,
-            _rollerConveyor.gameObject.transform.position.z
-        );
+        _defaultConveyorPlatformHeight = _rollerConveyorPlatform.gameObject.transform.position.y;
     }
 
     private void SetRollerConveyorDirectionTarget(Direction direction, bool animated) {
@@ -118,7 +127,7 @@ public class ConveyorBelt : MonoBehaviour {
         }
 
         if(!animated) {
-            _rollerConveyor.gameObject.transform.rotation = rotationVal;
+            _rollerConveyorPlatform.gameObject.transform.rotation = rotationVal;
         }
         _rollerConveyorRotationTarget = rotationVal;
 
@@ -127,6 +136,11 @@ public class ConveyorBelt : MonoBehaviour {
 
     public void EnableDebugShowPath(bool value) {
         _debugShowPath.SetActive(value);
+        _debugShowPath.transform.position = new Vector3(
+            _currentConveyorPlatform.gameObject.transform.position.x,
+            _currentConveyorPlatform.gameObject.transform.position.y + 1,
+            _currentConveyorPlatform.gameObject.transform.position.z
+        );
     }
 
     private Direction NextRollerConveyorDirection() {
@@ -152,26 +166,61 @@ public class ConveyorBelt : MonoBehaviour {
         SetRollerConveyorDirectionTarget(newDir, true);
     }
 
+
+    public void SetRollerConveyorHeight(double height) {
+
+        _currentConveyorPlatform.gameObject.transform.position = new Vector3(
+            _currentConveyorPlatform.gameObject.transform.position.x,
+            _defaultConveyorPlatformHeight + _conveyorOffsetHeight + (float)height,
+            _currentConveyorPlatform.gameObject.transform.position.z
+        );
+    }
     private void UpdateRollerConveyorRotation() {
-        if(_rollerConveyor.gameObject.transform.rotation != _rollerConveyorRotationTarget) {
-            _rollerConveyor.gameObject.transform.rotation = Quaternion.Lerp(
-                _rollerConveyor.gameObject.transform.rotation,
+        if(_currentConveyorPlatform.gameObject.transform.rotation != _rollerConveyorRotationTarget) {
+            _currentConveyorPlatform.gameObject.transform.rotation = Quaternion.Lerp(
+                _currentConveyorPlatform.gameObject.transform.rotation,
                 _rollerConveyorRotationTarget,
                 _rollerRotationLerpCurve.Evaluate(Time.deltaTime * _rollerRotationSpeed)
             );
         }
     }
 
-    public void SetConveyorType(ConveyorBeltType conveyorBeltType) {
-        if(conveyorBeltType == ConveyorBeltType.Roller) {
-            _rollerConveyor.gameObject.SetActive(true);
-            _conveyorDestroyer.gameObject.SetActive(false);
-        } else if(conveyorBeltType == ConveyorBeltType.TrapPackageDestroyer) {
-            _rollerConveyor.gameObject.SetActive(false);
-            _conveyorDestroyer.gameObject.SetActive(true);
-        } else if(conveyorBeltType == ConveyorBeltType.Elevator) {
-            _rollerConveyor.gameObject.SetActive(false);
-            _conveyorDestroyer.gameObject.SetActive(false);
+    public void SetConveyorType(ConveyorBeltPlatformType conveyorBeltType) {
+        if(conveyorBeltType == ConveyorBeltPlatformType.Roller) {
+            _rollerConveyorPlatform.gameObject.SetActive(true);
+            _conveyorElevatorPlatform.gameObject.SetActive(false);
+            _currentConveyorPlatform = _rollerConveyorPlatform;
+            _currentConveyorPlatformType = ConveyorBeltPlatformType.Roller;
+        } else if(conveyorBeltType == ConveyorBeltPlatformType.TrapPackageDestroyer) {
+            _rollerConveyorPlatform.gameObject.SetActive(false);
+            _conveyorElevatorPlatform.gameObject.SetActive(false);
+            _currentConveyorPlatform = null;
+            _currentConveyorPlatformType = ConveyorBeltPlatformType.TrapPackageDestroyer;
+        } else if(conveyorBeltType == ConveyorBeltPlatformType.ElevatorCannon) {
+            _rollerConveyorPlatform.gameObject.SetActive(false);
+            _conveyorElevatorPlatform.gameObject.SetActive(true);
+            _currentConveyorPlatform = _conveyorElevatorPlatform;
+            _currentConveyorPlatformType = ConveyorBeltPlatformType.ElevatorCannon;
         }
     }
+}
+
+public class ConveyorPlatformMove {
+
+    private readonly TransportedObject.TransportedObjMovementType _movementType;
+    private readonly Vector3 _targetPoint;
+    private readonly float _speed;
+
+    public ConveyorPlatformMove() { }
+    public ConveyorPlatformMove(TransportedObject.TransportedObjMovementType movementType, Vector3 targetPoint, float speed) {
+        _movementType = movementType;
+        _targetPoint = targetPoint;
+        _speed = speed;
+    }
+
+    public TransportedObject.TransportedObjMovementType MovementType {
+        get { return _movementType; }
+    }
+    public Vector3 TargetPoint { get { return _targetPoint; } }
+    public float Speed { get { return _speed;} }
 }

@@ -11,7 +11,6 @@ namespace PT.View {
     using System;
     using System.Collections.Generic;
     using UnityEngine;
-    using static UnityEditor.Progress;
 
     public class PTDGraphView : GraphView {
         public PTDGraphView() {
@@ -22,7 +21,7 @@ namespace PT.View {
         private Dictionary<string, PTDNodeView> _nodeTreeViewDictionary =
             new Dictionary<string, PTDNodeView>();
         private List<Edge> _nodeTreeEdges = new List<Edge>();
-        private List<PTDGoodEndView> _nodesGoodEnd = new List<PTDGoodEndView>();
+        private List<GeneratedLevelView> _nodesGoodEnd = new List<GeneratedLevelView>();
 
         private void initGraphView() {
 
@@ -37,17 +36,17 @@ namespace PT.View {
             Vector2 reachedPos = Vector2.zero;
             for(int i = 0; i < scoredPaths.Count; i++) {
 
-                PTDGoodEndView pathView = new PTDGoodEndView(scoredPaths[i], reachedPos, i);
+                GeneratedLevelView pathView = new GeneratedLevelView(scoredPaths[i], reachedPos, i);
                 AddElement(pathView);
-                reachedPos = new Vector2(reachedPos.x, reachedPos.y + PTDGoodEndView.defaultSize.y);
+                reachedPos = new Vector2(reachedPos.x, reachedPos.y + GeneratedLevelView.defaultSize.y);
                 _nodesGoodEnd.Add(pathView);
             }
         }
 
-        public void DrawGeneretedTreeView(FourCTree<PossibilityPathItem> tree) {
+        public void DrawGeneretedTreeView(FourCTree<GeneratedLevelWithMatrix> tree) {
 
-            Action<FourCTreeNode<PossibilityPathItem>, FourCTree<PossibilityPathItem>> onNodeVisit =
-            (FourCTreeNode<PossibilityPathItem> visitedNode, FourCTree<PossibilityPathItem> tree) => {
+            Action<FourCTreeNode<GeneratedLevelWithMatrix>, FourCTree<GeneratedLevelWithMatrix>> onNodeVisit =
+            (FourCTreeNode<GeneratedLevelWithMatrix> visitedNode, FourCTree<GeneratedLevelWithMatrix> tree) => {
 
 
                 PTDNodeView visitedNodeView;
@@ -70,7 +69,7 @@ namespace PT.View {
                 if(!tree.ForwardIsEmpty(visitedNode)) {
 
 
-                    FourCTreeNode<PossibilityPathItem> fVisitedNode = tree.Forward(visitedNode); // forward soon node
+                    FourCTreeNode<GeneratedLevelWithMatrix> fVisitedNode = tree.Forward(visitedNode); // forward soon node
 
 
                     // compute new position of child node in relation to parent node
@@ -100,7 +99,7 @@ namespace PT.View {
                 }
                 if(!tree.BackIsEmpty(visitedNode)) {
 
-                    FourCTreeNode<PossibilityPathItem> bVisitedNode = tree.Back(visitedNode);
+                    FourCTreeNode<GeneratedLevelWithMatrix> bVisitedNode = tree.Back(visitedNode);
 
                     Vector2 nodeSpawnPos = PTDNodeView.calculateRelativeNodeChildPosition(
                         visitedNodeView,
@@ -127,7 +126,7 @@ namespace PT.View {
                 }
                 if(!tree.RightIsEmpty(visitedNode)) {
 
-                    FourCTreeNode<PossibilityPathItem> rVisitedNode = tree.Right(visitedNode);
+                    FourCTreeNode<GeneratedLevelWithMatrix> rVisitedNode = tree.Right(visitedNode);
 
                     Vector2 nodeSpawnPos = PTDNodeView.calculateRelativeNodeChildPosition(
                         visitedNodeView,
@@ -155,7 +154,7 @@ namespace PT.View {
                 }
                 if(!tree.LeftIsEmpty(visitedNode)) {
 
-                    FourCTreeNode<PossibilityPathItem> lVisitedNode = tree.Left(visitedNode);
+                    FourCTreeNode<GeneratedLevelWithMatrix> lVisitedNode = tree.Left(visitedNode);
 
 
                     Vector2 nodeSpawnPos = PTDNodeView.calculateRelativeNodeChildPosition(
@@ -214,7 +213,10 @@ namespace PT.View {
 
         private IManipulator DrawGeneratedGoodPathsContextualMenu() {
             ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
-                menuEvent => menuEvent.menu.AppendAction("Draw generated good paths", actionEvent => DrawGeneratedGoodPaths())
+                menuEvent => menuEvent.menu.AppendAction(
+                    "Draw generated good paths",
+                    actionEvent => DrawGeneratedGoodPaths()
+                    )
             );
 
             return contextualMenuManipulator;
@@ -237,12 +239,12 @@ namespace PT.View {
 
         private void DrawGeneretedTreeView() {
             ClearInterface();
-            FourCTree<PossibilityPathItem> _tree = GlobalPossibilityPath.GeneratedDebugTree;
+            FourCTree<GeneratedLevelWithMatrix> _tree = GlobalPossibilityPath.GeneratedDebugTree;
             DrawGeneretedTreeView(_tree);
         }
         private void DrawGeneratedGoodPaths() {
             ClearInterface();
-            List<GeneratedLevel> _paths = GlobalPossibilityPath.GetChapterLevels(GlobalPossibilityPath.Chapter.Chapter1);
+            List<GeneratedLevel> _paths = GlobalPossibilityPath.GetChapterLevels(GameSaveManager.LevelInfoReachedInfo.Chapter);
             DrawGeneratedGoodPaths(_paths);
         }
         
@@ -262,7 +264,7 @@ namespace PT.View {
             foreach(var element in _nodesGoodEnd) {
                 this.RemoveElement(element);
             }
-            _nodesGoodEnd = new List<PTDGoodEndView>();
+            _nodesGoodEnd = new List<GeneratedLevelView>();
             _nodeTreeViewDictionary = new Dictionary<string, PTDNodeView>();
             _nodeTreeEdges = new List<Edge>();
         }

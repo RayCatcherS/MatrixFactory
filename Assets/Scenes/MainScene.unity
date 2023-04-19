@@ -1333,7 +1333,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 628648276}
-  m_LocalRotation: {x: -0.418912, y: -0.56966025, z: 0.41891217, w: -0.56966}
+  m_LocalRotation: {x: -0.41891217, y: -0.5696601, z: 0.41891217, w: -0.5696601}
   m_LocalPosition: {x: -2.499997, y: 8.7867985, z: 22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1550,8 +1550,8 @@ Light:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 7
   m_Range: 3.1664562
-  m_SpotAngle: 25
-  m_InnerSpotAngle: 23
+  m_SpotAngle: 23.5
+  m_InnerSpotAngle: 20
   m_CookieSize: 10
   m_Shadows:
     m_Type: 1
@@ -2791,7 +2791,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1053360924}
-  m_LocalRotation: {x: -0.40242454, y: -0.58142453, z: 0.40242466, w: -0.5814244}
+  m_LocalRotation: {x: -0.4024246, y: -0.5814245, z: 0.4024246, w: -0.5814245}
   m_LocalPosition: {x: -2.499997, y: 8.7867985, z: 22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3558,7 +3558,7 @@ MonoBehaviour:
   _cameraController: {fileID: 1634783206}
   _packageSpawnTransform: {fileID: 283552998}
   _spawnLight: {fileID: 795262059}
-  _debugPath: 0
+  _debugPath: 1
 --- !u!114 &1497837088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4102,6 +4102,8 @@ MonoBehaviour:
   _YrotationSpeed: 5.5
   _minY: 35
   _maxY: 80
+  _layersToIgnore:
+    _layers: 0600000009000000
 --- !u!1 &1945914521
 GameObject:
   m_ObjectHideFlags: 0
