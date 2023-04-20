@@ -132,7 +132,7 @@ public class TransportedObject : MonoBehaviour {
             _elevatorVerticalAxisLerpCurve.Evaluate(_animationTimePosition)
         );*/
 
-        _animationTimePosition += _moveSpeed * _objectSpeedMultiplyer * Time.deltaTime;
+        _animationTimePosition += _moveSpeed * Time.deltaTime;
     }
 
 
