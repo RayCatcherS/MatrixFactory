@@ -23,7 +23,8 @@ public class TransportedObject : MonoBehaviour {
 	[Header("Movement")]
 	[SerializeField] private AnimationCurve _moveLerpCurve;
 	[SerializeField] private AnimationCurve _fallLerpCurve;
-    [SerializeField] private AnimationCurve _elevatorLerpCurve;
+    [SerializeField] private AnimationCurve _elevatorVerticalAxisLerpCurve;
+    [SerializeField] private AnimationCurve _elevatorHorizontalAxisLerpCurve;
     [SerializeField] private float _objectFallSpeed = 3;
 	[SerializeField] private float _objectSpeedMultiplyer = 1;
 	private float _moveSpeed;
@@ -57,17 +58,15 @@ public class TransportedObject : MonoBehaviour {
 
 	private void Update() {
 
-
 		if (targetReached) {
 			SetNextTarget();
-		}
-		else {
-			ReachTargetPosition();
+		} else {
+			ReachTargetPositionUpdate();
 		}
 
 	}
 
-	private void ReachTargetPosition() {
+	private void ReachTargetPositionUpdate() {
 
 		Vector3 distance = new Vector3(
 			_targetPoint.x - transform.position.x,
@@ -77,51 +76,66 @@ public class TransportedObject : MonoBehaviour {
 
 		if(distance.magnitude > targetReachedTollerance) {
 
-
 			if(objMovementType == TransportedObjMovementType.Fall) {
+				FallMoveUpdate();
 
-				Vector3 fallDistance = new Vector3(
-					_targetPoint.x - _startPoint.x,
-					_targetPoint.y - _startPoint.y,
-					_targetPoint.z - _startPoint.z
-				);
-				float unitDistance = fallDistance.magnitude;
+			} else if(objMovementType == TransportedObjMovementType.Move) {
+				MoveUpdate();
 
-				transform.position = Vector3.Lerp(
-					_startPoint,
-					_targetPoint,
-					_fallLerpCurve.Evaluate(_animationTimePosition)
-				);
-
-				// increase in speed in proportion to the distance to be covered
-				_animationTimePosition += (_objectFallSpeed / unitDistance) * _objectSpeedMultiplyer * Time.deltaTime;
-
-			}
-			else if(objMovementType == TransportedObjMovementType.Move) {
-
-				transform.position = Vector3.Lerp(
-					_startPoint,
-					_targetPoint,
-					_moveLerpCurve.Evaluate(_animationTimePosition)
-				);
-
-				_animationTimePosition += _moveSpeed * _objectSpeedMultiplyer * Time.deltaTime;
 			} else if(objMovementType == TransportedObjMovementType.ElevatorCannon) {
-
-                transform.position = Vector3.Lerp(
-					_startPoint,
-					_targetPoint,
-                    _elevatorLerpCurve.Evaluate(_animationTimePosition)
-				);
-                _animationTimePosition += _moveSpeed * _objectSpeedMultiplyer * Time.deltaTime;
+                ElevatorCannonMoveUpdate();
             }
-
-
 		}
 		else {
 			targetReached = true;
 		}
 	}
+
+
+	private void FallMoveUpdate() {
+        Vector3 fallDistance = new Vector3(
+                    _targetPoint.x - _startPoint.x,
+                    _targetPoint.y - _startPoint.y,
+                    _targetPoint.z - _startPoint.z
+                );
+        float unitDistance = fallDistance.magnitude;
+
+        transform.position = Vector3.Lerp(
+            _startPoint,
+            _targetPoint,
+            _fallLerpCurve.Evaluate(_animationTimePosition)
+        );
+
+        // increase in speed in proportion to the distance to be covered
+        _animationTimePosition += (_objectFallSpeed / unitDistance) * _objectSpeedMultiplyer * Time.deltaTime;
+    }
+	private void MoveUpdate() {
+        transform.position = Vector3.Lerp(
+                    _startPoint,
+                    _targetPoint,
+                    _moveLerpCurve.Evaluate(_animationTimePosition)
+                );
+
+        _animationTimePosition += _moveSpeed * _objectSpeedMultiplyer * Time.deltaTime;
+    }
+	private void ElevatorCannonMoveUpdate() {
+
+		transform.position = new Vector3(
+            Mathf.Lerp(_startPoint.x, _targetPoint.x, _elevatorHorizontalAxisLerpCurve.Evaluate(_animationTimePosition)),
+            Mathf.Lerp(_startPoint.y, _targetPoint.y, _elevatorVerticalAxisLerpCurve.Evaluate(_animationTimePosition)),
+            Mathf.Lerp(_startPoint.z, _targetPoint.z, _elevatorHorizontalAxisLerpCurve.Evaluate(_animationTimePosition))
+        );
+
+        /*transform.position = Vector3.Lerp(
+			_startPoint,
+            _targetPoint,
+            _elevatorVerticalAxisLerpCurve.Evaluate(_animationTimePosition)
+        );*/
+
+        _animationTimePosition += _moveSpeed * _objectSpeedMultiplyer * Time.deltaTime;
+    }
+
+
 
 	private void SetNextTarget() {
 		_startPoint = transform.position;
@@ -129,7 +143,7 @@ public class TransportedObject : MonoBehaviour {
 
 		if (IsGrounded()) {
 
-			ConfigureConveyorMoveToObject();
+			GetMoveFromConveyorplatform();
 		} else {
 			SetFloorAsTarget();
 		}
@@ -165,7 +179,7 @@ public class TransportedObject : MonoBehaviour {
 		}
 	}
 
-	private void ConfigureConveyorMoveToObject() {
+	private void GetMoveFromConveyorplatform() {
 
 		// type of conveyor set the type of move
 		RaycastHit hit;

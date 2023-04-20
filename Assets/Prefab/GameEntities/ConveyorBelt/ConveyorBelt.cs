@@ -21,18 +21,18 @@ public class ConveyorBelt : MonoBehaviour {
 
 
     [Header("Debug")]
-    [SerializeField] private GameObject _debugShowPath;
+    [SerializeField] private GameObject _debugShowTruthPath;
     [Header ("Conveyor parameters")]
-    [SerializeField] private float _rollerConveyorPlatformSpeed;
-    [SerializeField] private float _elevatorCannonConveyorPlatformSpeed;
+    [SerializeField] private float _rollerPlatformSpeed;
+    [SerializeField] private float _elevatorCannonPlatformSpeed;
 
 
-    private Quaternion _rollerConveyorRotationTarget = Quaternion.identity;
-    [SerializeField] private float _rollerRotationSpeed = 2f;
-    [SerializeField] private AnimationCurve _rollerRotationLerpCurve;
-    private Direction _rollerConveyorDirection = Direction.stay;
-    public Direction RollerConveyorDirection {
-        get { return _rollerConveyorDirection; } 
+    private Quaternion _platformRotationTarget = Quaternion.identity;
+    [SerializeField] private float _platformRotationSpeed = 10;
+    [SerializeField] private AnimationCurve _platformRotationLerpCurve;
+    private Direction _platformDirection = Direction.stay;
+    public Direction PlatformDirection {
+        get { return _platformDirection; } 
     }
 
     /// <summary>
@@ -44,13 +44,13 @@ public class ConveyorBelt : MonoBehaviour {
         ConveyorPlatformMove move = new ConveyorPlatformMove();
 
         Vector3 direction = Vector3.zero;
-        if(_rollerConveyorDirection == Direction.forward) {
+        if(_platformDirection == Direction.forward) {
             direction = new Vector3(-1, 0, 0);
-        } else if(_rollerConveyorDirection == Direction.right) {
+        } else if(_platformDirection == Direction.right) {
             direction = new Vector3(0, 0, 1);
-        } else if(_rollerConveyorDirection == Direction.back) {
+        } else if(_platformDirection == Direction.back) {
             direction = new Vector3(1, 0, 0);
-        } else if(_rollerConveyorDirection == Direction.left) {
+        } else if(_platformDirection == Direction.left) {
             direction = new Vector3(0, 0, -1);
         }
 
@@ -61,13 +61,13 @@ public class ConveyorBelt : MonoBehaviour {
             move = new ConveyorPlatformMove(
                 TransportedObject.TransportedObjMovementType.Move,
                 oldTargetPoint + direction,
-                _rollerConveyorPlatformSpeed
+                _rollerPlatformSpeed
             );
         } else if(_currentConveyorPlatformType == ConveyorBeltPlatformType.ElevatorCannon) {
             move = new ConveyorPlatformMove(
                 TransportedObject.TransportedObjMovementType.ElevatorCannon,
                 new Vector3(oldTargetPoint.x, oldTargetPoint.y + 1, oldTargetPoint.z) + direction,
-                _elevatorCannonConveyorPlatformSpeed
+                _elevatorCannonPlatformSpeed
             );
         }
 
@@ -98,7 +98,7 @@ public class ConveyorBelt : MonoBehaviour {
         InitConveyorParameters();
 
         SetRollerConveyorHeight(conveyorPlatformHeight);
-        SetRollerConveyorDirectionTarget(platformDirection, false);
+        SetPlatformDirection(platformDirection);
 
         EnableDebugShowPath(false);
 
@@ -109,7 +109,11 @@ public class ConveyorBelt : MonoBehaviour {
         _defaultConveyorPlatformHeight = _rollerConveyorPlatform.gameObject.transform.position.y;
     }
 
-    private void SetRollerConveyorDirectionTarget(Direction direction, bool animated) {
+    /// <summary>
+    /// Used to animate the rotation of the conveyor belt
+    /// </summary>
+    /// <param name="direction"></param>
+    private void SetPlatformDirectionTarget(Direction direction) {
 
         Quaternion rotationVal = Quaternion.identity;
 
@@ -125,18 +129,34 @@ public class ConveyorBelt : MonoBehaviour {
         } else if (direction == Direction.left) {
             rotationVal = Quaternion.Euler(0, _CBrotationOffset * 2, 0);
         }
+        _platformRotationTarget = rotationVal;
 
-        if(!animated) {
-            _rollerConveyorPlatform.gameObject.transform.rotation = rotationVal;
+        _platformDirection = direction;
+    }
+    private void SetPlatformDirection(Direction direction) {
+        Quaternion rotationVal = Quaternion.identity;
+
+        if(direction == Direction.forward) {
+            rotationVal = Quaternion.Euler(0, -_CBrotationOffset, 0);
+
+
+        } else if(direction == Direction.right) {
+            rotationVal = Quaternion.Euler(0, 0, 0);
+
+        } else if(direction == Direction.back) {
+            rotationVal = Quaternion.Euler(0, _CBrotationOffset, 0);
+        } else if(direction == Direction.left) {
+            rotationVal = Quaternion.Euler(0, _CBrotationOffset * 2, 0);
         }
-        _rollerConveyorRotationTarget = rotationVal;
-
-        _rollerConveyorDirection = direction;
+        _rollerConveyorPlatform.gameObject.transform.rotation = rotationVal;
+        _conveyorElevatorPlatform.gameObject.transform.rotation = rotationVal;
+        _platformRotationTarget = rotationVal;
+        _platformDirection = direction;
     }
 
     public void EnableDebugShowPath(bool value) {
-        _debugShowPath.SetActive(value);
-        _debugShowPath.transform.position = new Vector3(
+        _debugShowTruthPath.SetActive(value);
+        _debugShowTruthPath.transform.position = new Vector3(
             _currentConveyorPlatform.gameObject.transform.position.x,
             _currentConveyorPlatform.gameObject.transform.position.y + 1,
             _currentConveyorPlatform.gameObject.transform.position.z
@@ -146,14 +166,14 @@ public class ConveyorBelt : MonoBehaviour {
     private Direction NextRollerConveyorDirection() {
         Direction nextDirection = Direction.stay;
 
-        if(_rollerConveyorDirection == Direction.forward) {
+        if(_platformDirection == Direction.forward) {
 
             nextDirection = Direction.right;
-        } else if(_rollerConveyorDirection == Direction.right) {
+        } else if(_platformDirection == Direction.right) {
             nextDirection = Direction.back;
-        } else if(_rollerConveyorDirection == Direction.back) {
+        } else if(_platformDirection == Direction.back) {
             nextDirection = Direction.left;
-        } else if(_rollerConveyorDirection == Direction.left) {
+        } else if(_platformDirection == Direction.left) {
             nextDirection = Direction.forward;
         } 
         
@@ -163,7 +183,7 @@ public class ConveyorBelt : MonoBehaviour {
     public void ApplyRollerConveyorRotation() {
         Direction newDir = NextRollerConveyorDirection();
 
-        SetRollerConveyorDirectionTarget(newDir, true);
+        SetPlatformDirectionTarget(newDir);
     }
 
 
@@ -176,11 +196,11 @@ public class ConveyorBelt : MonoBehaviour {
         );
     }
     private void UpdateRollerConveyorRotation() {
-        if(_currentConveyorPlatform.gameObject.transform.rotation != _rollerConveyorRotationTarget) {
+        if(_currentConveyorPlatform.gameObject.transform.rotation != _platformRotationTarget) {
             _currentConveyorPlatform.gameObject.transform.rotation = Quaternion.Lerp(
                 _currentConveyorPlatform.gameObject.transform.rotation,
-                _rollerConveyorRotationTarget,
-                _rollerRotationLerpCurve.Evaluate(Time.deltaTime * _rollerRotationSpeed)
+                _platformRotationTarget,
+                _platformRotationLerpCurve.Evaluate(Time.deltaTime * _platformRotationSpeed)
             );
         }
     }

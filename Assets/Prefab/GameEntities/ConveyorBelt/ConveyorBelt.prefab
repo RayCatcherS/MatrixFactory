@@ -133,11 +133,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rollerConveyorPlatform: {fileID: 3834666638551918378}
   _conveyorElevatorPlatform: {fileID: 8215700581191080509}
-  _debugShowPath: {fileID: 8174394858245867595}
-  _rollerConveyorPlatformSpeed: 2
-  _elevatorCannonConveyorPlatformSpeed: 7
-  _rollerRotationSpeed: 10
-  _rollerRotationLerpCurve:
+  _debugShowTruthPath: {fileID: 8174394858245867595}
+  _rollerPlatformSpeed: 2
+  _elevatorCannonPlatformSpeed: 4
+  _platformRotationSpeed: 10
+  _platformRotationLerpCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3

@@ -227,17 +227,18 @@ public class LevelManager : MonoBehaviour {
 
 
         /* INIT GAME PATH CONVEYOR CORRECT HEIGHT*/
+        int platformHeightTargetDecrementer = 0;
         for(int i = 0; i < levelPath.PathElements.Count; i++) {
 
             double conveyorPlatformHeight;
 
             if(i != 0) {
                 System.Random random = new System.Random();
-                int randomNextHeight = random.Next(i - 1, i + 1); // the random height has value between the current offset and the previous one
+                int randomNextHeight = random.Next(platformHeightTargetDecrementer - 1, platformHeightTargetDecrementer + 1); // the random height has value between the current offset and the previous one
 
                 conveyorPlatformHeight = conveyorHeightRangeMin + (levelPath.PathElements.Count - randomNextHeight) * _conveyorPlatformOffsetHeight;
             } else {
-                conveyorPlatformHeight = conveyorHeightRangeMin + (levelPath.PathElements.Count - i) * _conveyorPlatformOffsetHeight;
+                conveyorPlatformHeight = conveyorHeightRangeMin + (levelPath.PathElements.Count - platformHeightTargetDecrementer) * _conveyorPlatformOffsetHeight;
             }
 
 
@@ -245,6 +246,8 @@ public class LevelManager : MonoBehaviour {
             /* INIT NEW CONVEYOR*/
             pathCurrentConveyor.SetConveyorType(levelPath.PathElements[i].conveyorBeltPlatformType);
             pathCurrentConveyor.SetRollerConveyorHeight(conveyorPlatformHeight);
+
+
 
             // Set/Update the highest conveyor on the map
             if(_conveyorMaxHeight < pathCurrentConveyor.RollerConveyorHeight) {
@@ -254,6 +257,14 @@ public class LevelManager : MonoBehaviour {
             // show path
             if(_debugPath) {
                 pathCurrentConveyor.EnableDebugShowPath(true);
+            }
+
+
+            if(levelPath.PathElements[i].conveyorBeltPlatformType == ConveyorBelt.ConveyorBeltPlatformType.ElevatorCannon) {
+                //the platform height of the next conveyor will be higher
+                platformHeightTargetDecrementer--;
+            } else {
+                platformHeightTargetDecrementer++;
             }
         }
     }
