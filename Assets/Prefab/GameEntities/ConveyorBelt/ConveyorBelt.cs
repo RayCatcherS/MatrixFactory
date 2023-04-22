@@ -56,19 +56,24 @@ public class ConveyorBelt : MonoBehaviour {
 
         if(_currentConveyorPlatformType == ConveyorBeltPlatformType.Roller) {
 
-            
-
             move = new ConveyorPlatformMove(
                 TransportedObject.TransportedObjMovementType.Move,
                 oldTargetPoint + direction,
                 _rollerPlatformSpeed
             );
+
+
         } else if(_currentConveyorPlatformType == ConveyorBeltPlatformType.ElevatorCannon) {
+
+            float elevatorCannonHeightForce = 1.5f;
+
             move = new ConveyorPlatformMove(
                 TransportedObject.TransportedObjMovementType.ElevatorCannon,
-                new Vector3(oldTargetPoint.x, oldTargetPoint.y + 1, oldTargetPoint.z) + direction,
+                new Vector3(oldTargetPoint.x, oldTargetPoint.y + elevatorCannonHeightForce, oldTargetPoint.z) + direction,
                 _elevatorCannonPlatformSpeed
             );
+
+
         }
 
         return move;

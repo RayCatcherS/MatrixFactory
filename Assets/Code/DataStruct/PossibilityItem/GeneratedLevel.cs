@@ -109,7 +109,7 @@ namespace PT.DataStruct {
         }
 
         public int packageToSpawn {
-            get { return _path.Count() * 2; }
+            get { return _path.Count() * 3; }
         }
 
         public string id() {
