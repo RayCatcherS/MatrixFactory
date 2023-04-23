@@ -57,14 +57,16 @@ namespace PT.DataStruct {
 
 
 
-                /* SET ELEVATORS ON THE PATH*/
+                
                 if(i != posPath.Count - 1 && i != 0) { // not the last path item
+
+                    /* SET ELEVATORS ON THE PATH*/
                     if(i % elevatorGenerationOffset == 0 ) {
                         _path.Add(
                         new LevelPathElement(
                             posPath[i].moveDirection,
                             posPath[i].pos,
-                            ConveyorBelt.ConveyorBeltPlatformType.ElevatorCannon
+                            ConveyorBelt.PlatformType.ElevatorCannon
                             )
                         );
                     } else {
@@ -72,20 +74,33 @@ namespace PT.DataStruct {
                         new LevelPathElement(
                             posPath[i].moveDirection,
                             posPath[i].pos,
-                            ConveyorBelt.ConveyorBeltPlatformType.Roller
+                            ConveyorBelt.PlatformType.Roller
                             )
                         );
                     }
 
 
-                } else { // last path item
-                    _path.Add(
-                     new LevelPathElement(
-                         posPath[i].moveDirection,
-                         posPath[i].pos,
-                         ConveyorBelt.ConveyorBeltPlatformType.Roller
-                     )
-                 );
+                } else {
+
+                    /* SET INCINERATOR ON THE PATH*/
+                    if(i == posPath.Count - 1) {
+                        _path.Add(
+                            new LevelPathElement(
+                            posPath[i].moveDirection,
+                            posPath[i].pos,
+                            ConveyorBelt.PlatformType.Incinerator
+                            )
+                        );
+                    } else {
+                        /* SET DEFAULT PLATFORM ON THE PATH*/
+                        _path.Add(
+                            new LevelPathElement(
+                            posPath[i].moveDirection,
+                            posPath[i].pos,
+                            ConveyorBelt.PlatformType.Roller
+                            )
+                        );
+                    }
                 }
             }
 
@@ -122,20 +137,20 @@ namespace PT.DataStruct {
     }
 
     public class LevelPathElement {
-        public LevelPathElement(Direction move, Vector2Int pos, ConveyorBelt.ConveyorBeltPlatformType conveyorBeltPlatformType) {
+        public LevelPathElement(Direction move, Vector2Int pos, ConveyorBelt.PlatformType conveyorBeltPlatformType) {
             _move = move;
             _pos = pos;
             _conveyorBeltPlatformType = conveyorBeltPlatformType;
         }
         private Direction _move;
         private Vector2Int _pos;
-        ConveyorBelt.ConveyorBeltPlatformType _conveyorBeltPlatformType;
+        ConveyorBelt.PlatformType _conveyorBeltPlatformType;
 
         public Vector2Int pos {
             get { return _pos; }
         }
 
-        public ConveyorBelt.ConveyorBeltPlatformType conveyorBeltPlatformType {
+        public ConveyorBelt.PlatformType conveyorBeltPlatformType {
             get {
                 return _conveyorBeltPlatformType;
             } 

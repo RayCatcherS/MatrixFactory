@@ -198,7 +198,7 @@ public class LevelManager : MonoBehaviour {
 
 
                 /* INIT NEW CONVEYOR*/
-                conveyorBelt.InitConveyorBelt(conveyorPlatformUnitHeight * _conveyorPlatformOffsetHeight, conveyorPlatformDirection, ConveyorBelt.ConveyorBeltPlatformType.Roller);
+                conveyorBelt.InitConveyorBelt(conveyorPlatformUnitHeight * _conveyorPlatformOffsetHeight, conveyorPlatformDirection, ConveyorBelt.PlatformType.Roller);
 
 
                 // Set/Update the highest conveyor on the map
@@ -260,7 +260,7 @@ public class LevelManager : MonoBehaviour {
             }
 
 
-            if(levelPath.PathElements[i].conveyorBeltPlatformType == ConveyorBelt.ConveyorBeltPlatformType.ElevatorCannon) {
+            if(levelPath.PathElements[i].conveyorBeltPlatformType == ConveyorBelt.PlatformType.ElevatorCannon) {
                 //the platform height of the next conveyor will be higher
                 platformHeightTargetDecrementer = platformHeightTargetDecrementer - 3;
             } else {

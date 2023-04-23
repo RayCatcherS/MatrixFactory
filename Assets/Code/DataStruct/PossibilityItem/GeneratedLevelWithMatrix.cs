@@ -205,7 +205,7 @@ namespace PT.DataStruct {
 		private bool _deadEnd = false;
 		private bool _goodEnd = false;
 
-        ConveyorBelt.ConveyorBeltPlatformType _platformType = ConveyorBelt.ConveyorBeltPlatformType.Roller;
+        ConveyorBelt.PlatformType _platformType = ConveyorBelt.PlatformType.Roller;
         public bool deadEnd {
 			get { return _deadEnd; }
 		}
@@ -239,10 +239,10 @@ namespace PT.DataStruct {
 			_tracedMoveDirection = direction;
 		}
 
-		public void SetConveyorPlatformType(ConveyorBelt.ConveyorBeltPlatformType type) {
+		public void SetConveyorPlatformType(ConveyorBelt.PlatformType type) {
             _platformType = type;
         }
-		public ConveyorBelt.ConveyorBeltPlatformType conveyorPlatformType {
+		public ConveyorBelt.PlatformType conveyorPlatformType {
             get { return _platformType; }
 		}
 	}

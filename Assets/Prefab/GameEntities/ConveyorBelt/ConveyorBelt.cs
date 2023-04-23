@@ -2,10 +2,11 @@ using PT.DataStruct;
 using UnityEngine;
 
 public class ConveyorBelt : MonoBehaviour {
-    public enum ConveyorBeltPlatformType {
+    public enum PlatformType {
         Roller,
-        TrapPackageDestroyer,
+        TrapDestroyer,
         ElevatorCannon,
+        Incinerator,
         PackageDestroyer
     }
 
@@ -14,10 +15,11 @@ public class ConveyorBelt : MonoBehaviour {
     private float _defaultConveyorPlatformHeight = 0f;
 
     [Header("Conveyor Belt Type")]
-    [SerializeField] private ConveyorBeltPlatform _rollerConveyorPlatform;
-    [SerializeField] private ConveyorBeltPlatform _conveyorElevatorPlatform;
+    [SerializeField] private ConveyorBeltPlatform _rollerPlatform;
+    [SerializeField] private ConveyorBeltPlatform _elevatorPlatform;
+    [SerializeField] private ConveyorBeltPlatform _incineratorPlatform;
     private ConveyorBeltPlatform _currentConveyorPlatform;
-    private ConveyorBeltPlatformType _currentConveyorPlatformType;
+    private PlatformType _currentConveyorPlatformType;
 
 
     [Header("Debug")]
@@ -54,7 +56,7 @@ public class ConveyorBelt : MonoBehaviour {
             direction = new Vector3(0, 0, -1);
         }
 
-        if(_currentConveyorPlatformType == ConveyorBeltPlatformType.Roller) {
+        if(_currentConveyorPlatformType == PlatformType.Roller) {
 
             move = new ConveyorPlatformMove(
                 TransportedObject.TransportedObjMovementType.Move,
@@ -63,7 +65,7 @@ public class ConveyorBelt : MonoBehaviour {
             );
 
 
-        } else if(_currentConveyorPlatformType == ConveyorBeltPlatformType.ElevatorCannon) {
+        } else if(_currentConveyorPlatformType == PlatformType.ElevatorCannon) {
 
             float elevatorCannonHeightForce = 1.5f;
 
@@ -73,7 +75,12 @@ public class ConveyorBelt : MonoBehaviour {
                 _elevatorCannonPlatformSpeed
             );
 
-
+        } else if(_currentConveyorPlatformType == PlatformType.Incinerator) {
+            move = new ConveyorPlatformMove(
+                TransportedObject.TransportedObjMovementType.Move,
+                oldTargetPoint + direction,
+                _rollerPlatformSpeed
+            );
         }
 
         return move;
@@ -82,7 +89,7 @@ public class ConveyorBelt : MonoBehaviour {
     private bool _initialized = false;
 
     public float RollerConveyorHeight {
-        get { return _rollerConveyorPlatform.gameObject.transform.position.y; }
+        get { return _rollerPlatform.gameObject.transform.position.y; }
     }
 
 
@@ -93,7 +100,7 @@ public class ConveyorBelt : MonoBehaviour {
         }
     }
 
-    public void InitConveyorBelt(double conveyorPlatformHeight, Direction platformDirection, ConveyorBeltPlatformType platformType) {
+    public void InitConveyorBelt(double conveyorPlatformHeight, Direction platformDirection, PlatformType platformType) {
         if(_initialized) {
             Debug.LogError("the conveyor has already been initialized");
         }
@@ -111,7 +118,7 @@ public class ConveyorBelt : MonoBehaviour {
     }
 
     private void InitConveyorParameters() {
-        _defaultConveyorPlatformHeight = _rollerConveyorPlatform.gameObject.transform.position.y;
+        _defaultConveyorPlatformHeight = _rollerPlatform.gameObject.transform.position.y;
     }
 
     /// <summary>
@@ -153,8 +160,9 @@ public class ConveyorBelt : MonoBehaviour {
         } else if(direction == Direction.left) {
             rotationVal = Quaternion.Euler(0, _CBrotationOffset * 2, 0);
         }
-        _rollerConveyorPlatform.gameObject.transform.rotation = rotationVal;
-        _conveyorElevatorPlatform.gameObject.transform.rotation = rotationVal;
+        _rollerPlatform.gameObject.transform.rotation = rotationVal;
+        _incineratorPlatform.gameObject.transform.rotation = rotationVal;
+        _elevatorPlatform.gameObject.transform.rotation = rotationVal;
         _platformRotationTarget = rotationVal;
         _platformDirection = direction;
     }
@@ -210,23 +218,40 @@ public class ConveyorBelt : MonoBehaviour {
         }
     }
 
-    public void SetConveyorType(ConveyorBeltPlatformType conveyorBeltType) {
-        if(conveyorBeltType == ConveyorBeltPlatformType.Roller) {
-            _rollerConveyorPlatform.gameObject.SetActive(true);
-            _conveyorElevatorPlatform.gameObject.SetActive(false);
-            _currentConveyorPlatform = _rollerConveyorPlatform;
-            _currentConveyorPlatformType = ConveyorBeltPlatformType.Roller;
-        } else if(conveyorBeltType == ConveyorBeltPlatformType.TrapPackageDestroyer) {
-            _rollerConveyorPlatform.gameObject.SetActive(false);
-            _conveyorElevatorPlatform.gameObject.SetActive(false);
+    public void SetConveyorType(PlatformType conveyorBeltType) {
+
+        if(conveyorBeltType == PlatformType.Roller) {
+            _rollerPlatform.gameObject.SetActive(true);
+            _elevatorPlatform.gameObject.SetActive(false);
+            _incineratorPlatform.gameObject.SetActive(false);
+
+            _currentConveyorPlatform = _rollerPlatform;
+
+        } else if(conveyorBeltType == PlatformType.TrapDestroyer) {
+            _rollerPlatform.gameObject.SetActive(false);
+            _elevatorPlatform.gameObject.SetActive(false);
+            _incineratorPlatform.gameObject.SetActive(false);
+
             _currentConveyorPlatform = null;
-            _currentConveyorPlatformType = ConveyorBeltPlatformType.TrapPackageDestroyer;
-        } else if(conveyorBeltType == ConveyorBeltPlatformType.ElevatorCannon) {
-            _rollerConveyorPlatform.gameObject.SetActive(false);
-            _conveyorElevatorPlatform.gameObject.SetActive(true);
-            _currentConveyorPlatform = _conveyorElevatorPlatform;
-            _currentConveyorPlatformType = ConveyorBeltPlatformType.ElevatorCannon;
+
+        } else if(conveyorBeltType == PlatformType.ElevatorCannon) {
+            _rollerPlatform.gameObject.SetActive(false);
+            _elevatorPlatform.gameObject.SetActive(true);
+            _incineratorPlatform.gameObject.SetActive(false);
+
+
+            _currentConveyorPlatform = _elevatorPlatform;
+            
+
+        } else if(conveyorBeltType == PlatformType.Incinerator) {
+            _rollerPlatform.gameObject.SetActive(false);
+            _elevatorPlatform.gameObject.SetActive(false);
+            _incineratorPlatform.gameObject.SetActive(true);
+
+
+            _currentConveyorPlatform = _incineratorPlatform;
         }
+        _currentConveyorPlatformType = conveyorBeltType;
     }
 }
 

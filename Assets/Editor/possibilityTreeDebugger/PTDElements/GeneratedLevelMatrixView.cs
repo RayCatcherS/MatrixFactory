@@ -163,7 +163,7 @@ namespace PT.DebugView
             }
 
             // add conveyor platform type
-            if(_matrixElement.conveyorPlatformType == ConveyorBelt.ConveyorBeltPlatformType.ElevatorCannon) {
+            if(_matrixElement.conveyorPlatformType == ConveyorBelt.PlatformType.ElevatorCannon) {
                 matrixBoxElement.Add(new Label("Ele"));
             }
 

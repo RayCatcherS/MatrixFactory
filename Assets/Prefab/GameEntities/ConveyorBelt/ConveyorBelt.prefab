@@ -32,6 +32,7 @@ Transform:
   - {fileID: 7079079052372898272}
   - {fileID: 5752490226102724660}
   - {fileID: 2519042861301453005}
+  - {fileID: 1670615113939487768}
   - {fileID: 7230097075403812735}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -48,8 +49,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a22ce85a7d48e854685168a9704eb048, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rollerConveyorPlatform: {fileID: 4548708195920313175}
-  _conveyorElevatorPlatform: {fileID: 2877614205760572810}
+  _rollerPlatform: {fileID: 4548708195920313175}
+  _elevatorPlatform: {fileID: 2877614205760572810}
+  _incineratorPlatform: {fileID: 4822527112126374845}
   _debugShowTruthPath: {fileID: 8174394858245867595}
   _rollerPlatformSpeed: 2
   _elevatorCannonPlatformSpeed: 4
@@ -253,6 +255,98 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 384614004888468438}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1678986705722892928
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 4724466559744545301}
+    m_Modifications:
+    - target: {fileID: 28079444584591000, guid: f42b75d1aea96734491239e5712422ed,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 28079444584591000, guid: f42b75d1aea96734491239e5712422ed,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 28079444584591000, guid: f42b75d1aea96734491239e5712422ed,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 28079444584591000, guid: f42b75d1aea96734491239e5712422ed,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 28079444584591000, guid: f42b75d1aea96734491239e5712422ed,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 28079444584591000, guid: f42b75d1aea96734491239e5712422ed,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 28079444584591000, guid: f42b75d1aea96734491239e5712422ed,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 28079444584591000, guid: f42b75d1aea96734491239e5712422ed,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 28079444584591000, guid: f42b75d1aea96734491239e5712422ed,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 28079444584591000, guid: f42b75d1aea96734491239e5712422ed,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 28079444584591000, guid: f42b75d1aea96734491239e5712422ed,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5043707055451496909, guid: f42b75d1aea96734491239e5712422ed,
+        type: 3}
+      propertyPath: m_Name
+      value: IncineratorPlatformPrefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 6170489323822825789, guid: f42b75d1aea96734491239e5712422ed,
+        type: 3}
+      propertyPath: _conveyorBelt
+      value: 
+      objectReference: {fileID: 1545146530287381575}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f42b75d1aea96734491239e5712422ed, type: 3}
+--- !u!4 &1670615113939487768 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28079444584591000, guid: f42b75d1aea96734491239e5712422ed,
+    type: 3}
+  m_PrefabInstance: {fileID: 1678986705722892928}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4822527112126374845 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6170489323822825789, guid: f42b75d1aea96734491239e5712422ed,
+    type: 3}
+  m_PrefabInstance: {fileID: 1678986705722892928}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 167bf7fd86922864ca2c98c78715ecf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2219096082106913341
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -264,6 +358,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ConveyorElevatorPlatform
+      objectReference: {fileID: 0}
+    - target: {fileID: 3996224143213893706, guid: 43f54711d23705747834023c130ee5d0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4117564387329023927, guid: 43f54711d23705747834023c130ee5d0,
         type: 3}
@@ -355,7 +454,7 @@ PrefabInstance:
     - target: {fileID: 2706372168544504089, guid: 1c4c1932cdb95524a9bd8e01cadeb515,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2706372168544504089, guid: 1c4c1932cdb95524a9bd8e01cadeb515,
         type: 3}
