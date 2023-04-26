@@ -14,12 +14,17 @@ public class ConveyorBelt : MonoBehaviour {
     readonly private float _conveyorOffsetHeight = 0.5f;
     private float _defaultConveyorPlatformHeight = 0f;
 
-    [Header("Conveyor Belt Type")]
+    [Header("Platform Types")]
     [SerializeField] private ConveyorBeltPlatform _rollerPlatform;
     [SerializeField] private ConveyorBeltPlatform _elevatorPlatform;
     [SerializeField] private ConveyorBeltPlatform _incineratorPlatform;
     private ConveyorBeltPlatform _currentConveyorPlatform;
     private PlatformType _currentConveyorPlatformType;
+
+    [Header("Base Types")]
+    [SerializeField] private GameObject _baseRoller;
+    [SerializeField] private GameObject _baseElevator;
+    [SerializeField] private GameObject _baseIncinerator;
 
 
     [Header("Debug")]
@@ -225,12 +230,20 @@ public class ConveyorBelt : MonoBehaviour {
             _elevatorPlatform.gameObject.SetActive(false);
             _incineratorPlatform.gameObject.SetActive(false);
 
+            _baseRoller.SetActive(true);
+            _baseElevator.SetActive(false);
+            _baseIncinerator.SetActive(false);
+
             _currentConveyorPlatform = _rollerPlatform;
 
         } else if(conveyorBeltType == PlatformType.TrapDestroyer) {
             _rollerPlatform.gameObject.SetActive(false);
             _elevatorPlatform.gameObject.SetActive(false);
             _incineratorPlatform.gameObject.SetActive(false);
+
+            _baseRoller.SetActive(false);
+            _baseElevator.SetActive(false);
+            _baseIncinerator.SetActive(false);
 
             _currentConveyorPlatform = null;
 
@@ -239,6 +252,9 @@ public class ConveyorBelt : MonoBehaviour {
             _elevatorPlatform.gameObject.SetActive(true);
             _incineratorPlatform.gameObject.SetActive(false);
 
+            _baseRoller.SetActive(false);
+            _baseElevator.SetActive(true);
+            _baseIncinerator.SetActive(false);
 
             _currentConveyorPlatform = _elevatorPlatform;
             
@@ -248,6 +264,9 @@ public class ConveyorBelt : MonoBehaviour {
             _elevatorPlatform.gameObject.SetActive(false);
             _incineratorPlatform.gameObject.SetActive(true);
 
+            _baseRoller.SetActive(false);
+            _baseElevator.SetActive(false);
+            _baseIncinerator.SetActive(true);
 
             _currentConveyorPlatform = _incineratorPlatform;
         }
