@@ -34,7 +34,8 @@ public class LevelManager : MonoBehaviour {
     private GameObject _deliveryPoint;
 
     [Header("Package Generation")]
-    private int _packagesToSpawn = 0;
+    private List<Package.PackageType> _packagesSequenceToSpawn = new List<Package.PackageType>();
+    private int _remainingLevelPackagesToSpawn = 0;
     private int _packagesDestroyed = 0;
     private int _packagesDelivered = 0;
 
@@ -89,7 +90,8 @@ public class LevelManager : MonoBehaviour {
         SetPackageSpawnPosition(_loadedLevel);
 
 
-        _packagesToSpawn = _loadedLevel.packageToSpawn;
+        _packagesSequenceToSpawn = _loadedLevel.PackagesSequence;
+        _remainingLevelPackagesToSpawn = _loadedLevel.TotalPackageToSpawn;
 
 
         _cameraController.ResetRotation();
@@ -109,7 +111,8 @@ public class LevelManager : MonoBehaviour {
             _loadedLevel = null;
             _levelInfo = new LevelInfo(Chapter.NotSelected, -1);
             _packagesDelivered = 0;
-            _packagesToSpawn = 0;
+            _packagesSequenceToSpawn = new List<Package.PackageType>();
+            _remainingLevelPackagesToSpawn = 0;
             _packagesDestroyed = 0;
 
             Destroy(_deliveryPoint);
@@ -178,7 +181,9 @@ public class LevelManager : MonoBehaviour {
 
 
                 /* SET CONVEYOR PLATFORM RANDOM ROTATION */
-                SecureRandom randomPlatformRotationSteps = new SecureRandom();
+                //SecureRandom randomPlatformRotationSteps = new SecureRandom();
+                System.Random randomPlatformRotationSteps = new System.Random();
+                
                 int translations = randomPlatformRotationSteps.Next(0, 3);
                 Direction conveyorPlatformDirection = Direction.stay;
 
@@ -393,7 +398,7 @@ public class LevelManager : MonoBehaviour {
 		string packagePoolId = "Package";
         Prefab packagePrefab = PrefabManager.Instance.GetPrefab("Package");
 
-        if (_packagesToSpawn > 1) {
+        if (_remainingLevelPackagesToSpawn > 1) {
             yield return new WaitForSeconds(1);
             GameObject obj = PrefabManager.Instance.SpawnFromPool(
                 packagePoolId,
@@ -402,13 +407,16 @@ public class LevelManager : MonoBehaviour {
             );
 
             Package package = obj.GetComponent<Package>();
+
+            Package.PackageType pType = _packagesSequenceToSpawn[_loadedLevel.TotalPackageToSpawn - _remainingLevelPackagesToSpawn];
             package.Init(
 				packagePrefab.GameobjectSize,
-                this
+                this,
+                pType
             );
             StartCoroutine(WaitAndSpawnPackage());
 
-            _packagesToSpawn--;
+            _remainingLevelPackagesToSpawn--;
             DrawUI();
         }
     }
@@ -437,18 +445,18 @@ public class LevelManager : MonoBehaviour {
     }
 
     private bool IsLevelEnded() {
-        return _loadedLevel.packageToSpawn <= _packagesDestroyed + _packagesDelivered;
+        return _loadedLevel.TotalPackageToSpawn <= _packagesDestroyed + _packagesDelivered;
     }
 
     private bool IsLevelLose() {
-        return _packagesDestroyed >= _loadedLevel.packageToSpawn / 2;
+        return _packagesDestroyed >= _loadedLevel.TotalPackageToSpawn / 2;
     }
 
 
     private void DrawUI() {
         GameUI.Instance.SetLevelStateDebugValuesUI(
-            _packagesToSpawn.ToString(),
-            _loadedLevel.packageToSpawn.ToString(),
+            _remainingLevelPackagesToSpawn.ToString(),
+            _loadedLevel.TotalPackageToSpawn.ToString(),
             _packagesDestroyed.ToString(),
             _packagesDelivered.ToString()
         );

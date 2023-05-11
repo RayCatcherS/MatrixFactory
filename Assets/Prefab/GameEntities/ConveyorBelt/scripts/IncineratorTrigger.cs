@@ -9,7 +9,7 @@ public class IncineratorTrigger : MonoBehaviour {
     private readonly int packageLayer = 6;
 
     private float closingTimeMoment;
-    private float timeBeforeClose = 0.1f;
+    private float timeBeforeClose = 0.15f;
 
     public void OpenIncinerator() {
         if(incineratorOpened) {
@@ -30,9 +30,7 @@ public class IncineratorTrigger : MonoBehaviour {
 
 
     async void WaitAndCloseIncinerator() {
-        Debug.Log(Time.time + " : " + closingTimeMoment);
         while(Time.time < closingTimeMoment) {
-            Debug.Log("waiting to close incinerator");
             await Task.Yield();
 
             if(requestToOpenIncinerator) {
@@ -40,9 +38,6 @@ public class IncineratorTrigger : MonoBehaviour {
                 return;
             }
         }
-
-        Debug.Log("closing incinerator");
-
         incineratorOpened = false;
         SetOpenIncineratorAnimation(false);
     }

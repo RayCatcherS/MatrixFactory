@@ -1,16 +1,32 @@
 using UnityEngine;
 using UnityEngine.VFX;
+using static Package;
 
 public class Package : TransportedObject {
+    public enum PackageType {
+        normal,
+        bomb
+    }
+    private bool _packageDestroyed;
+	private PackageType _packageType;
 
-	private bool _packageDestroyed;
-    public new void Init(Vector3 objectSize, LevelManager levelManager) {
+	[Header("Package References")]
+	[SerializeField] private GameSignal _bombSignal;
+
+    public new void Init(Vector3 objectSize, LevelManager levelManager, PackageType packageType) {
         _objectSize = objectSize;
         _levelManager = levelManager;
-		_packageDestroyed = false;
+
+
+        _packageDestroyed = false;
+
+        SetPackageType(packageType);
         ResetObject();
 		SetPackageAsNoPhysicsPackage();
     }
+
+	
+
     void OnCollisionEnter(Collision collision) {
 
 		if (collision.gameObject.layer == _packageDamageColliderLayer || collision.gameObject.layer == _packageColliderLayer || collision.gameObject.layer == _physicsPackageDamageColliderLayer || collision.gameObject.layer == _physicsPackageLayer) {
@@ -69,5 +85,16 @@ public class Package : TransportedObject {
         gameObject.layer = 6;
         gameObject.GetComponent<Rigidbody>().isKinematic = true;
         this.gameObject.GetComponent<Package>().enabled = true;
+    }
+
+	private void SetPackageType(PackageType type) {
+        _packageType = type;
+
+		if(_packageType == PackageType.bomb) {
+			_bombSignal.StartSignal();
+		} else {
+			_bombSignal.StopSignal();
+
+        }
     }
 }

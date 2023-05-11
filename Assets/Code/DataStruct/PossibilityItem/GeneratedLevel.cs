@@ -17,13 +17,14 @@ namespace PT.DataStruct {
 
 
             InitPath(tracedPathPositions);
+            InitLevelPackageSequence();
         }
         private List<LevelPathElement> _path = new List<LevelPathElement>();
         private Vector2Int _startPathPosition;
         private Vector2Int _endPathPosition;
         private Vector2Int _matrixSize;
         private double _score = 0;
-
+        private List<Package.PackageType> _levelPackagesSequence = new List<Package.PackageType>();
 
         public Vector2Int MatrixSize() {
             return _matrixSize;
@@ -113,6 +114,25 @@ namespace PT.DataStruct {
             _score =  ((_matrixSize.x * _matrixSize.y) / malus) ;
 
         }
+        
+        private void InitLevelPackageSequence() {
+
+            /* SET PACKAGES */
+            for(int i = 0; i < _bombPackageToSpawn; i++) {
+                _levelPackagesSequence.Add(Package.PackageType.bomb);
+            }
+
+            for(int i = 0; i < TotalPackageToSpawn - _bombPackageToSpawn; i++) {
+                _levelPackagesSequence.Add(Package.PackageType.normal);
+            }
+
+
+
+            /* SHUFFLE PACKAGES SEQUENCE */
+            System.Random rnd = new System.Random();
+            _levelPackagesSequence = _levelPackagesSequence.OrderBy(x => rnd.Next()).ToList();
+        }
+
         public Vector2Int EndPathPosition() {
             return _endPathPosition;
         }
@@ -123,8 +143,16 @@ namespace PT.DataStruct {
             get { return _score; }
         }
 
-        public int packageToSpawn {
+        public int TotalPackageToSpawn {
             get { return _path.Count() * 3; }
+        }
+        private int _bombPackageToSpawn {
+            get { return TotalPackageToSpawn / 4; }
+        }
+        public List<Package.PackageType> PackagesSequence {
+            get {
+                return _levelPackagesSequence;
+            }
         }
 
         public string id() {
