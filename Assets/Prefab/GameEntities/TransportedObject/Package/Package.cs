@@ -33,7 +33,12 @@ public class Package : TransportedObject {
 			DestroyPackage();
 
 		} else if (collision.gameObject.layer == _deliveryPointCollider) {
-			ObjectDestinationReached();
+
+			if(_packageType == PackageType.bomb) {
+                DestroyPackage();
+            } else if(_packageType == PackageType.normal) {
+                ObjectDestinationReached();
+            }
 		}
 
 	}

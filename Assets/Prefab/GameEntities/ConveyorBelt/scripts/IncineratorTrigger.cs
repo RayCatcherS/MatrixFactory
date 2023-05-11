@@ -7,9 +7,10 @@ public class IncineratorTrigger : MonoBehaviour {
     private bool incineratorOpened = false;
     private bool requestToOpenIncinerator = false;
     private readonly int packageLayer = 6;
+    private readonly int physicsPackageLayer = 11;
 
     private float closingTimeMoment;
-    private float timeBeforeClose = 0.15f;
+    private float timeBeforeClose = 0.1f;
 
     public void OpenIncinerator() {
         if(incineratorOpened) {
@@ -71,10 +72,20 @@ public class IncineratorTrigger : MonoBehaviour {
         }
     }
 
+    private void OnTriggerExit(Collider collider) {
+
+        if(incineratorOpened) {
+            if(collider.gameObject.layer == physicsPackageLayer) {
+                Debug.Log("package exited");
+            }
+        }
+            
+    }
+
     private void HandleCollisionDetection(Collider collider) {
 
         if(collider.gameObject.layer == packageLayer) {
-            Debug.Log("incinerator package trigger detected");
+            Debug.Log("package enter");
             collider.gameObject.GetComponent<Package>().SetPackageAsPhysicsPackage();
         }
     }
