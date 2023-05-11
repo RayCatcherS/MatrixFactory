@@ -26,6 +26,8 @@ public class LevelManager : MonoBehaviour {
     private Vector3 _mapCenter = Vector3.zero;
     private ConveyorBelt[,] _conveyorMap;
     private List<ConveyorBelt> _conveyorMapList = new List<ConveyorBelt>();
+    private ConveyorBelt _incineratorConveyorBeltLevel;
+
     private float _conveyorMaxHeight = 0;
 
     [Header("Delivery Point Generation")]
@@ -41,7 +43,7 @@ public class LevelManager : MonoBehaviour {
     [SerializeField] private Transform _packageSpawnTransform;
     private float _packageSpawnOffsetHeight = 5;
     [SerializeField] private GameObject _spawnLight;
-    private float _lightHeightOffset = 2;
+    private float _spawnPackageLightHeightOffset = 2;
     private GeneratedLevel _loadedLevel;
     private LevelState _levelState = LevelState.NotStarted;
 
@@ -116,7 +118,7 @@ public class LevelManager : MonoBehaviour {
                 Destroy(conveyor.gameObject);
             }
             _conveyorMapList.Clear();
-
+            _incineratorConveyorBeltLevel = null;
             //PrefabManager.Instance.ReinitPool();
 
             _levelState = LevelState.NotStarted;
@@ -266,6 +268,10 @@ public class LevelManager : MonoBehaviour {
             } else {
                 platformHeightTargetDecrementer++;
             }
+
+            if(levelPath.PathElements[i].conveyorBeltPlatformType == ConveyorBelt.PlatformType.Incinerator) {
+                _incineratorConveyorBeltLevel = pathCurrentConveyor;
+            }
         }
     }
    
@@ -318,7 +324,10 @@ public class LevelManager : MonoBehaviour {
         );
     }
 
-
+    /// <summary>
+    /// Use this function to start the loaded level
+    /// </summary>
+    /// <exception cref="System.InvalidOperationException"></exception>
     public void StartLevel() {
         if(!_levelLoaded) {
             throw new System.InvalidOperationException("There is no loaded level");
@@ -328,13 +337,14 @@ public class LevelManager : MonoBehaviour {
 
         _spawnLight.gameObject.transform.position = new Vector3(
             _packageSpawnTransform.position.x,
-            _conveyorMaxHeight + _lightHeightOffset,
+            _conveyorMaxHeight + _spawnPackageLightHeightOffset,
             _packageSpawnTransform.position.z
         );
 
 
         _levelState = LevelState.Started;
         StartCoroutine(WaitStartingAnimationAndStart());
+        DrawUI();
     }
 
 
@@ -442,5 +452,11 @@ public class LevelManager : MonoBehaviour {
             _packagesDestroyed.ToString(),
             _packagesDelivered.ToString()
         );
+    }
+
+    public void SetEnableLevelIncinerator(bool value) {
+        if(_incineratorConveyorBeltLevel != null) {
+            _incineratorConveyorBeltLevel.SetEnableIncineratorPlatformTrigger(value);
+        }
     }
 }

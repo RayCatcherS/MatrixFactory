@@ -15,7 +15,9 @@ public class TransportedObject : MonoBehaviour {
 	[Header("Layers")]
 	readonly private int _rollerConveyorPlatformLayer = 3;
     readonly protected int _packageDamageColliderLayer = 7;
-	readonly protected int _packageColliderLayer = 6;
+    readonly protected int _physicsPackageDamageColliderLayer = 13;
+    readonly protected int _physicsPackageLayer = 11;
+    readonly protected int _packageColliderLayer = 6;
 	readonly protected int _deliveryPointCollider = 8;
 	[SerializeField] private LayerMaskSelector _objectGroundToIgnore; // layer to ignore on fall
 
@@ -46,17 +48,21 @@ public class TransportedObject : MonoBehaviour {
 	public void Init(Vector3 objectSize, LevelManager levelManager) {
 		_objectSize = objectSize;
 		_levelManager = levelManager;
+        ResetObject();
 
-		_moveSpeed = 0;
+    }
+
+    public void ResetObject() {
+        _moveSpeed = 0;
 		_targetPoint = Vector3.zero;
         _startPoint = Vector3.zero;
-		_animationTimePosition = 0;
-		targetReached = true;
+        _animationTimePosition = 0;
+        targetReached = true;
 
         _objectInitialized = true;
-	}
+    }
 
-	private void Update() {
+    private void Update() {
 
 		if (targetReached) {
 			SetNextTarget();
@@ -200,4 +206,6 @@ public class TransportedObject : MonoBehaviour {
 		}
         
     }
+
+    
 }

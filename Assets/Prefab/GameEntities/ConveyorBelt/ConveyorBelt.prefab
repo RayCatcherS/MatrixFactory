@@ -53,7 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rollerPlatform: {fileID: 4548708195920313175}
   _elevatorPlatform: {fileID: 2877614205760572810}
-  _incineratorPlatform: {fileID: 4822527112126374845}
+  _incineratorPlatform: {fileID: 3891222440831823879}
   _baseRoller: {fileID: 8006738605759837637}
   _baseElevator: {fileID: 6307933022946236954}
   _baseIncinerator: {fileID: 2494512617456929379}
@@ -85,6 +85,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  _incineratorTrigger: {fileID: 5999365568799152656}
 --- !u!1 &8174394858245867595
 GameObject:
   m_ObjectHideFlags: 0
@@ -322,10 +323,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2399455094714684039, guid: f42b75d1aea96734491239e5712422ed,
+        type: 3}
+      propertyPath: _conveyorBelt
+      value: 
+      objectReference: {fileID: 1545146530287381575}
+    - target: {fileID: 3982849895644899666, guid: f42b75d1aea96734491239e5712422ed,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5043707055451496909, guid: f42b75d1aea96734491239e5712422ed,
         type: 3}
       propertyPath: m_Name
       value: IncineratorPlatformPrefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 5116392960102597078, guid: f42b75d1aea96734491239e5712422ed,
+        type: 3}
+      propertyPath: m_Name
+      value: IncineratorTrigger
+      objectReference: {fileID: 0}
+    - target: {fileID: 5116392960102597078, guid: f42b75d1aea96734491239e5712422ed,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6170489323822825789, guid: f42b75d1aea96734491239e5712422ed,
         type: 3}
@@ -340,9 +361,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1678986705722892928}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4822527112126374845 stripped
+--- !u!114 &3891222440831823879 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6170489323822825789, guid: f42b75d1aea96734491239e5712422ed,
+  m_CorrespondingSourceObject: {fileID: 2399455094714684039, guid: f42b75d1aea96734491239e5712422ed,
     type: 3}
   m_PrefabInstance: {fileID: 1678986705722892928}
   m_PrefabAsset: {fileID: 0}
@@ -350,6 +371,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 167bf7fd86922864ca2c98c78715ecf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5999365568799152656 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4904123888504207504, guid: f42b75d1aea96734491239e5712422ed,
+    type: 3}
+  m_PrefabInstance: {fileID: 1678986705722892928}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21819ce79a7f98b40a80d467fa2bc209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &2219096082106913341
@@ -516,6 +549,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BaseRoller
       objectReference: {fileID: 0}
+    - target: {fileID: 3370143367175934883, guid: 1c4c1932cdb95524a9bd8e01cadeb515,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3874744918325244534, guid: 1c4c1932cdb95524a9bd8e01cadeb515,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -546,6 +584,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ConveyorBaseIncinerator
+      objectReference: {fileID: 0}
+    - target: {fileID: 8581464796808658179, guid: c71e91b14461b8c4d916155bca383e5c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8961226924340602809, guid: c71e91b14461b8c4d916155bca383e5c,
         type: 3}
@@ -610,6 +653,20 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6163517790961317728}
   m_PrefabAsset: {fileID: 0}
+--- !u!64 &588631058556180437
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2494512617456929379}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -5495902117074765545, guid: c7c20a846daf98d4797c1df1fc70f36c, type: 3}
 --- !u!4 &3014485601097371865 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8961226924340602809, guid: c71e91b14461b8c4d916155bca383e5c,
@@ -682,6 +739,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BaseElevator
+      objectReference: {fileID: 0}
+    - target: {fileID: 3370143367175934883, guid: 1c4c1932cdb95524a9bd8e01cadeb515,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3874744918325244534, guid: 1c4c1932cdb95524a9bd8e01cadeb515,
         type: 3}

@@ -32,12 +32,14 @@ public class ConveyorBelt : MonoBehaviour {
     [Header ("Conveyor parameters")]
     [SerializeField] private float _rollerPlatformSpeed;
     [SerializeField] private float _elevatorCannonPlatformSpeed;
-
-
     private Quaternion _platformRotationTarget = Quaternion.identity;
     [SerializeField] private float _platformRotationSpeed = 10;
     [SerializeField] private AnimationCurve _platformRotationLerpCurve;
     private Direction _platformDirection = Direction.stay;
+
+    [Header("Conveyor triggers")]
+    [SerializeField] private IncineratorTrigger _incineratorTrigger;
+
     public Direction PlatformDirection {
         get { return _platformDirection; } 
     }
@@ -271,6 +273,21 @@ public class ConveyorBelt : MonoBehaviour {
             _currentConveyorPlatform = _incineratorPlatform;
         }
         _currentConveyorPlatformType = conveyorBeltType;
+    }
+
+    public void SetEnableIncineratorPlatformTrigger(bool value) {
+        if(_currentConveyorPlatformType == PlatformType.Incinerator) {
+
+            if(value) {
+                _incineratorTrigger.OpenIncinerator();
+            } else {
+                _incineratorTrigger.CloseIncinerator();
+            }
+            
+        } else {
+            throw new System.InvalidOperationException("The conveyorBelt is not an incinerator conveyor belt");
+        }
+
     }
 }
 

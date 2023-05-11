@@ -15,10 +15,10 @@ TagManager:
   - PackageDamageCollider
   - DeliveryPoint
   - MapTrail
-  - 
-  - 
-  - 
-  - 
+  - PhysicsPackageCollider
+  - PhysicsPackage
+  - IncineratorTrigger
+  - PhysicsPackageDamageCollider
   - 
   - 
   - 
