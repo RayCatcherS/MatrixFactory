@@ -20,11 +20,12 @@ public class GameSignal : MonoBehaviour {
 
     async private void RecursiveLight() {
         while(true) {
-            light.gameObject.SetActive(false);
-            await Task.Delay((int)(millisecondWaitTime / 2f));
+
             light.gameObject.SetActive(true);
             await Task.Delay((int)(millisecondWaitTime / 2f));
 
+            light.gameObject.SetActive(false);
+            await Task.Delay((int)(millisecondWaitTime / 2f));
 
             if(!_signalStarted) return;
         }

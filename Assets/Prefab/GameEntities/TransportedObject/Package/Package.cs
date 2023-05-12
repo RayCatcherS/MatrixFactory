@@ -8,7 +8,7 @@ public class Package : TransportedObject {
         bomb
     }
     private bool _packageDestroyed;
-	private PackageType _packageType;
+    private PackageType _packageType;
 
 	[Header("Package References")]
 	[SerializeField] private GameSignal _bombSignal;
