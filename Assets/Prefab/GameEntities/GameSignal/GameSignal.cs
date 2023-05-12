@@ -14,8 +14,8 @@ public class GameSignal : MonoBehaviour {
     }
 
     public void StopSignal() {
-        _signalStarted = false;
         light.gameObject.SetActive(false);
+        _signalStarted = false;
     }
 
     async private void RecursiveLight() {

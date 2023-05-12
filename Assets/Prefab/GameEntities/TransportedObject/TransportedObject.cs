@@ -42,10 +42,12 @@ public class TransportedObject : MonoBehaviour {
 
 	protected Vector3 _objectSize;
     protected bool _objectInitialized = false;
+	protected float _objectVelocity = 0;
+	private Vector3 _lastObjectPosition;
 
-	
 
-	public void Init(Vector3 objectSize, LevelManager levelManager) {
+
+    public void Init(Vector3 objectSize, LevelManager levelManager) {
 		_objectSize = objectSize;
 		_levelManager = levelManager;
         ResetObject();
@@ -63,7 +65,6 @@ public class TransportedObject : MonoBehaviour {
     }
 
     private void Update() {
-
 		if (targetReached) {
 			SetNextTarget();
 		} else {
@@ -116,6 +117,7 @@ public class TransportedObject : MonoBehaviour {
         _animationTimePosition += (_objectFallSpeed / unitDistance) * _objectSpeedMultiplyer * Time.deltaTime;
     }
 	private void MoveUpdate() {
+        _lastObjectPosition = transform.position;
         transform.position = Vector3.Lerp(
                     _startPoint,
                     _targetPoint,
@@ -123,6 +125,7 @@ public class TransportedObject : MonoBehaviour {
                 );
 
         _animationTimePosition += _moveSpeed * _objectSpeedMultiplyer * Time.deltaTime;
+		_objectVelocity = (transform.position - _lastObjectPosition).magnitude / Time.deltaTime;
     }
 	private void ElevatorCannonMoveUpdate() {
 

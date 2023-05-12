@@ -449,7 +449,7 @@ public class LevelManager : MonoBehaviour {
     }
 
     private bool IsLevelLose() {
-        return _packagesDestroyed >= _loadedLevel.TotalPackageToSpawn / 2;
+        return _packagesDelivered < _loadedLevel.NumberOfPackageToWin;
     }
 
 
@@ -458,7 +458,8 @@ public class LevelManager : MonoBehaviour {
             _remainingLevelPackagesToSpawn.ToString(),
             _loadedLevel.TotalPackageToSpawn.ToString(),
             _packagesDestroyed.ToString(),
-            _packagesDelivered.ToString()
+            _packagesDelivered.ToString(),
+            _loadedLevel.NumberOfPackageToWin.ToString()
         );
     }
 

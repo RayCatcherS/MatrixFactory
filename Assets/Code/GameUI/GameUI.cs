@@ -129,11 +129,16 @@ public class GameUI : MonoBehaviour {
         _levelStartedLevelNameText.text = _levelStartedLevelNameTextFormat + levelInfo.GetLevelName();
         _levelStartedChapterNameText.text = _levelStartedChapterNameTextFormat + levelInfo.GetChapterName();
     }
-    public void SetLevelStateDebugValuesUI(string packageToSpawn, string totalPackages, string packagesDestroyed, string packageDelivered) {
-        _packageToSpawnText.text = "Packages to spawn: " + packageToSpawn + "\n" +
-            "Total packages: " + totalPackages + "\n" + 
+    public void SetLevelStateDebugValuesUI(string packageToSpawn, string totalPackages, string packagesDestroyed, string packageDelivered, string numberOfPackageToWin) {
+        _packageToSpawnText.text = 
+            "Total packages: " + totalPackages + "\n" +
+            "Number Of Package To Win: " + numberOfPackageToWin + "\n" +
+
             "Packages destroyed: " + packagesDestroyed + "\n" +
-            "Packages delivered: " + packageDelivered;
+            "Packages delivered: " + packageDelivered + "\n" +
+
+
+            "Packages to spawn: " + packageToSpawn + "\n";
     }
 
     public enum GameUIState {

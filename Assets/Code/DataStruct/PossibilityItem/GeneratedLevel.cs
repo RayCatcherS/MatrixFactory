@@ -118,11 +118,11 @@ namespace PT.DataStruct {
         private void InitLevelPackageSequence() {
 
             /* SET PACKAGES */
-            for(int i = 0; i < _bombPackageToSpawn; i++) {
+            for(int i = 0; i < BombPackageToSpawn; i++) {
                 _levelPackagesSequence.Add(Package.PackageType.bomb);
             }
 
-            for(int i = 0; i < TotalPackageToSpawn - _bombPackageToSpawn; i++) {
+            for(int i = 0; i < TotalPackageToSpawn - BombPackageToSpawn; i++) {
                 _levelPackagesSequence.Add(Package.PackageType.normal);
             }
 
@@ -146,9 +146,16 @@ namespace PT.DataStruct {
         public int TotalPackageToSpawn {
             get { return _path.Count() * 3; }
         }
-        private int _bombPackageToSpawn {
+        public int TotalSafePackage {
+            get { return TotalPackageToSpawn - BombPackageToSpawn; }
+        }
+        private int BombPackageToSpawn {
             get { return TotalPackageToSpawn / 4; }
         }
+        public int NumberOfPackageToWin {
+            get { return (int)(TotalSafePackage / 1.5f); }
+        }
+        
         public List<Package.PackageType> PackagesSequence {
             get {
                 return _levelPackagesSequence;

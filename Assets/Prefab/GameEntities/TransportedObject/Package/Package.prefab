@@ -249,7 +249,7 @@ PrefabInstance:
     - target: {fileID: 1227276737541101319, guid: e32a25af0c26f27468481ce56fe4b69a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.886
+      value: 0.955
       objectReference: {fileID: 0}
     - target: {fileID: 1227276737541101319, guid: e32a25af0c26f27468481ce56fe4b69a,
         type: 3}
@@ -295,6 +295,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RedLight
+      objectReference: {fileID: 0}
+    - target: {fileID: 5584247149345671649, guid: e32a25af0c26f27468481ce56fe4b69a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e32a25af0c26f27468481ce56fe4b69a, type: 3}

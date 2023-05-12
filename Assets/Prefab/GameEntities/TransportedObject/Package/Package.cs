@@ -81,9 +81,12 @@ public class Package : TransportedObject {
 		_levelManager.PackageDeliveredEvent();
 	}
 
-    public void SetPackageAsPhysicsPackage() {
+    public void SetPackageAsPhysicsPackage(Vector3 direction = new Vector3()) {
         gameObject.layer = 11;
         gameObject.GetComponent<Rigidbody>().isKinematic = false;
+
+
+        gameObject.GetComponent<Rigidbody>().velocity = Vector3.down * _objectVelocity;
         this.gameObject.GetComponent<Package>().enabled = false;
     }
     public void SetPackageAsNoPhysicsPackage() {
