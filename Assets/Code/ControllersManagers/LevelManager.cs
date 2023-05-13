@@ -115,6 +115,8 @@ public class LevelManager : MonoBehaviour {
             _remainingLevelPackagesToSpawn = 0;
             _packagesDestroyed = 0;
 
+
+            _deliveryPoint.GetComponent<DeliveryPoint>().WipeDeliveryPackages();
             Destroy(_deliveryPoint);
 
             foreach(ConveyorBelt conveyor in _conveyorMapList) {
@@ -297,6 +299,7 @@ public class LevelManager : MonoBehaviour {
             (levelPath.EndPathPosition().y * deliveryPoint.GameobjectSize.x) + (deliveryPoint.GameobjectSize.x)
         );
         _deliveryPoint = Instantiate(deliveryPoint.GetGameobject, deliveryPointPos, Quaternion.identity);
+        _deliveryPoint.GetComponent<DeliveryPoint>().InitDeliveryPoint();
     }
     /// <summary>
     /// Claculate the center of the map
@@ -396,7 +399,7 @@ public class LevelManager : MonoBehaviour {
 
 		// package prefab data
 		string packagePoolId = "Package";
-        Prefab packagePrefab = PrefabManager.Instance.GetPrefab("Package");
+        Prefab packagePrefab = PrefabManager.Instance.GetPrefab(packagePoolId);
 
         if (_remainingLevelPackagesToSpawn > 1) {
             yield return new WaitForSeconds(1);
@@ -429,6 +432,7 @@ public class LevelManager : MonoBehaviour {
     public void PackageDeliveredEvent() {
         _packagesDelivered++;
         EvaluateEndLevelStatus();
+        _deliveryPoint.GetComponent<DeliveryPoint>().VisualPackageAction(DeliveryPoint.Action.Increment);
     }
 
     private void EvaluateEndLevelStatus() {

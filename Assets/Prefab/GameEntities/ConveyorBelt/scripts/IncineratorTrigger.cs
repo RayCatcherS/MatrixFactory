@@ -76,7 +76,7 @@ public class IncineratorTrigger : MonoBehaviour {
 
         if(incineratorOpened) {
             if(collider.gameObject.layer == physicsPackageLayer) {
-                Debug.Log("package exited");
+                //Debug.Log("package exited");
             }
         }
             
@@ -85,7 +85,7 @@ public class IncineratorTrigger : MonoBehaviour {
     private void HandleCollisionDetection(Collider collider) {
 
         if(collider.gameObject.layer == packageLayer) {
-            Debug.Log("package enter");
+            //Debug.Log("package enter");
             collider.gameObject.GetComponent<Package>().SetPackageAsPhysicsPackage();
         }
     }
