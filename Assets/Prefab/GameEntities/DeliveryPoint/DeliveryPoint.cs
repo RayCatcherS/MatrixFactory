@@ -8,17 +8,19 @@ public class DeliveryPoint : MonoBehaviour {
 
     [Header("Package Collector Settings")]
     [SerializeField] private float _packageSize;
-    [SerializeField] private float _packageCollectorOffsetDistance;
-
+    [SerializeField] private float _packageCollectorPadding;
     [SerializeField] private int _packageCollectorX;
     [SerializeField] private int _packageCollectorY;
     [SerializeField] private int _packageCollectorZ;
 
+
+    [Header("Package Collector References")]
     [SerializeField] private Transform _packageCollectorTarget;
-    Vector3Int _packageDeliveryPos = new Vector3Int(0, 0, 0);
-
-
+    [SerializeField] private BoxCollider _boxCollider;
     List<GameObject> _packageCollector = new List<GameObject>();
+
+
+    Vector3Int _packageDeliveryPos = new Vector3Int(0, 0, 0);
 
     private int _packageCollectorXSize {
         get { return _packageCollectorX - 1; } 
@@ -33,6 +35,7 @@ public class DeliveryPoint : MonoBehaviour {
     public void InitDeliveryPoint() {
         _packageDeliveryPos = new Vector3Int(0, 0, 0);
         _packageCollector = new List<GameObject>();
+        CalculateBoxColliderSize();
     }
 
     public void VisualPackageAction(Action action) {
@@ -41,8 +44,8 @@ public class DeliveryPoint : MonoBehaviour {
         _packageDeliveryPos = IncrementVector(action, _packageDeliveryPos);
 
 
-        DrawPackages();
-
+        DrawDummyPackages();
+        CalculateBoxColliderSize();
     }
 
     private Vector3Int IncrementVector(Action action, Vector3Int vector) {
@@ -80,15 +83,15 @@ public class DeliveryPoint : MonoBehaviour {
         return vector;
     }
 
-    private void DrawPackages() {
+    private void DrawDummyPackages() {
         Vector3Int visualDeliveryPos = new Vector3Int();
         while(visualDeliveryPos != _packageDeliveryPos) {
             float packageSize = PrefabManager.Instance.GetPrefab("DummyPackage").GameobjectSize.x;
 
             Vector3 gameObjPos = new Vector3(
-                        (visualDeliveryPos.x * (_packageCollectorOffsetDistance + packageSize)) + _packageCollectorTarget.position.x,
-                        (visualDeliveryPos.y * (_packageCollectorOffsetDistance + packageSize)) + _packageCollectorTarget.position.y,
-                        (visualDeliveryPos.z * (_packageCollectorOffsetDistance + packageSize)) + _packageCollectorTarget.position.z);
+                        (visualDeliveryPos.x * (_packageCollectorPadding + packageSize)) + _packageCollectorTarget.position.x + packageSize / 2,
+                        (visualDeliveryPos.y * (_packageCollectorPadding + packageSize)) + _packageCollectorTarget.position.y + packageSize / 2,
+                        (visualDeliveryPos.z * (_packageCollectorPadding + packageSize)) + _packageCollectorTarget.position.z + packageSize / 2);
             GameObject package = PrefabManager.Instance.SpawnFromPool("DummyPackage", gameObjPos, Quaternion.identity);
             _packageCollector.Add(package);
             visualDeliveryPos = IncrementVector(Action.Increment, visualDeliveryPos);
@@ -96,10 +99,23 @@ public class DeliveryPoint : MonoBehaviour {
         }
     }
 
+    private void CalculateBoxColliderSize() {
+        float xSize = _packageCollectorX * (_packageSize + _packageCollectorPadding);
+        float ySize = _packageDeliveryPos.y * (_packageSize + _packageCollectorPadding);
+        float zSize = _packageCollectorZ * (_packageSize + _packageCollectorPadding);
+
+        if(ySize == 0) {
+            ySize = 0.1f;
+        }
+
+        _boxCollider.size = new Vector3(xSize, ySize, zSize);
+        _boxCollider.center = new Vector3(xSize / 2, ySize / 2, zSize / 2);
+        _boxCollider.gameObject.transform.position = _packageCollectorTarget.position;
+    }
+
     public void WipeDeliveryPackages() {
         for(int i = 0; i < _packageCollector.Count; i++) {
             _packageCollector[i].SetActive(false);
-            Debug.Log("Package Collector " + i + " set to false");
         }
     }
 }
