@@ -43,7 +43,7 @@ MonoBehaviour:
     width: 1920
     height: 989
   m_ShowMode: 4
-  m_Title: Console
+  m_Title: Game
   m_RootView: {fileID: 5}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -98,7 +98,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 100}
   m_MaxSize: {x: 8096, y: 8096}
   vertical: 0
-  controlID: 44
+  controlID: 77
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -193,7 +193,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 3333
+  controlID: 10850
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -218,7 +218,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 3334
+  controlID: 10851
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -243,7 +243,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 3335
+  controlID: 10852
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -290,8 +290,8 @@ MonoBehaviour:
     y: 0
     width: 788
     height: 623
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 201, y: 221}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 19}
   m_Panes:
   - {fileID: 22}
@@ -324,7 +324,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 8096}
   vertical: 0
-  controlID: 3298
+  controlID: 10726
 --- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -398,8 +398,8 @@ MonoBehaviour:
     y: 0
     width: 639
     height: 316
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 201, y: 221}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 28}
   m_Panes:
   - {fileID: 28}
@@ -865,9 +865,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 2.068463, y: 0.98460984, z: 3.9959245}
+    m_Target: {x: 1.4526012, y: 4.9984565, z: 5.2381363}
     speed: 2
-    m_Value: {x: 2.068463, y: 0.98460984, z: 3.9959245}
+    m_Value: {x: 1.4526012, y: 4.9984565, z: 5.2381363}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -914,9 +914,9 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.7633692, y: 0.041179124, z: -0.050786413, w: -0.64373094}
+    m_Target: {x: -0.0612402, y: 0.92027354, z: -0.16080654, w: -0.35352394}
     speed: 2
-    m_Value: {x: -0.7628366, y: 0.04115039, z: -0.05075098, w: -0.6432818}
+    m_Value: {x: -0.061194576, y: 0.91958797, z: -0.16068675, w: -0.35326058}
   m_Size:
     m_Target: 0.33255368
     speed: 2
@@ -967,8 +967,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: -1920
     y: 73
-    width: 738
-    height: 644
+    width: 1131
+    height: 602
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
@@ -1204,22 +1204,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefab/GameEntities/DeliveryPoint
+    - Assets/Prefab/GameEntities/GameSignal
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Prefab/GameEntities/DeliveryPoint
+  - Assets/Prefab/GameEntities/GameSignal
   m_LastFoldersGridSize: 16
   m_LastProjectPath: C:\Users\roman\Documents\GitHub\MatrixFactory
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 1a720000
-    m_LastClickedID: 29210
-    m_ExpandedIDs: 000000007e70000080700000827000008470000086700000887000008a7000008c7000001272000000ca9a3b
+    scrollPos: {x: 0, y: 60}
+    m_SelectedIDs: a8700000
+    m_LastClickedID: 28840
+    m_ExpandedIDs: 000000007e70000080700000827000008470000086700000887000008a7000008c7000009c70000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1247,7 +1247,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000007e70000080700000827000008470000086700000887000008a7000008c70000000ca9a3b
+    m_ExpandedIDs: 000000007e70000080700000827000008470000086700000887000008a7000008c7000009c70000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1338,7 +1338,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: d6fafdffa27cfeffa886feff908cfeff3016ffffd82afffff232ffffea51ffffc46fffff008bfffff2a4ffff9adfffffd0f9ffff
+      m_ExpandedIDs: e888fcff9c0dfdffa20dfdffb40dfdffde0efdff9c2bfdff8254fdffd473fdff028ffdff5e9efdffaaa3fdff68b0fdfff0bdfdff10c5fdff86d8fdff3cdafdff6adafdff24defdff32defdfffae1fdffeee7fdff2eedfdffe206feff7252feff106dfeff868afeffdcaafeff90cdfeff6cf4feff0e2cffff3a58ffffd0f9fffffe6b00000e6d0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 

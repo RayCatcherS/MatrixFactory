@@ -23,7 +23,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 6359
+  controlID: 8887
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -87,7 +87,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 1
+    m_EnableMouseInput: 0
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -142,7 +142,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 6360
+  controlID: 8888
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -167,7 +167,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 6361
+  controlID: 8889
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -488,9 +488,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 3.1428745, y: 2.5693526, z: 2.3167531}
+    m_Target: {x: 1.4526012, y: 4.9984565, z: 5.2381363}
     speed: 2
-    m_Value: {x: 3.1428745, y: 2.5693526, z: 2.3167531}
+    m_Value: {x: 1.4526012, y: 4.9984565, z: 5.2381363}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -537,9 +537,9 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.26345474, y: 0.63541234, z: -0.24713834, w: -0.68352693}
+    m_Target: {x: -0.0612402, y: 0.92027354, z: -0.16080654, w: -0.35352394}
     speed: 2
-    m_Value: {x: -0.26345474, y: 0.6354124, z: -0.24713835, w: -0.683527}
+    m_Value: {x: -0.061194576, y: 0.91958797, z: -0.16068675, w: -0.35326058}
   m_Size:
     m_Target: 0.33255368
     speed: 2
@@ -590,8 +590,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: -1920
     y: 73
-    width: 738
-    height: 644
+    width: 1131
+    height: 602
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
@@ -616,8 +616,8 @@ MonoBehaviour:
     y: 0
     width: 788
     height: 623
-  m_MinSize: {x: 201, y: 221}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 2}
   m_Panes:
   - {fileID: 9}
@@ -747,7 +747,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 8096}
   vertical: 0
-  controlID: 6311
+  controlID: 8828
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -935,21 +935,21 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefab/GameEntities/DeliveryPoint
+    - Assets/Prefab/GameEntities/GameSignal
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Prefab/GameEntities/DeliveryPoint
+  - Assets/Prefab/GameEntities/GameSignal
   m_LastFoldersGridSize: 16
   m_LastProjectPath: C:\Users\roman\Documents\GitHub\MatrixFactory
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: a4700000
-    m_LastClickedID: 28836
+    scrollPos: {x: 0, y: 60}
+    m_SelectedIDs: a8700000
+    m_LastClickedID: 28840
     m_ExpandedIDs: 000000007e70000080700000827000008470000086700000887000008a7000008c7000009c70000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1003,9 +1003,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 3cdafdff
-    m_LastClickedInstanceID: -140740
-    m_HadKeyboardFocusLastEvent: 0
+    m_SelectedInstanceIDs: 
+    m_LastClickedInstanceID: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000cc72000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1053,8 +1053,8 @@ MonoBehaviour:
     y: 0
     width: 639
     height: 316
-  m_MinSize: {x: 201, y: 221}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 19}
   m_Panes:
   - {fileID: 19}
@@ -1092,24 +1092,24 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 526}
-      m_SelectedIDs: 3cdafdff
-      m_LastClickedID: -140740
-      m_ExpandedIDs: 3cdafdff6adafdff24defdff32defdfffae1fdffe206feff7252feff106dfeff868afeffdcaafeff90cdfeff6cf4feff0e2cffff3a58ffffd0f9fffffe6b00000e6d0000
+      scrollPos: {x: 0, y: 0}
+      m_SelectedIDs: 
+      m_LastClickedID: 0
+      m_ExpandedIDs: e888fcff9c0dfdffa20dfdffb40dfdffde0efdff9c2bfdff8254fdffd473fdff028ffdff5e9efdffaaa3fdff68b0fdfff0bdfdff10c5fdff86d8fdff3cdafdff6adafdff24defdff32defdfffae1fdffeee7fdff2eedfdffe206feff7252feff106dfeff868afeffdcaafeff90cdfeff6cf4feff0e2cffff3a58ffffd0f9fffffe6b00000e6d0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: 
-        m_OriginalName: 
+        m_Name: flare
+        m_OriginalName: flare
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 0
+        m_UserData: -230596
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 11
+        m_OriginalEventType: 0
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 18}
       m_SearchString: 
