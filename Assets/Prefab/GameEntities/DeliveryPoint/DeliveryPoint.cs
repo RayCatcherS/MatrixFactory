@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class DeliveryPoint : MonoBehaviour {
 
@@ -44,6 +45,10 @@ public class DeliveryPoint : MonoBehaviour {
         _packageDeliveryPos = IncrementVector(action, _packageDeliveryPos);
 
 
+        if(action == Action.Decrement) {
+            _packageCollector.Last().gameObject.GetComponent<ObjectDestoyEffect>().StartDestroyEffect();
+        }
+
         DrawDummyPackages();
         CalculateBoxColliderSize();
     }
@@ -85,6 +90,9 @@ public class DeliveryPoint : MonoBehaviour {
 
     private void DrawDummyPackages() {
         Vector3Int visualDeliveryPos = new Vector3Int();
+
+        WipeDeliveryPackages();
+
         while(visualDeliveryPos != _packageDeliveryPos) {
             float packageSize = PrefabManager.Instance.GetPrefab("DummyPackage").GameobjectSize.x;
 
@@ -115,7 +123,10 @@ public class DeliveryPoint : MonoBehaviour {
 
     public void WipeDeliveryPackages() {
         for(int i = 0; i < _packageCollector.Count; i++) {
-            _packageCollector[i].SetActive(false);
+            PrefabManager.Instance.DespawnFromPool(
+                "DummyPackage",
+                _packageCollector[i]
+            );
         }
     }
 }

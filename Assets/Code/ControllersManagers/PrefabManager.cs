@@ -61,8 +61,6 @@ public class PrefabManager : MonoBehaviour {
             }
         }
 
-
-
         _prefabManagerInit = true;
     }
     public GameObject SpawnFromPool(string poolId, Vector3 prefabPosition, Quaternion prefabQuaternion) { 
@@ -100,6 +98,15 @@ public class PrefabManager : MonoBehaviour {
             }
         }
         return null;
+    }
+
+
+    public void DespawnFromPool(string poolId, GameObject gameObject) {
+        if(_poolPrefab.ContainsKey(poolId)) {
+            gameObject.SetActive(false);
+        } else {
+            throw new System.Exception("Pool not found");
+        }
     }
 }
 

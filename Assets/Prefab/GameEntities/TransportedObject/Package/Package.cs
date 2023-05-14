@@ -8,7 +8,8 @@ public class Package : TransportedObject {
         bomb
     }
     private bool _packageDestroyed;
-    private PackageType _packageType;
+    [SerializeField] private PackageType _packageType;
+	[SerializeField] private int _bombDamage;
 
 	[Header("Package References")]
 	[SerializeField] private GameSignal _bombSignal;
@@ -36,6 +37,7 @@ public class Package : TransportedObject {
 
 			if(_packageType == PackageType.bomb) {
                 DestroyPackage();
+				_levelManager.DeliveryPointDamage(_bombDamage);
             } else if(_packageType == PackageType.normal) {
                 ObjectDestinationReached();
             }
@@ -49,16 +51,7 @@ public class Package : TransportedObject {
 
         gameObject.SetActive(false);
 
-        string particleObjectDestroyedPoolId = "ParticleObjectDestroyed";
-		GameObject particle = PrefabManager.Instance.SpawnFromPool(
-			particleObjectDestroyedPoolId,
-			transform.position,
-			Quaternion.identity
-		);
-		ParticleSystem particleSystem = particle.GetComponent<ParticleSystem>();
-		if (particleSystem != null) {
-			particleSystem.Play();
-		}
+        gameObject.GetComponent<ObjectDestoyEffect>().StartDestroyEffect();
 
 		_levelManager.PackageDestroyedEvent();
 	}

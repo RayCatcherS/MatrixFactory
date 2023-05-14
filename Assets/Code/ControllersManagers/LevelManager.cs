@@ -429,6 +429,31 @@ public class LevelManager : MonoBehaviour {
         EvaluateEndLevelStatus();
     }
 
+    public void DeliveryPointDamage(int damage) {
+
+        int _packagesDeliveredTemp = _packagesDelivered;
+
+        Debug.Log("Damage");
+
+        if(_packagesDelivered - damage < 0) {
+            _packagesDelivered = 0;
+        } else {
+            _packagesDelivered = _packagesDelivered - damage;
+        }
+
+        int packageToDestroy = _packagesDeliveredTemp - _packagesDelivered;
+        _packagesDestroyed = _packagesDestroyed + packageToDestroy;
+        Debug.Log("Package to destroy" + packageToDestroy);
+
+
+        for(int i = 0; i < packageToDestroy; i++) {
+            _deliveryPoint.GetComponent<DeliveryPoint>().VisualPackageAction(DeliveryPoint.Action.Decrement);
+        }
+
+
+        EvaluateEndLevelStatus();
+    }
+
     public void PackageDeliveredEvent() {
         _packagesDelivered++;
         EvaluateEndLevelStatus();
