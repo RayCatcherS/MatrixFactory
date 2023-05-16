@@ -47,7 +47,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   particleOrign: {fileID: 4878077934303988668, guid: 129909a2ada5c4b48bdeecccae75ad73,
     type: 3}
-  particleEffectPoolId: ParticleObjectDestroyed
+  _particleEffectPoolId: ParticleObjectDestroyed
+  _substituteOfDestroyedObjectPoolId: DamagedPackage
 --- !u!1001 &2146755977650116008
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -63,17 +64,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 91f6a79d84f44f843b61e7b1cb9ce12d,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.6
+      value: 3.3333333
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 91f6a79d84f44f843b61e7b1cb9ce12d,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.6
+      value: 3.3333333
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 91f6a79d84f44f843b61e7b1cb9ce12d,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.6
+      value: 3.3333333
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 91f6a79d84f44f843b61e7b1cb9ce12d,
         type: 3}

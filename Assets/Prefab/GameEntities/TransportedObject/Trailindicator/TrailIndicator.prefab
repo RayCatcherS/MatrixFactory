@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _objectGroundToIgnore:
-    _layers: 06000000090000000a0000000b0000000c000000
+    _layers: 06000000090000000a0000000b0000000c0000000d0000000e000000
   _moveLerpCurve:
     serializedVersion: 2
     m_Curve:

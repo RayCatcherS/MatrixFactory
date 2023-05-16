@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 91f6a79d84f44f843b61e7b1cb9ce12d
+guid: 98a1cecc18c8f4d4fb44674d7016cb92
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
   externalObjects: {}
   materials:
-    materialImportMode: 2
+    materialImportMode: 0
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -76,7 +76,7 @@ ModelImporter:
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
   referencedClips: []
-  importAnimation: 1
+  importAnimation: 0
   humanDescription:
     serializedVersion: 3
     human: []

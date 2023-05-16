@@ -74,6 +74,8 @@ public class PrefabManager : MonoBehaviour {
                 _poolPrefab[poolId].Enqueue(gameObject);
                 gameObject.transform.position = prefabPosition;
                 gameObject.transform.rotation = prefabQuaternion;
+
+                gameObject.SetActive(false);
                 gameObject.SetActive(true);
             } else {
                 throw new System.Exception("Pool not found");

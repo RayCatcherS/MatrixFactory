@@ -36,6 +36,12 @@ public class GameController : MonoBehaviour {
         await StartLevel(GameSaveManager.LevelInfoReachedInfo);
     }
 
+    public async void MainMenu() {
+        GameUI.Instance.OpenMainMenu();
+        await GameUI.Instance.SetBlackBackgroundLerp(true);
+        _levelManager.WipeLevel();
+    }   
+
     /// <summary>
     /// Load and start level
     /// </summary>

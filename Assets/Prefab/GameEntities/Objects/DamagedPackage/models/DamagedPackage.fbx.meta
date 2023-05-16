@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 91f6a79d84f44f843b61e7b1cb9ce12d
+guid: d5dede43c2ce6ed4c9d2eb54b29e1798
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
   externalObjects: {}
   materials:
-    materialImportMode: 2
+    materialImportMode: 0
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -29,7 +29,8 @@ ModelImporter:
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
-    extraExposedTransformPaths: []
+    extraExposedTransformPaths:
+    - DamagedPackage
     extraUserProperties: []
     clipAnimations: []
     isReadable: 0
@@ -53,7 +54,7 @@ ModelImporter:
     weldVertices: 1
     bakeAxisConversion: 0
     preserveHierarchy: 0
-    skinWeightsMode: 0
+    skinWeightsMode: 1
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
     optimizeBones: 1
@@ -68,7 +69,7 @@ ModelImporter:
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
-    normalSmoothAngle: 60
+    normalSmoothAngle: 0
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
@@ -76,7 +77,7 @@ ModelImporter:
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
   referencedClips: []
-  importAnimation: 1
+  importAnimation: 0
   humanDescription:
     serializedVersion: 3
     human: []
@@ -88,14 +89,14 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.005
+    globalScale: 0.5
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
-  animationType: 2
+  animationType: 1
   humanoidOversampling: 1
   avatarSetup: 0
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1

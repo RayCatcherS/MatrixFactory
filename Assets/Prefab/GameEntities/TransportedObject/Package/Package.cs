@@ -51,9 +51,16 @@ public class Package : TransportedObject {
 
         gameObject.SetActive(false);
 
+
+        if(_packageType == PackageType.bomb) {
+            gameObject.GetComponent<ObjectDestoyEffect>().substituteOfDestroyedObjectPoolId = "";
+        } else if (_packageType == PackageType.normal) {
+            gameObject.GetComponent<ObjectDestoyEffect>().particleEffectPoolId = "";
+        }
+
         gameObject.GetComponent<ObjectDestoyEffect>().StartDestroyEffect();
 
-		_levelManager.PackageDestroyedEvent();
+        _levelManager.PackageDestroyedEvent();
 	}
 
 	private void ObjectDestinationReached() {
