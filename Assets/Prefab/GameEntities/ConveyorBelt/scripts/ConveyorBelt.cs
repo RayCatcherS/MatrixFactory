@@ -95,8 +95,8 @@ public class ConveyorBelt : MonoBehaviour {
 
     private bool _initialized = false;
 
-    public float RollerConveyorHeight {
-        get { return _rollerPlatform.gameObject.transform.position.y; }
+    public float PlatformConveyorHeight {
+        get { return _currentConveyorPlatform.gameObject.transform.position.y; }
     }
 
 
@@ -116,7 +116,7 @@ public class ConveyorBelt : MonoBehaviour {
 
         InitConveyorParameters();
 
-        SetRollerConveyorHeight(conveyorPlatformHeight);
+        SetPlatformConveyorHeight(conveyorPlatformHeight);
         SetPlatformDirection(platformDirection);
 
         EnableDebugShowPath(false);
@@ -183,7 +183,7 @@ public class ConveyorBelt : MonoBehaviour {
         );
     }
 
-    private Direction NextRollerConveyorDirection() {
+    private Direction NextPlatformConveyorDirection() {
         Direction nextDirection = Direction.stay;
 
         if(_platformDirection == Direction.forward) {
@@ -200,14 +200,14 @@ public class ConveyorBelt : MonoBehaviour {
         return nextDirection; 
         
     }
-    public void ApplyRollerConveyorRotation() {
-        Direction newDir = NextRollerConveyorDirection();
+    public void ApplyPlatformConveyorRotation() {
+        Direction newDir = NextPlatformConveyorDirection();
 
         SetPlatformDirectionTarget(newDir);
     }
 
 
-    public void SetRollerConveyorHeight(double height) {
+    public void SetPlatformConveyorHeight(double height) {
 
         _currentConveyorPlatform.gameObject.transform.position = new Vector3(
             _currentConveyorPlatform.gameObject.transform.position.x,

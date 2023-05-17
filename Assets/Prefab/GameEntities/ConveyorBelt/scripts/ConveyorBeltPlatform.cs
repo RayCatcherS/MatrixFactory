@@ -6,7 +6,7 @@ public class ConveyorBeltPlatform : MonoBehaviour {
 
 
     public void ConveyorClicked() {
-        _conveyorBelt.ApplyRollerConveyorRotation();
+        _conveyorBelt.ApplyPlatformConveyorRotation();
     }
 
     public ConveyorPlatformMove GetConveyorBeltPlatformMove(Vector3 oldTargetPoint) {

@@ -44,7 +44,7 @@ public class LevelManager : MonoBehaviour {
     [SerializeField] private Transform _packageSpawnTransform;
     private float _packageSpawnOffsetHeight = 5;
     [SerializeField] private GameObject _spawnLight;
-    private float _spawnPackageLightHeightOffset = 2;
+    private float _spawnPackageLightHeightOffset = 2.5f;
     private GeneratedLevel _loadedLevel;
     private LevelState _levelState = LevelState.NotStarted;
 
@@ -211,8 +211,8 @@ public class LevelManager : MonoBehaviour {
 
 
                 // Set/Update the highest conveyor on the map
-                if(_conveyorMaxHeight < conveyorBelt.RollerConveyorHeight) {
-                    _conveyorMaxHeight = conveyorBelt.RollerConveyorHeight;
+                if(_conveyorMaxHeight < conveyorBelt.PlatformConveyorHeight) {
+                    _conveyorMaxHeight = conveyorBelt.PlatformConveyorHeight;
                 }
 
 
@@ -254,13 +254,13 @@ public class LevelManager : MonoBehaviour {
             ConveyorBelt pathCurrentConveyor = _conveyorMap[levelPath.PathElements[i].pos.x, levelPath.PathElements[i].pos.y];
             /* INIT NEW CONVEYOR*/
             pathCurrentConveyor.SetConveyorType(levelPath.PathElements[i].conveyorBeltPlatformType);
-            pathCurrentConveyor.SetRollerConveyorHeight(conveyorPlatformHeight);
+            pathCurrentConveyor.SetPlatformConveyorHeight(conveyorPlatformHeight);
 
 
 
             // Set/Update the highest conveyor on the map
-            if(_conveyorMaxHeight < pathCurrentConveyor.RollerConveyorHeight) {
-                _conveyorMaxHeight = pathCurrentConveyor.RollerConveyorHeight;
+            if(_conveyorMaxHeight < pathCurrentConveyor.PlatformConveyorHeight) {
+                _conveyorMaxHeight = pathCurrentConveyor.PlatformConveyorHeight;
             }
 
             // show path
@@ -345,7 +345,7 @@ public class LevelManager : MonoBehaviour {
 
         _spawnLight.gameObject.transform.position = new Vector3(
             _packageSpawnTransform.position.x,
-            _conveyorMaxHeight + _spawnPackageLightHeightOffset,
+            _conveyorMapList[0].PlatformConveyorHeight + _spawnPackageLightHeightOffset,
             _packageSpawnTransform.position.z
         );
 
