@@ -31,6 +31,7 @@ proguard/
 
 # build folder
 iosBuild/
+WindowsBuild/
 
 # Log Files
 *.log
@@ -343,3 +344,4 @@ UserSettings/Layouts/default-2021.dwlt
 UserSettings/Layouts/default-2021.dwlt
 *.dwlt
 *.dwlt
+WindowsBuild.rar
