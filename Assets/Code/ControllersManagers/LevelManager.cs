@@ -21,7 +21,7 @@ public class LevelManager : MonoBehaviour {
 
 
     [Header("Conveyor Belt Generation")]
-    private readonly float _conveyorPlatformOffsetHeight = 0.25f;
+    private readonly float _conveyorPlatformUnitWorldHeight = 0.25f;
     private Vector3 _mapPositionStart = Vector3.zero;
     private Vector3 _mapCenter = Vector3.zero;
     private ConveyorBelt[,] _conveyorMap;
@@ -67,7 +67,6 @@ public class LevelManager : MonoBehaviour {
             return _levelInfo;
         }
     }
-
 
     [SerializeField] private bool _debugPath = false;
     private bool _levelLoaded = false;
@@ -156,12 +155,11 @@ public class LevelManager : MonoBehaviour {
         int rows = levelPath.MatrixSize().x;
         int columns = levelPath.MatrixSize().y;
         Vector3 conveyorBaseBlockOffset = Vector3.zero;
-        int pathLength = levelPath.PathElements.Count;
 
         /* CALCULATE HEIGHT RANGE OF CONVEYORS */
         // range with which to calculate random heights of the conveyors on the map
         int conveyorPlatformHeightRangeMin = 0;
-        int conveyorPlatformHeightRangeMax = pathLength;
+        int conveyorPlatformHeightRangeMax = levelPath.StartingLevelHeightPlatform;
 
 
         // conveyor prefab data
@@ -207,7 +205,7 @@ public class LevelManager : MonoBehaviour {
 
 
                 /* INIT NEW CONVEYOR*/
-                conveyorBelt.InitConveyorBelt(conveyorPlatformUnitHeight * _conveyorPlatformOffsetHeight, conveyorPlatformDirection, ConveyorBelt.PlatformType.Roller);
+                conveyorBelt.InitConveyorBelt(conveyorPlatformUnitHeight * _conveyorPlatformUnitWorldHeight, conveyorPlatformDirection, ConveyorBelt.PlatformType.Roller);
 
 
                 // Set/Update the highest conveyor on the map
@@ -232,22 +230,27 @@ public class LevelManager : MonoBehaviour {
 
         /* CALCULATE HEIGHT RANGE OF CONVEYORS */
         // range with which to calculate random heights of the conveyors on the map
-        int conveyorHeightRangeMin = 0;
-
+        int conveyorPlatformHeightRangeMin = 0;
+        int conveyorPlatformHeightRangeMax = levelPath.StartingLevelHeightPlatform;
 
         /* INIT GAME PATH CONVEYOR CORRECT HEIGHT*/
+
+        // It represents how many units the height of the next conveyor must be decreased by
         int platformHeightTargetDecrementer = 0;
+
+
         for(int i = 0; i < levelPath.PathElements.Count; i++) {
 
             double conveyorPlatformHeight;
 
             if(i != 0) {
                 System.Random random = new System.Random();
-                int randomNextHeight = random.Next(platformHeightTargetDecrementer - 1, platformHeightTargetDecrementer + 1); // the random height has value between the current offset and the previous one
+                int randomNextHeight = random.Next(0, levelPath.DefaultPlatformHeightDecrementer + 1); // the random height has value between the current offset and the previous one
+                randomNextHeight = 1;
 
-                conveyorPlatformHeight = conveyorHeightRangeMin + (levelPath.PathElements.Count - randomNextHeight) * _conveyorPlatformOffsetHeight;
+                conveyorPlatformHeight = (conveyorPlatformHeightRangeMin + (conveyorPlatformHeightRangeMax - (platformHeightTargetDecrementer + randomNextHeight))) * _conveyorPlatformUnitWorldHeight;
             } else {
-                conveyorPlatformHeight = conveyorHeightRangeMin + (levelPath.PathElements.Count - platformHeightTargetDecrementer) * _conveyorPlatformOffsetHeight;
+                conveyorPlatformHeight = (conveyorPlatformHeightRangeMin + (conveyorPlatformHeightRangeMax - platformHeightTargetDecrementer)) * _conveyorPlatformUnitWorldHeight;
             }
 
 
@@ -255,6 +258,9 @@ public class LevelManager : MonoBehaviour {
             /* INIT NEW CONVEYOR*/
             pathCurrentConveyor.SetConveyorType(levelPath.PathElements[i].conveyorBeltPlatformType);
             pathCurrentConveyor.SetPlatformConveyorHeight(conveyorPlatformHeight);
+
+            float safeElevatorTargetHeightOffset = 0.75f;
+            pathCurrentConveyor.SetElevatorCannonTargetHeight((levelPath.ElevatorPlatformHeightDecrementer * _conveyorPlatformUnitWorldHeight) + safeElevatorTargetHeightOffset);
 
 
 
@@ -271,7 +277,7 @@ public class LevelManager : MonoBehaviour {
 
             if(levelPath.PathElements[i].conveyorBeltPlatformType == ConveyorBelt.PlatformType.ElevatorCannon) {
                 //the platform height of the next conveyor will be higher
-                platformHeightTargetDecrementer = platformHeightTargetDecrementer - 7;
+                platformHeightTargetDecrementer = platformHeightTargetDecrementer - levelPath.ElevatorPlatformHeightDecrementer; 
             } else {
                 platformHeightTargetDecrementer++;
             }
@@ -280,6 +286,7 @@ public class LevelManager : MonoBehaviour {
                 _incineratorConveyorBeltLevel = pathCurrentConveyor;
             }
         }
+
     }
    
     /// <summary>

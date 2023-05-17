@@ -26,6 +26,10 @@ namespace PT.DataStruct {
         private double _score = 0;
         private List<Package.PackageType> _levelPackagesSequence = new List<Package.PackageType>();
 
+        // Number of default roller platform before the elevator platform
+        private int _elevatorInPathGenerationOffset = 3;
+
+
         public Vector2Int MatrixSize() {
             return _matrixSize;
         }
@@ -45,7 +49,7 @@ namespace PT.DataStruct {
             Direction direction = posPath[0].moveDirection; // first direction move
             int directionChanges = 0;
 
-            int elevatorGenerationOffset = 3;
+            
 
             /* INIT PATH ELEMENTS*/
             for(int i = 0; i < posPath.Count; i++) {
@@ -62,7 +66,7 @@ namespace PT.DataStruct {
                 if(i != posPath.Count - 1 && i != 0) { // not the last path item
 
                     /* SET ELEVATORS ON THE PATH*/
-                    if(i % elevatorGenerationOffset == 0 ) {
+                    if(i % _elevatorInPathGenerationOffset == 0 ) {
                         _path.Add(
                         new LevelPathElement(
                             posPath[i].moveDirection,
@@ -139,6 +143,40 @@ namespace PT.DataStruct {
         public Vector2Int StartPathPosition() {
             return _startPathPosition;
         }
+
+        /// <summary>
+        /// The height of the first platform of the path
+        /// It is used to generate the level
+        /// </summary>
+        public int StartingLevelHeightPlatform {
+            get {
+                return _elevatorInPathGenerationOffset * DefaultPlatformHeightDecrementer;
+            }
+        }
+
+        /// <summary>
+        /// Elevator platform height decrementer
+        /// 
+        /// It represents the value of how much the height of the 
+        /// platform following an elevator-type platform must be decreased
+        /// </summary>
+        public int ElevatorPlatformHeightDecrementer {
+            get {
+                return 6; 
+            }
+        }
+        public int DefaultPlatformHeightDecrementer {
+            get {
+                return 1;
+            }
+        }
+
+        public int NumberOfElevatorInLevel {
+            get {
+                return (PathElements.Count - 1) / _elevatorInPathGenerationOffset;
+            }
+        }
+
         public double score {
             get { return _score; }
         }
