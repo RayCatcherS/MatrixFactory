@@ -271,7 +271,7 @@ public class LevelManager : MonoBehaviour {
 
             if(levelPath.PathElements[i].conveyorBeltPlatformType == ConveyorBelt.PlatformType.ElevatorCannon) {
                 //the platform height of the next conveyor will be higher
-                platformHeightTargetDecrementer = platformHeightTargetDecrementer - 8;
+                platformHeightTargetDecrementer = platformHeightTargetDecrementer - 7;
             } else {
                 platformHeightTargetDecrementer++;
             }

@@ -29,7 +29,7 @@ namespace PT.Global {
         }
 
         private static async Task LoadSaves() {
-            _levelInfoReachedInfo = new LevelInfo(Chapter.Chapter3, 3);
+            _levelInfoReachedInfo = new LevelInfo(Chapter.Chapter6, 14);
         }
 
         public static async void SaveReachedLevel(LevelInfo levelInfo) {

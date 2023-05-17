@@ -295,7 +295,7 @@ namespace PT.Global {
 
 
             result = goodEndsPaths1.Concat(goodEndsPaths2).ToList().Concat(goodEndsPaths3).Concat(goodEndsPaths4).ToList();
-            return FilterGeneratedLevelList(80, result);
+            return FilterGeneratedLevelList(230, result);
         }
 
 
