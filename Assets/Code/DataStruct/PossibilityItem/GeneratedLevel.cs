@@ -169,7 +169,7 @@ namespace PT.DataStruct {
         /// </summary>
         public int ElevatorPlatformHeightDecrementer {
             get {
-                return 5; 
+                return 6; 
             }
         }
         public int DefaultPlatformHeightDecrementer {
