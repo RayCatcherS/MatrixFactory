@@ -32,7 +32,7 @@ public class ConveyorBelt : MonoBehaviour {
     [Header ("Conveyor parameters")]
     [SerializeField] private float _rollerPlatformSpeed;
     [SerializeField] private float _elevatorCannonPlatformSpeed;
-    [SerializeField] private float _elevatorCannonHeightForce;
+    private float _elevatorCannonTargetHeight;
     private Quaternion _platformRotationTarget = Quaternion.identity;
     [SerializeField] private float _platformRotationSpeed = 10;
     [SerializeField] private AnimationCurve _platformRotationLerpCurve;
@@ -78,7 +78,7 @@ public class ConveyorBelt : MonoBehaviour {
 
             move = new ConveyorPlatformMove(
                 TransportedObject.TransportedObjMovementType.ElevatorCannon,
-                new Vector3(oldTargetPoint.x, oldTargetPoint.y + _elevatorCannonHeightForce, oldTargetPoint.z) + direction,
+                new Vector3(oldTargetPoint.x, oldTargetPoint.y + _elevatorCannonTargetHeight, oldTargetPoint.z) + direction,
                 _elevatorCannonPlatformSpeed
             );
 
@@ -274,6 +274,10 @@ public class ConveyorBelt : MonoBehaviour {
         }
         _currentConveyorPlatformType = conveyorBeltType;
     }
+    public void SetElevatorCannonTargetHeight(float height) {
+        _elevatorCannonTargetHeight = height;
+    }
+
 
     public void SetEnableIncineratorPlatformTrigger(bool value) {
         if(_currentConveyorPlatformType == PlatformType.Incinerator) {

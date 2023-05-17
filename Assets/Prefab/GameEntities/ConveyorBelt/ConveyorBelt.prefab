@@ -60,7 +60,7 @@ MonoBehaviour:
   _debugShowTruthPath: {fileID: 8174394858245867595}
   _rollerPlatformSpeed: 2
   _elevatorCannonPlatformSpeed: 4
-  _elevatorCannonHeightForce: 3
+  _elevatorCannonHeightForce: 2
   _platformRotationSpeed: 10
   _platformRotationLerpCurve:
     serializedVersion: 2
@@ -242,6 +242,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5854126770007116403, guid: ab91302a313a0c649a5c5ed681121b72,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 8.328814
+      objectReference: {fileID: 0}
+    - target: {fileID: 5854126770007116403, guid: ab91302a313a0c649a5c5ed681121b72,
+        type: 3}
+      propertyPath: m_Center.y
+      value: -3.6644068
+      objectReference: {fileID: 0}
     - target: {fileID: 8867474252519738992, guid: ab91302a313a0c649a5c5ed681121b72,
         type: 3}
       propertyPath: m_LocalScale.y
@@ -339,6 +349,16 @@ PrefabInstance:
       propertyPath: _conveyorBelt
       value: 
       objectReference: {fileID: 1545146530287381575}
+    - target: {fileID: 3173460991953373454, guid: f42b75d1aea96734491239e5712422ed,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 8.401548
+      objectReference: {fileID: 0}
+    - target: {fileID: 3173460991953373454, guid: f42b75d1aea96734491239e5712422ed,
+        type: 3}
+      propertyPath: m_Center.y
+      value: -3.7007737
+      objectReference: {fileID: 0}
     - target: {fileID: 3982849895644899666, guid: f42b75d1aea96734491239e5712422ed,
         type: 3}
       propertyPath: m_IsActive
@@ -472,6 +492,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042893761728832007, guid: 43f54711d23705747834023c130ee5d0,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 8.608273
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042893761728832007, guid: 43f54711d23705747834023c130ee5d0,
+        type: 3}
+      propertyPath: m_Center.y
+      value: -3.8041363
       objectReference: {fileID: 0}
     - target: {fileID: 6648930982811739373, guid: 43f54711d23705747834023c130ee5d0,
         type: 3}
