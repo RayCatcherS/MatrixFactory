@@ -60,6 +60,7 @@ MonoBehaviour:
   _debugShowTruthPath: {fileID: 8174394858245867595}
   _rollerPlatformSpeed: 2
   _elevatorCannonPlatformSpeed: 4
+  _elevatorCannonHeightForce: 3
   _platformRotationSpeed: 10
   _platformRotationLerpCurve:
     serializedVersion: 2
@@ -240,6 +241,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867474252519738992, guid: ab91302a313a0c649a5c5ed681121b72,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 8.495546
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867474252519738992, guid: ab91302a313a0c649a5c5ed681121b72,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.678
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab91302a313a0c649a5c5ed681121b72, type: 3}
@@ -461,6 +472,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648930982811739373, guid: 43f54711d23705747834023c130ee5d0,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 8.33085
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648930982811739373, guid: 43f54711d23705747834023c130ee5d0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.5956
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43f54711d23705747834023c130ee5d0, type: 3}

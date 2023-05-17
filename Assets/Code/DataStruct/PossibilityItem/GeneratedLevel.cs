@@ -45,7 +45,7 @@ namespace PT.DataStruct {
             Direction direction = posPath[0].moveDirection; // first direction move
             int directionChanges = 0;
 
-            int elevatorGenerationOffset = 4;
+            int elevatorGenerationOffset = 3;
 
             /* INIT PATH ELEMENTS*/
             for(int i = 0; i < posPath.Count; i++) {

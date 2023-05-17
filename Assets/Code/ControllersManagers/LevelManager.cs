@@ -271,7 +271,7 @@ public class LevelManager : MonoBehaviour {
 
             if(levelPath.PathElements[i].conveyorBeltPlatformType == ConveyorBelt.PlatformType.ElevatorCannon) {
                 //the platform height of the next conveyor will be higher
-                platformHeightTargetDecrementer = platformHeightTargetDecrementer - 3;
+                platformHeightTargetDecrementer = platformHeightTargetDecrementer - 8;
             } else {
                 platformHeightTargetDecrementer++;
             }
@@ -433,7 +433,6 @@ public class LevelManager : MonoBehaviour {
 
         int _packagesDeliveredTemp = _packagesDelivered;
 
-        Debug.Log("Damage");
 
         if(_packagesDelivered - damage < 0) {
             _packagesDelivered = 0;
@@ -443,7 +442,6 @@ public class LevelManager : MonoBehaviour {
 
         int packageToDestroy = _packagesDeliveredTemp - _packagesDelivered;
         _packagesDestroyed = _packagesDestroyed + packageToDestroy;
-        Debug.Log("Package to destroy" + packageToDestroy);
 
 
         for(int i = 0; i < packageToDestroy; i++) {

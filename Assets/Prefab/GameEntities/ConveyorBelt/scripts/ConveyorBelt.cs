@@ -32,6 +32,7 @@ public class ConveyorBelt : MonoBehaviour {
     [Header ("Conveyor parameters")]
     [SerializeField] private float _rollerPlatformSpeed;
     [SerializeField] private float _elevatorCannonPlatformSpeed;
+    [SerializeField] private float _elevatorCannonHeightForce;
     private Quaternion _platformRotationTarget = Quaternion.identity;
     [SerializeField] private float _platformRotationSpeed = 10;
     [SerializeField] private AnimationCurve _platformRotationLerpCurve;
@@ -74,11 +75,10 @@ public class ConveyorBelt : MonoBehaviour {
 
         } else if(_currentConveyorPlatformType == PlatformType.ElevatorCannon) {
 
-            float elevatorCannonHeightForce = 1.5f;
 
             move = new ConveyorPlatformMove(
                 TransportedObject.TransportedObjMovementType.ElevatorCannon,
-                new Vector3(oldTargetPoint.x, oldTargetPoint.y + elevatorCannonHeightForce, oldTargetPoint.z) + direction,
+                new Vector3(oldTargetPoint.x, oldTargetPoint.y + _elevatorCannonHeightForce, oldTargetPoint.z) + direction,
                 _elevatorCannonPlatformSpeed
             );
 
