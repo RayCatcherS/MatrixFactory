@@ -150,14 +150,7 @@ namespace PT.DataStruct {
         /// </summary>
         public int StartingLevelHeightPlatform {
             get {
-                //int nElevator = 0;
-                int value;
-                //Debug.Log("old max height " + PathElements.Count);
-                //Debug.Log("new max height " + (_elevatorInPathGenerationOffset * DefaultPlatformHeightDecrementer));
-
-                value = (_elevatorInPathGenerationOffset * DefaultPlatformHeightDecrementer);
-                //value = PathElements.Count;
-                return value;
+                return _elevatorInPathGenerationOffset * DefaultPlatformHeightDecrementer;
             }
         }
 
