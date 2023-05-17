@@ -15,10 +15,10 @@ public class ConveyorBelt : MonoBehaviour {
     private float _defaultConveyorPlatformHeight = 0f;
 
     [Header("Platform Types")]
-    [SerializeField] private ConveyorBeltPlatform _rollerPlatform;
-    [SerializeField] private ConveyorBeltPlatform _elevatorPlatform;
-    [SerializeField] private ConveyorBeltPlatform _incineratorPlatform;
-    private ConveyorBeltPlatform _currentConveyorPlatform;
+    [SerializeField] private GameObject _rollerPlatform;
+    [SerializeField] private GameObject _elevatorPlatform;
+    [SerializeField] private GameObject _incineratorPlatform;
+    private GameObject _currentConveyorPlatform;
     private PlatformType _currentConveyorPlatformType;
 
     [Header("Base Types")]
@@ -40,6 +40,10 @@ public class ConveyorBelt : MonoBehaviour {
 
     [Header("Conveyor triggers")]
     [SerializeField] private IncineratorTrigger _incineratorTrigger;
+
+    [Header("References")]
+    [SerializeField] private BoxCollider _platformInputCollider;
+    [SerializeField] private BoxCollider _platformCollider;
 
     public Direction PlatformDirection {
         get { return _platformDirection; } 
@@ -214,6 +218,19 @@ public class ConveyorBelt : MonoBehaviour {
             _defaultConveyorPlatformHeight + _conveyorOffsetHeight + (float)height,
             _currentConveyorPlatform.gameObject.transform.position.z
         );
+
+        _platformCollider.gameObject.transform.position = new Vector3(
+            _currentConveyorPlatform.gameObject.transform.position.x,
+            _defaultConveyorPlatformHeight + _conveyorOffsetHeight + (float)height,
+            _currentConveyorPlatform.gameObject.transform.position.z
+        );
+
+        _platformInputCollider.gameObject.transform.position = new Vector3(
+            _currentConveyorPlatform.gameObject.transform.position.x,
+            _defaultConveyorPlatformHeight + _conveyorOffsetHeight + (float)height,
+            _currentConveyorPlatform.gameObject.transform.position.z
+        );
+
     }
     private void UpdateRollerConveyorRotation() {
         if(_currentConveyorPlatform.gameObject.transform.rotation != _platformRotationTarget) {

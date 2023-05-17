@@ -95,8 +95,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 5.174221, z: 1}
-  m_Center: {x: 0, y: -2.08711, z: 0}
+  m_Size: {x: 0.7, y: 8.328814, z: 0.7}
+  m_Center: {x: 0, y: -3.6644068, z: 0}
 --- !u!1 &4740407679706876248
 GameObject:
   m_ObjectHideFlags: 0
@@ -108,8 +108,6 @@ GameObject:
   - component: {fileID: 5369028560973861858}
   - component: {fileID: 9019941026370493511}
   - component: {fileID: 6541957687076841613}
-  - component: {fileID: 7419319564407661436}
-  - component: {fileID: 4212605522940559489}
   m_Layer: 3
   m_Name: ConveyorRollerPlatform
   m_TagString: Untagged
@@ -184,32 +182,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &7419319564407661436
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4740407679706876248}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 0.10000017, z: 1}
-  m_Center: {x: 0, y: 0.54999995, z: 0}
---- !u!114 &4212605522940559489
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4740407679706876248}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 167bf7fd86922864ca2c98c78715ecf0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _conveyorBelt: {fileID: 0}
 --- !u!1 &9082260940312174109
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,8 +209,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9082260940312174109}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.1050901, z: 0}
-  m_LocalScale: {x: 0.2, y: 5.3494825, z: 0.2}
+  m_LocalPosition: {x: 0, y: -3.678, z: 0}
+  m_LocalScale: {x: 0.2, y: 8.495546, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5369028560973861858}

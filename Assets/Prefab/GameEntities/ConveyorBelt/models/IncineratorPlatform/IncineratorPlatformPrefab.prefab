@@ -159,7 +159,7 @@ GameObject:
   - component: {fileID: 2168352824197784049}
   - component: {fileID: 4904123888504207504}
   m_Layer: 12
-  m_Name: PackageTrigger
+  m_Name: IncineratorTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -301,8 +301,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 5.174221, z: 1}
-  m_Center: {x: 0, y: -2.08711, z: 0}
+  m_Size: {x: 0.7, y: 8.401548, z: 0.7}
+  m_Center: {x: 0, y: -3.7007737, z: 0}
 --- !u!1001 &4288699191260124163
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -323,17 +323,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: fbd1d3872d1c5db40bd403396ce386e0,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fbd1d3872d1c5db40bd403396ce386e0,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fbd1d3872d1c5db40bd403396ce386e0,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fbd1d3872d1c5db40bd403396ce386e0,
         type: 3}
@@ -468,19 +468,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4288699191260124163}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &3783222113828815808
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3982849895644899666}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 0.56987154, z: 1}
-  m_Center: {x: 0, y: 0.31506425, z: 0}
 --- !u!95 &3532031147088340979
 Animator:
   serializedVersion: 5
@@ -502,19 +489,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &2399455094714684039
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3982849895644899666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 167bf7fd86922864ca2c98c78715ecf0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _conveyorBelt: {fileID: 0}
 --- !u!4 &4327462590628099048 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: fbd1d3872d1c5db40bd403396ce386e0,

@@ -1,7 +1,4 @@
 using Cinemachine;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ControlsController : MonoBehaviour {
@@ -25,7 +22,7 @@ public class ControlsController : MonoBehaviour {
 
     private float _lerpValue = 0;
     private float _tapInteractionTimer = 0;
-    readonly private int _conveyorRollerLayer = 3;
+    readonly private int _worldInputController = 15;
 
     [SerializeField] private LayerMaskSelector _layersToIgnore;
 
@@ -117,8 +114,8 @@ public class ControlsController : MonoBehaviour {
             if(Physics.Raycast(ray, out hit, 100.0f, _layersToIgnore.LayerMaskIgnore())) {
 
 
-                if(hit.transform.gameObject.layer == _conveyorRollerLayer) {
-                    ConveyorBeltPlatform conveyor = hit.transform.gameObject.GetComponent<ConveyorBeltPlatform>();
+                if(hit.transform.gameObject.layer == _worldInputController) {
+                    ConveyorBeltInputReceiver conveyor = hit.transform.gameObject.GetComponent<ConveyorBeltInputReceiver>();
                     conveyor.ConveyorClicked();
                 }
             }
