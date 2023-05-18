@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using PT.DataStruct;
 using PT.Global;
 using System.Threading.Tasks;
@@ -193,6 +194,16 @@ public class GameUI : MonoBehaviour {
             GameObject levelButton;
             levelButton = Instantiate(_buttonLevelUI);
             levelButton.transform.SetParent(_levelListUI.transform, false);
+            Text buttonText = levelButton.GetComponentInChildren<Text>();
+            buttonText.text = "Level " + (i + 1);
+
+            int level = i;
+            levelButton.GetComponent<Button>().onClick.AddListener(async () => {
+
+                await GameController.Instance.StartLevel(
+                    new LevelInfo(GlobalPossibilityPath.Chapter.Chapter1, level)
+                );
+            });
         }
 
 
@@ -208,6 +219,16 @@ public class GameUI : MonoBehaviour {
             GameObject levelButton;
             levelButton = Instantiate(_buttonLevelUI);
             levelButton.transform.SetParent(_levelListUI.transform, false);
+            Text buttonText = levelButton.GetComponentInChildren<Text>();
+            buttonText.text = "Level " + (i + 1);
+
+            int level = i;
+            levelButton.GetComponent<Button>().onClick.AddListener(async () => {
+
+                await GameController.Instance.StartLevel(
+                    new LevelInfo(GlobalPossibilityPath.Chapter.Chapter2, level)
+                );
+            });
         }
 
 
@@ -221,6 +242,17 @@ public class GameUI : MonoBehaviour {
             GameObject levelButton;
             levelButton = Instantiate(_buttonLevelUI);
             levelButton.transform.SetParent(_levelListUI.transform, false);
+            Text buttonText = levelButton.GetComponentInChildren<Text>();
+            buttonText.text = "Level " + (i + 1);
+
+            int level = i;
+            levelButton.GetComponent<Button>().onClick.AddListener(async () => {
+
+
+                await GameController.Instance.StartLevel(
+                    new LevelInfo(GlobalPossibilityPath.Chapter.Chapter3, level)
+                );
+            });
         }
 
 
@@ -234,6 +266,17 @@ public class GameUI : MonoBehaviour {
             GameObject levelButton;
             levelButton = Instantiate(_buttonLevelUI);
             levelButton.transform.SetParent(_levelListUI.transform, false);
+            Text buttonText = levelButton.GetComponentInChildren<Text>();
+            buttonText.text = "Level " + (i + 1);
+
+            int level = i;
+            levelButton.GetComponent<Button>().onClick.AddListener(async () => {
+
+
+                await GameController.Instance.StartLevel(
+                    new LevelInfo(GlobalPossibilityPath.Chapter.Chapter4, level)
+                );
+            });
         }
 
 
@@ -247,6 +290,17 @@ public class GameUI : MonoBehaviour {
             GameObject levelButton;
             levelButton = Instantiate(_buttonLevelUI);
             levelButton.transform.SetParent(_levelListUI.transform, false);
+            Text buttonText = levelButton.GetComponentInChildren<Text>();
+            buttonText.text = "Level " + (i + 1);
+
+            int level = i;
+            levelButton.GetComponent<Button>().onClick.AddListener(async () => {
+
+
+                await GameController.Instance.StartLevel(
+                    new LevelInfo(GlobalPossibilityPath.Chapter.Chapter5, level)
+                );
+            });
         }
 
 
@@ -260,6 +314,16 @@ public class GameUI : MonoBehaviour {
             GameObject levelButton;
             levelButton = Instantiate(_buttonLevelUI);
             levelButton.transform.SetParent(_levelListUI.transform, false);
+            Text buttonText = levelButton.GetComponentInChildren<Text>();
+            buttonText.text = "Level " + (i + 1);
+
+            int level = i;
+            levelButton.GetComponent<Button>().onClick.AddListener(async () => {
+
+                await GameController.Instance.StartLevel(
+                    new LevelInfo(GlobalPossibilityPath.Chapter.Chapter6, level)
+                );
+            });
         }
     }
 
