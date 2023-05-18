@@ -18,7 +18,6 @@ public class ObjectDestoyEffect : MonoBehaviour {
 
         if(_particleEffectPoolId != "") {
 
-            Debug.Log("StartDestroyEffect");
             GameObject particle = PrefabManager.Instance.SpawnFromPool(
                         _particleEffectPoolId,
                         particleOrign.transform.position,

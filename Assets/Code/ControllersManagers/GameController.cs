@@ -29,7 +29,12 @@ public class GameController : MonoBehaviour {
         GlobalPossibilityPath.GenerateChaptersPaths(true);
         GameSaveManager.InitSaves();
 
+
+        GameUI.Instance.BuildUI();
         GameUI.Instance.OpenMainMenu();
+    }
+    public void LevelSelection() {
+        GameUI.Instance.OpenLevelSelectionMenu();
     }
 
     public async void ContinueGame() {
@@ -82,5 +87,6 @@ public class GameController : MonoBehaviour {
     public async void RestartLevel() {
         await StartLevel(GameSaveManager.LevelInfoReachedInfo);
     }
+    
     
 }

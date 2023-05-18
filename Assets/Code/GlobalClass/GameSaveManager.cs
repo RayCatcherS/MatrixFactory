@@ -35,10 +35,10 @@ namespace PT.Global {
         public static async void SaveReachedLevel(LevelInfo levelInfo) {
             _levelChaptersSaves[levelInfo.Chapter] = levelInfo.LevelIndex;
             _levelInfoReachedInfo = levelInfo;
-            await SaveSaves();
+            await SaveGameState();
         }
 
-        private static async Task SaveSaves() {
+        private static async Task SaveGameState() {
             // TODO save level and chapters to file
         }
     }

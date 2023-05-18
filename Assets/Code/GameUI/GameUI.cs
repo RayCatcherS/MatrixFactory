@@ -1,9 +1,12 @@
 using PT.DataStruct;
+using PT.Global;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GameUI : MonoBehaviour {
+
+    [Header("background & Settings")]
     [SerializeField] private Image _background;
     private bool _isBackgroundEnable = true;
     private Color _targetColor;
@@ -11,15 +14,26 @@ public class GameUI : MonoBehaviour {
     private float _backgroundAnimationTransitionTime;
     private float _backgroundAnimationSpeed = 0.2f;
 
+
+    [Header("UI Menus")]
     [SerializeField] private GameObject _mainMenuUI;
     [SerializeField] private GameObject _levelEndedWinMenuUI;
     [SerializeField] private GameObject _levelEndedLoseMenuUI;
+    [SerializeField] private GameObject _levelSelectionUI;
 
     [SerializeField] private GameObject _levelStartedMenuUI;
     [SerializeField] private GameObject _levelStartedGameStateUI;
     [SerializeField] private Text _levelStartedLevelNameText;
     [SerializeField] private Text _levelStartedChapterNameText;
     [SerializeField] private Text _packageToSpawnText;
+
+    [Header("List Reference")]
+    [SerializeField] private GameObject _levelListUI;
+
+    [Header("Prefab References")]
+    [SerializeField] private GameObject _buttonLevelUI;
+    [SerializeField] private GameObject _textChapterTitleLevelUI;
+
     readonly private string _levelStartedLevelNameTextFormat = "Level: ";
     readonly private string _levelStartedChapterNameTextFormat = "Chapter: ";
 
@@ -34,6 +48,11 @@ public class GameUI : MonoBehaviour {
             return;
         }
         Instance = this;
+
+        
+    }
+    public void BuildUI() {
+        BuildLevelListUI();
     }
 
     public async Task SetBlackBackgroundLerp(bool isBlackBackground) {
@@ -81,6 +100,8 @@ public class GameUI : MonoBehaviour {
 
         _levelStartedMenuUI.SetActive(false);
         _levelStartedGameStateUI.SetActive(false);
+
+        _levelSelectionUI.SetActive(false);
     }
 
     public void OpenGameLevelStartedMenu() {
@@ -92,6 +113,8 @@ public class GameUI : MonoBehaviour {
 
         _levelStartedMenuUI.SetActive(true);
         _levelStartedGameStateUI.SetActive(true);
+
+        _levelSelectionUI.SetActive(false);
     }
 
     public void OpenGameLevelEndedWinMenu() {
@@ -103,6 +126,8 @@ public class GameUI : MonoBehaviour {
 
         _levelStartedMenuUI.SetActive(false);
         _levelStartedGameStateUI.SetActive(true);
+
+        _levelSelectionUI.SetActive(false);
     }
 
     public void OpenGameLevelEndedLoseMenu() {
@@ -114,6 +139,18 @@ public class GameUI : MonoBehaviour {
 
         _levelStartedMenuUI.SetActive(false);
         _levelStartedGameStateUI.SetActive(true);
+
+        _levelSelectionUI.SetActive(false);
+    }
+
+    public void OpenLevelSelectionMenu() {
+        _state = GameUIState.LevelSelection;
+        _mainMenuUI.SetActive(false);
+        _levelEndedWinMenuUI.SetActive(false);
+        _levelEndedLoseMenuUI.SetActive(false);
+        _levelStartedMenuUI.SetActive(false);
+        _levelStartedGameStateUI.SetActive(false);
+        _levelSelectionUI.SetActive(true);
     }
 
     public void CloseAllUIMenus() {
@@ -122,6 +159,7 @@ public class GameUI : MonoBehaviour {
         _levelEndedLoseMenuUI.SetActive(false);
         _levelStartedMenuUI.SetActive(false);
         _levelStartedGameStateUI.SetActive(false);
+        _levelSelectionUI.SetActive(false);
     }
 
     public void SetGameStateValuesUI(LevelInfo levelInfo) {
@@ -141,12 +179,97 @@ public class GameUI : MonoBehaviour {
             "Packages to spawn: " + packageToSpawn + "\n";
     }
 
+    private void BuildLevelListUI() {
+        int levelNumb;
+        GameObject chapterTitle;
+
+        /* GENERATE CHATPER 1 AND LEVELS */
+        chapterTitle = Instantiate(_textChapterTitleLevelUI);
+        chapterTitle.GetComponent<Text>().text = "Chapter 1";
+        chapterTitle.transform.SetParent(_levelListUI.transform, false);
+
+        levelNumb = GlobalPossibilityPath.GetChapterLevels(GlobalPossibilityPath.Chapter.Chapter1).Count;
+        for(int i = 0; i < levelNumb; i++) {
+            GameObject levelButton;
+            levelButton = Instantiate(_buttonLevelUI);
+            levelButton.transform.SetParent(_levelListUI.transform, false);
+        }
+
+
+
+
+        /* GENERATE CHATPER 2 AND LEVELS */
+        chapterTitle = Instantiate(_textChapterTitleLevelUI);
+        chapterTitle.GetComponent<Text>().text = "Chapter 2";
+        chapterTitle.transform.SetParent(_levelListUI.transform, false);
+
+        levelNumb = GlobalPossibilityPath.GetChapterLevels(GlobalPossibilityPath.Chapter.Chapter2).Count;
+        for(int i = 0; i < levelNumb; i++) {
+            GameObject levelButton;
+            levelButton = Instantiate(_buttonLevelUI);
+            levelButton.transform.SetParent(_levelListUI.transform, false);
+        }
+
+
+        /* GENERATE CHATPER 3 AND LEVELS */
+        chapterTitle = Instantiate(_textChapterTitleLevelUI);
+        chapterTitle.GetComponent<Text>().text = "Chapter 3";
+        chapterTitle.transform.SetParent(_levelListUI.transform, false);
+
+        levelNumb = GlobalPossibilityPath.GetChapterLevels(GlobalPossibilityPath.Chapter.Chapter3).Count;
+        for(int i = 0; i < levelNumb; i++) {
+            GameObject levelButton;
+            levelButton = Instantiate(_buttonLevelUI);
+            levelButton.transform.SetParent(_levelListUI.transform, false);
+        }
+
+
+        /* GENERATE CHATPER 4 AND LEVELS */
+        chapterTitle = Instantiate(_textChapterTitleLevelUI);
+        chapterTitle.GetComponent<Text>().text = "Chapter 4";
+        chapterTitle.transform.SetParent(_levelListUI.transform, false);
+
+        levelNumb = GlobalPossibilityPath.GetChapterLevels(GlobalPossibilityPath.Chapter.Chapter4).Count;
+        for(int i = 0; i < levelNumb; i++) {
+            GameObject levelButton;
+            levelButton = Instantiate(_buttonLevelUI);
+            levelButton.transform.SetParent(_levelListUI.transform, false);
+        }
+
+
+        /* GENERATE CHATPER 5 AND LEVELS */
+        chapterTitle = Instantiate(_textChapterTitleLevelUI);
+        chapterTitle.GetComponent<Text>().text = "Chapter 5";
+        chapterTitle.transform.SetParent(_levelListUI.transform, false);
+
+        levelNumb = GlobalPossibilityPath.GetChapterLevels(GlobalPossibilityPath.Chapter.Chapter5).Count;
+        for(int i = 0; i < levelNumb; i++) {
+            GameObject levelButton;
+            levelButton = Instantiate(_buttonLevelUI);
+            levelButton.transform.SetParent(_levelListUI.transform, false);
+        }
+
+
+        /* GENERATE CHATPER 6 AND LEVELS */
+        chapterTitle = Instantiate(_textChapterTitleLevelUI);
+        chapterTitle.GetComponent<Text>().text = "Chapter 6";
+        chapterTitle.transform.SetParent(_levelListUI.transform, false);
+
+        levelNumb = GlobalPossibilityPath.GetChapterLevels(GlobalPossibilityPath.Chapter.Chapter6).Count;
+        for(int i = 0; i < levelNumb; i++) {
+            GameObject levelButton;
+            levelButton = Instantiate(_buttonLevelUI);
+            levelButton.transform.SetParent(_levelListUI.transform, false);
+        }
+    }
+
     public enum GameUIState {
         MainMenu,
         LevelStartedMenu,
         LevelEndedWinMenu,
         LevelEndedLoseMenu,
         PauseMenu,
-        GameOverMenu
+        GameOverMenu,
+        LevelSelection
     }
 }

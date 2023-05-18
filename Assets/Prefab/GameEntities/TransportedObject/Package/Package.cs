@@ -13,6 +13,7 @@ public class Package : TransportedObject {
 
 	[Header("Package References")]
 	[SerializeField] private GameSignal _bombSignal;
+    [SerializeField] private GameObject _yellowTape;
 
     public new void Init(Vector3 objectSize, LevelManager levelManager, PackageType packageType) {
         _objectSize = objectSize;
@@ -102,8 +103,11 @@ public class Package : TransportedObject {
 
 		if(_packageType == PackageType.bomb) {
 			_bombSignal.StartSignal();
-		} else {
+            _yellowTape.SetActive(true);
+
+        } else {
 			_bombSignal.StopSignal();
+            _yellowTape.SetActive(value: false);
 
         }
     }
