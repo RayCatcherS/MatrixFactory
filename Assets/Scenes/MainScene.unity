@@ -433,7 +433,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 376080315}
-  m_LocalRotation: {x: -0.4351621, y: -0.55734545, z: 0.4351621, w: -0.55734545}
+  m_LocalRotation: {x: -0.4351621, y: -0.55734545, z: 0.43516216, w: -0.55734545}
   m_LocalPosition: {x: -2.499997, y: 8.7867985, z: 22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -834,7 +834,7 @@ MonoBehaviour:
     m_InputAxisValue: 0
     m_InvertInput: 0
     m_MinValue: -70
-    m_MaxValue: 70
+    m_MaxValue: 53
     m_Wrap: 0
     m_Recentering:
       m_enabled: 0
@@ -958,7 +958,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.1
-  far clip plane: 5000
+  far clip plane: 100
   field of view: 30.83
   orthographic: 0
   orthographic size: 10
@@ -1302,7 +1302,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 885753448}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.8945355, y: 1.0612079, z: 15.455307}
+  m_LocalPosition: {x: 5.01, y: 0.76, z: 5.82}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2106,7 +2106,9 @@ MonoBehaviour:
   _cameraController: {fileID: 1634783206}
   _packageSpawnTransform: {fileID: 283552998}
   _spawnLight: {fileID: 795262059}
-  _debugPath: 1
+  _timeBeforeStartingLevelBeforeLight: 3.7
+  _timeBeforeStartingLevelAfterLight: 2.5
+  _debugPath: 0
 --- !u!114 &1497837088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2141,9 +2143,9 @@ MonoBehaviour:
   - _prefabID: LevelMapTrail
     _gObject: {fileID: 1098775643271299328, guid: 9be481eb5b57349b888d91a88bc08076,
       type: 3}
-    _gSize: {x: 0.3, y: 0.3, z: 0.3}
+    _gSize: {x: 0.4, y: 0.4, z: 0.4}
     _poolPrefab: 1
-    _objPoolSize: 5
+    _objPoolSize: 20
   - _prefabID: DummyPackage
     _gObject: {fileID: 1098775643271299328, guid: 0423023a1f7f627428a72e1f269c64fe,
       type: 3}
@@ -2464,7 +2466,7 @@ MonoBehaviour:
     FieldOfView: 30.83
     OrthographicSize: 10
     NearClipPlane: 0.1
-    FarClipPlane: 5000
+    FarClipPlane: 100
     Dutch: 0
     ModeOverride: 0
     LensShift: {x: 0, y: 0}

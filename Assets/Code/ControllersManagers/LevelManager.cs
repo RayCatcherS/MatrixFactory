@@ -45,19 +45,22 @@ public class LevelManager : MonoBehaviour {
     private float _packageSpawnOffsetHeight = 5;
     [SerializeField] private GameObject _spawnLight;
     private float _spawnPackageLightHeightOffset = 2.5f;
+    [SerializeField] private float _timeBeforeStartingLevelBeforeLight;
+    [SerializeField] private float _timeBeforeStartingLevelAfterLight;
     private GeneratedLevel _loadedLevel;
     private LevelState _levelState = LevelState.NotStarted;
-
     public LevelState State {
         get { return _levelState; }
     }
-
-
-    public Vector3 MapCenter {
+    public Vector3 LevelMapCenter {
         get { return _mapCenter; }
     }
 
     private LevelInfo _levelInfo;
+    [SerializeField] private bool _debugPath = false;
+    private bool _levelLoaded = false;
+
+
     public LevelInfo LevelInfo {
 
         get {
@@ -68,8 +71,6 @@ public class LevelManager : MonoBehaviour {
         }
     }
 
-    [SerializeField] private bool _debugPath = false;
-    private bool _levelLoaded = false;
 
     /// <summary>
     /// Init level, generate the map and set the level variables
@@ -365,7 +366,7 @@ public class LevelManager : MonoBehaviour {
 
 	private IEnumerator WaitStartingAnimationAndStart() {
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(_timeBeforeStartingLevelBeforeLight);
         _spawnLight.gameObject.SetActive(true);
 
         StartCoroutine(DrawTrailIndicator());
@@ -397,7 +398,7 @@ public class LevelManager : MonoBehaviour {
                 levelMapTrail.GameobjectSize,
                 this
             );
-            yield return new WaitForSeconds(0.4f);
+            yield return new WaitForSeconds(0.28f);
             StartCoroutine(DrawTrailIndicator());
         }
             

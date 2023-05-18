@@ -45,9 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6883ac179f752814380810f03353a71d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particleOrign: {fileID: 4878077934303988668, guid: 129909a2ada5c4b48bdeecccae75ad73,
-    type: 3}
-  _particleEffectPoolId: ParticleObjectDestroyed
+  particleOrign: {fileID: 4878077934303988668}
+  _particleEffectPoolId: 
   _substituteOfDestroyedObjectPoolId: DamagedPackage
 --- !u!1001 &2146755977650116008
 PrefabInstance:

@@ -27,7 +27,7 @@ public class TransportedObject : MonoBehaviour {
 	[SerializeField] private AnimationCurve _fallLerpCurve;
     [SerializeField] private AnimationCurve _elevatorVerticalAxisLerpCurve;
     [SerializeField] private AnimationCurve _elevatorHorizontalAxisLerpCurve;
-    [SerializeField] private float _objectFallSpeed = 3;
+    [SerializeField] protected float _objectFallSpeed = 3;
 	[SerializeField] private float _objectSpeedMultiplyer = 1;
 	private float _moveSpeed;
     private Vector3 _targetPoint;

@@ -11,16 +11,8 @@ public class TrailIndicator : TransportedObject {
         if(_trailRenderer != null) {
             _trailRenderer.Clear();
         }
+
+        _objectFallSpeed = 2f;
     }
 
-
-    /*void OnCollisionEnter(Collision collision) {
-		if (collision.gameObject.layer == _packageDamageColliderLayer || collision.gameObject.layer == _packageColliderLayer || collision.gameObject.layer == _deliveryPointCollider) {
-
-            
-		}
-
-	}*/
-
-	
 }

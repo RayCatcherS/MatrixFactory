@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GameSignal : MonoBehaviour {
 
-    [SerializeField] private Light light;
+    [SerializeField] private GameObject light;
     [SerializeField] private float millisecondWaitTime = 1000f;
     private bool _signalStarted = false;
 

@@ -184,7 +184,7 @@ namespace PT.Global {
             
             
             result = goodEndsPaths1.Concat(goodEndsPaths2).ToList();
-            return FilterGeneratedLevelList(1, result);
+            return FilterGeneratedLevelList(2, result);
         }
         static private List<GeneratedLevel> GenerateChapter2(bool memorizeAllPossibilityPathTree = false) {
             List<GeneratedLevel> result = new List<GeneratedLevel>();
@@ -222,7 +222,7 @@ namespace PT.Global {
             List<GeneratedLevel> goodEndsPaths3 = GeneratePossibilitiesPathTree(_rows, _columns, startPathPosition, endPathPosition);
 
             result = goodEndsPaths1.Concat(goodEndsPaths2).Concat(goodEndsPaths3).ToList();
-            return FilterGeneratedLevelList(3, result);
+            return FilterGeneratedLevelList(7, result);
         }
         static private List<GeneratedLevel> GenerateChapter4(bool memorizeAllPossibilityPathTree = false) {
             List<GeneratedLevel> result = new List<GeneratedLevel>();
@@ -242,7 +242,7 @@ namespace PT.Global {
             List<GeneratedLevel> goodEndsPaths3 = GeneratePossibilitiesPathTree(_rows, _columns, startPathPosition, endPathPosition);
 
             result = goodEndsPaths1.Concat(goodEndsPaths2).Concat(goodEndsPaths3).ToList();
-            return FilterGeneratedLevelList(10, result);
+            return FilterGeneratedLevelList(15, result);
         }
         static private List<GeneratedLevel> GenerateChapter5(bool memorizeAllPossibilityPathTree = false) {
             List<GeneratedLevel> result = new List<GeneratedLevel>();
