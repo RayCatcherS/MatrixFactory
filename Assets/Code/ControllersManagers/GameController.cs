@@ -75,7 +75,15 @@ public class GameController : MonoBehaviour {
 
     public void EndLevelWin() {
         GameSaveManager.SaveReachedLevel(GlobalPossibilityPath.GetNextLevel(_levelManager.LevelInfo));
-        GameUI.Instance.OpenGameLevelEndedWinMenu();
+
+        if(GameSaveManager.LevelInfoReachedInfo.Chapter == GlobalPossibilityPath.Chapter.End) {
+
+            GameUI.Instance.OpenGameEnd();
+
+		} else {
+			GameUI.Instance.OpenGameLevelWinMenu();
+		}
+        
     }
     public void EndLevelLose() {
         GameUI.Instance.OpenGameLevelEndedLoseMenu();

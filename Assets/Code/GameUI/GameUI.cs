@@ -21,12 +21,18 @@ public class GameUI : MonoBehaviour {
     [SerializeField] private GameObject _levelEndedWinMenuUI;
     [SerializeField] private GameObject _levelEndedLoseMenuUI;
     [SerializeField] private GameObject _levelSelectionUI;
+	[SerializeField] private GameObject _gameEndUI;
 
-    [SerializeField] private GameObject _levelStartedMenuUI;
+	[SerializeField] private GameObject _levelStartedMenuUI;
     [SerializeField] private GameObject _levelStartedGameStateUI;
-    [SerializeField] private Text _levelStartedLevelNameText;
+    
+
+	[Header("Level UI")]
+	[SerializeField] private Text _levelStartedLevelNameText;
     [SerializeField] private Text _levelStartedChapterNameText;
-    [SerializeField] private Text _packageToSpawnText;
+
+	[Header("Debug UI")]
+	[SerializeField] private Text _packageToSpawnText;
 
     [Header("List Reference")]
     [SerializeField] private GameObject _levelListUI;
@@ -98,12 +104,15 @@ public class GameUI : MonoBehaviour {
 
         _levelEndedWinMenuUI.SetActive(false);
         _levelEndedLoseMenuUI.SetActive(false);
+		_gameEndUI.SetActive(false);
 
-        _levelStartedMenuUI.SetActive(false);
+		_levelStartedMenuUI.SetActive(false);
         _levelStartedGameStateUI.SetActive(false);
 
         _levelSelectionUI.SetActive(false);
-    }
+	    
+
+	}
 
     public void OpenGameLevelStartedMenu() {
         _state = GameUIState.LevelStartedMenu;
@@ -111,34 +120,37 @@ public class GameUI : MonoBehaviour {
 
         _levelEndedWinMenuUI.SetActive(false);
         _levelEndedLoseMenuUI.SetActive(false);
+		_gameEndUI.SetActive(false);
 
-        _levelStartedMenuUI.SetActive(true);
+		_levelStartedMenuUI.SetActive(true);
         _levelStartedGameStateUI.SetActive(true);
 
         _levelSelectionUI.SetActive(false);
     }
 
-    public void OpenGameLevelEndedWinMenu() {
-        _state = GameUIState.LevelEndedWinMenu;
+    public void OpenGameLevelWinMenu() {
+        _state = GameUIState.LevelWinMenu;
         _mainMenuUI.SetActive(false);
 
         _levelEndedWinMenuUI.SetActive(true);
         _levelEndedLoseMenuUI.SetActive(false);
+		_gameEndUI.SetActive(false);
 
-        _levelStartedMenuUI.SetActive(false);
+		_levelStartedMenuUI.SetActive(false);
         _levelStartedGameStateUI.SetActive(true);
 
         _levelSelectionUI.SetActive(false);
     }
 
     public void OpenGameLevelEndedLoseMenu() {
-        _state = GameUIState.LevelEndedLoseMenu;
+        _state = GameUIState.LevelLoseMenu;
         _mainMenuUI.SetActive(false);
 
         _levelEndedWinMenuUI.SetActive(false);
         _levelEndedLoseMenuUI.SetActive(true);
+		_gameEndUI.SetActive(false);
 
-        _levelStartedMenuUI.SetActive(false);
+		_levelStartedMenuUI.SetActive(false);
         _levelStartedGameStateUI.SetActive(true);
 
         _levelSelectionUI.SetActive(false);
@@ -149,12 +161,27 @@ public class GameUI : MonoBehaviour {
         _mainMenuUI.SetActive(false);
         _levelEndedWinMenuUI.SetActive(false);
         _levelEndedLoseMenuUI.SetActive(false);
-        _levelStartedMenuUI.SetActive(false);
+		_gameEndUI.SetActive(false);
+		_levelStartedMenuUI.SetActive(false);
         _levelStartedGameStateUI.SetActive(false);
         _levelSelectionUI.SetActive(true);
     }
 
-    public void CloseAllUIMenus() {
+	public void OpenGameEnd() {
+		_state = GameUIState.GameEnd;
+		_mainMenuUI.SetActive(false);
+
+		_levelEndedWinMenuUI.SetActive(true);
+		_levelEndedLoseMenuUI.SetActive(false);
+		_gameEndUI.SetActive(true);
+
+		_levelStartedMenuUI.SetActive(false);
+		_levelStartedGameStateUI.SetActive(true);
+
+		_levelSelectionUI.SetActive(false);
+	}
+
+	public void CloseAllUIMenus() {
         _mainMenuUI.SetActive(false);
         _levelEndedWinMenuUI.SetActive(false);
         _levelEndedLoseMenuUI.SetActive(false);
@@ -330,10 +357,11 @@ public class GameUI : MonoBehaviour {
     public enum GameUIState {
         MainMenu,
         LevelStartedMenu,
-        LevelEndedWinMenu,
-        LevelEndedLoseMenu,
+        LevelWinMenu,
+        LevelLoseMenu,
+        GameEnd,
         PauseMenu,
-        GameOverMenu,
+        GameoverMenu,
         LevelSelection
     }
 }
