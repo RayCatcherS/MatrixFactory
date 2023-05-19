@@ -296,12 +296,29 @@ public class LevelManager : MonoBehaviour {
     /// <param name="levelPath"></param>
     private void GenerateDeliveryPoint(GeneratedLevel levelPath) {
 
-		// deliveryPoint prefab data
-		Prefab deliveryPoint = PrefabManager.Instance.GetPrefab("DeliveryPoint");
+        // deliveryPoint prefab data
+        Prefab deliveryPoint;
+
+        if(_levelInfo.Chapter == Chapter.Chapter1) {
+            deliveryPoint = PrefabManager.Instance.GetPrefab("DeliveryPointLv1");
+        } else if(_levelInfo.Chapter == Chapter.Chapter2) {
+            deliveryPoint = PrefabManager.Instance.GetPrefab("DeliveryPointLv2");
+        } else if(_levelInfo.Chapter == Chapter.Chapter3) {
+            deliveryPoint = PrefabManager.Instance.GetPrefab("DeliveryPointLv3");
+        } else if(_levelInfo.Chapter == Chapter.Chapter4) {
+            deliveryPoint = PrefabManager.Instance.GetPrefab("DeliveryPointLv4");
+        } else if(_levelInfo.Chapter == Chapter.Chapter5) {
+            deliveryPoint = PrefabManager.Instance.GetPrefab("DeliveryPointLv5");
+        } else if(_levelInfo.Chapter == Chapter.Chapter6) {
+            deliveryPoint = PrefabManager.Instance.GetPrefab("DeliveryPointLv6");
+        } else {
+            deliveryPoint = PrefabManager.Instance.GetPrefab("DeliveryPointLv1");
+        }
 
 
-		/* SPAWN DELIVERY POINT*/
-		Vector3 deliveryPointPos = new Vector3(
+
+        /* SPAWN DELIVERY POINT*/
+        Vector3 deliveryPointPos = new Vector3(
             (levelPath.EndPathPosition().x * deliveryPoint.GameobjectSize.x),
             0,
             (levelPath.EndPathPosition().y * deliveryPoint.GameobjectSize.x) + (deliveryPoint.GameobjectSize.x)

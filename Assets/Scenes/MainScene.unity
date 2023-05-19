@@ -1849,12 +1849,6 @@ MonoBehaviour:
     _gSize: {x: 1, y: 1, z: 1}
     _poolPrefab: 0
     _objPoolSize: 0
-  - _prefabID: DeliveryPoint
-    _gObject: {fileID: 151652005196825498, guid: 7eda8fb644d0cc74ead688d37fee1a16,
-      type: 3}
-    _gSize: {x: 1, y: 1, z: 1}
-    _poolPrefab: 0
-    _objPoolSize: 0
   - _prefabID: Package
     _gObject: {fileID: 1098775643271299328, guid: 129909a2ada5c4b48bdeecccae75ad73,
       type: 3}
@@ -1879,6 +1873,42 @@ MonoBehaviour:
     _gSize: {x: 0.4, y: 0.4, z: 0.4}
     _poolPrefab: 1
     _objPoolSize: 7
+  - _prefabID: DeliveryPointLv1
+    _gObject: {fileID: 151652005196825498, guid: 6bd0d41180bee214dacdfd8d06fb259e,
+      type: 3}
+    _gSize: {x: 1, y: 1, z: 1}
+    _poolPrefab: 0
+    _objPoolSize: 0
+  - _prefabID: DeliveryPointLv2
+    _gObject: {fileID: 151652005196825498, guid: 7be8a4c34a3cb0b46ac54035867ffced,
+      type: 3}
+    _gSize: {x: 1, y: 1, z: 1}
+    _poolPrefab: 0
+    _objPoolSize: 0
+  - _prefabID: DeliveryPointLv3
+    _gObject: {fileID: 151652005196825498, guid: aca9fd94c91cb5446ae4b6491d27e9d5,
+      type: 3}
+    _gSize: {x: 1, y: 1, z: 1}
+    _poolPrefab: 0
+    _objPoolSize: 0
+  - _prefabID: DeliveryPointLv4
+    _gObject: {fileID: 151652005196825498, guid: 7eda8fb644d0cc74ead688d37fee1a16,
+      type: 3}
+    _gSize: {x: 1, y: 1, z: 1}
+    _poolPrefab: 0
+    _objPoolSize: 0
+  - _prefabID: DeliveryPointLv5
+    _gObject: {fileID: 151652005196825498, guid: bda4004f286b7df46abd149861713797,
+      type: 3}
+    _gSize: {x: 1, y: 1, z: 1}
+    _poolPrefab: 0
+    _objPoolSize: 0
+  - _prefabID: DeliveryPointLv6
+    _gObject: {fileID: 151652005196825498, guid: 0d2f0a87f0b417a46b13502ee6957538,
+      type: 3}
+    _gSize: {x: 1, y: 1, z: 1}
+    _poolPrefab: 0
+    _objPoolSize: 0
   _particleEffects:
   - _prefabID: ParticleObjectDestroyed
     _gObject: {fileID: 3144296426681435694, guid: d8173f6460c8c414ea011d8c3544f7dd,
