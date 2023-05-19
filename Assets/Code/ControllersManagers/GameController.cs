@@ -37,13 +37,14 @@ public class GameController : MonoBehaviour {
         GameUI.Instance.OpenLevelSelectionMenu();
     }
 
-    public async void ContinueGame() {
+    public async void ContinueLevel() {
         await StartLevel(GameSaveManager.LevelInfoReachedInfo);
     }
 
     public async void MainMenu() {
-        GameUI.Instance.OpenMainMenu();
+        GameUI.Instance.CloseAllUIMenus();
         await GameUI.Instance.SetBlackBackgroundLerp(true);
+        GameUI.Instance.OpenMainMenu();
         _levelManager.WipeLevel();
     }   
 
