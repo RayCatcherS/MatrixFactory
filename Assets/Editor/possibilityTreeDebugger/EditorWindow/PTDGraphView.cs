@@ -244,7 +244,7 @@ namespace PT.View {
         }
         private void DrawGeneratedGoodPaths() {
             ClearInterface();
-            List<GeneratedLevel> _paths = GlobalPossibilityPath.GetChapterLevels(GameSaveManager.LevelInfoReachedInfo.Chapter);
+            List<GeneratedLevel> _paths = GlobalPossibilityPath.GetChapterLevels(GameSaveManager.CurrentReachedLevel.Chapter);
             DrawGeneratedGoodPaths(_paths);
         }
         

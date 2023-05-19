@@ -19,10 +19,10 @@ public class GameController : MonoBehaviour {
 
     void Start() {
 
-        StartGame();
+        StartMain();
     }
 
-    private void StartGame() {
+    private void StartMain() {
 
         _settingsController.InitSettings();
         PrefabManager.Instance.InitPrefabPool();
@@ -30,7 +30,6 @@ public class GameController : MonoBehaviour {
         GameSaveManager.InitSaves();
 
 
-        GameUI.Instance.BuildUI();
         GameUI.Instance.OpenMainMenu();
     }
     public void LevelSelection() {
@@ -38,7 +37,7 @@ public class GameController : MonoBehaviour {
     }
 
     public async void ContinueLevel() {
-        await StartLevel(GameSaveManager.LevelInfoReachedInfo);
+        await StartLevel(GameSaveManager.CurrentReachedLevel);
     }
 
     public async void MainMenu() {
@@ -74,9 +73,9 @@ public class GameController : MonoBehaviour {
     }
 
     public void EndLevelWin() {
-        GameSaveManager.SaveReachedLevel(GlobalPossibilityPath.GetNextLevel(_levelManager.LevelInfo));
+        GameSaveManager.SetCurrentReachedLevel(GlobalPossibilityPath.GetNextLevel(_levelManager.LevelInfo));
 
-        if(GameSaveManager.LevelInfoReachedInfo.Chapter == GlobalPossibilityPath.Chapter.End) {
+        if(GameSaveManager.CurrentReachedLevel.Chapter == GlobalPossibilityPath.Chapter.End) {
 
             GameUI.Instance.OpenGameEnd();
 
@@ -90,11 +89,11 @@ public class GameController : MonoBehaviour {
     }
 
     public async void NextLevel() {
-        await StartLevel(GameSaveManager.LevelInfoReachedInfo);
+        await StartLevel(GameSaveManager.CurrentReachedLevel);
     }
 
     public async void RestartLevel() {
-        await StartLevel(GameSaveManager.LevelInfoReachedInfo);
+        await StartLevel(GameSaveManager.CurrentReachedLevel);
     }
     
     

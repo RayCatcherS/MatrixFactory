@@ -17,6 +17,47 @@ namespace PT.Global {
             End
         }
 
+        public static string GetChapterString(Chapter chapter) {
+            switch(chapter) {
+                case Chapter.Chapter1:
+                    return "Chapter 1";
+                case Chapter.Chapter2:
+                    return "Chapter 2";
+                case Chapter.Chapter3:
+                    return "Chapter 3";
+                case Chapter.Chapter4:
+                    return "Chapter 4";
+                case Chapter.Chapter5:
+                    return "Chapter 5";
+                case Chapter.Chapter6:
+                    return "Chapter 6";
+                case Chapter.End:
+                    return "End";
+                default:
+                    return "Not Selected";
+            }
+        }
+        public static uint GetChapterIndex(Chapter chapter) {
+            switch(chapter) {
+                case Chapter.Chapter1:
+                    return 1;
+                case Chapter.Chapter2:
+                    return 2;
+                case Chapter.Chapter3:
+                    return 3;
+                case Chapter.Chapter4:
+                    return 4;
+                case Chapter.Chapter5:
+                    return 5;
+                case Chapter.Chapter6:
+                    return 6;
+                case Chapter.End:
+                    return 7;
+                default:
+                    return 0;
+            }
+        }
+
         private static FourCTree<GeneratedLevelWithMatrix> _tree = new FourCTree<GeneratedLevelWithMatrix>();
 		private static List<GeneratedLevelWithMatrix> _goodEndsDebugPathsItems = new List<GeneratedLevelWithMatrix>();
 

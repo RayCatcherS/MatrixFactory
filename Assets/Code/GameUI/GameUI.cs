@@ -1,9 +1,11 @@
 using JetBrains.Annotations;
 using PT.DataStruct;
 using PT.Global;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using static PT.Global.GlobalPossibilityPath;
 
 public class GameUI : MonoBehaviour {
 
@@ -44,6 +46,7 @@ public class GameUI : MonoBehaviour {
     readonly private string _levelStartedLevelNameTextFormat = "Level: ";
     readonly private string _levelStartedChapterNameTextFormat = "Chapter: ";
 
+    List<GameObject> _levelListElements = new List<GameObject>();
 
     private GameUIState _state;
     public GameUIState State => _state;
@@ -55,12 +58,8 @@ public class GameUI : MonoBehaviour {
             return;
         }
         Instance = this;
-
-        
     }
-    public void BuildUI() {
-        BuildLevelListUI();
-    }
+    
 
     public async Task SetBlackBackgroundLerp(bool isBlackBackground) {
 
@@ -128,6 +127,7 @@ public class GameUI : MonoBehaviour {
     public void OpenLevelSelectionMenu() {
         _state = GameUIState.LevelSelection;
         CloseAllUIMenus();
+        BuildLevelSelectionUI();
         _levelSelectionUI.SetActive(true);
     }
 
@@ -168,30 +168,22 @@ public class GameUI : MonoBehaviour {
             "Packages to spawn: " + packageToSpawn + "\n";
     }
 
-    private void BuildLevelListUI() {
+    private void BuildLevelSelectionUI() {
         int levelNumb;
         GameObject chapterTitle;
+        GlobalPossibilityPath.Chapter chapter;
+
+        DestroyLevelSelectionUI();
 
         /* GENERATE CHATPER 1 AND LEVELS */
         chapterTitle = Instantiate(_textChapterTitleLevelUI);
-        chapterTitle.GetComponent<Text>().text = "Chapter 1";
+        chapter = GlobalPossibilityPath.Chapter.Chapter1;
+        chapterTitle.GetComponent<Text>().text = GlobalPossibilityPath.GetChapterString(chapter);
         chapterTitle.transform.SetParent(_levelListUI.transform, false);
-
-        levelNumb = GlobalPossibilityPath.GetChapterLevels(GlobalPossibilityPath.Chapter.Chapter1).Count;
+        _levelListElements.Add(chapterTitle);
+        levelNumb = GlobalPossibilityPath.GetChapterLevels(chapter).Count;
         for(int i = 0; i < levelNumb; i++) {
-            GameObject levelButton;
-            levelButton = Instantiate(_buttonLevelUI);
-            levelButton.transform.SetParent(_levelListUI.transform, false);
-            Text buttonText = levelButton.GetComponentInChildren<Text>();
-            buttonText.text = "Level " + (i + 1);
-
-            int level = i;
-            levelButton.GetComponent<Button>().onClick.AddListener(async () => {
-
-                await GameController.Instance.StartLevel(
-                    new LevelInfo(GlobalPossibilityPath.Chapter.Chapter1, level)
-                );
-            });
+            IstantiateLevelButton(new LevelInfo(chapter, i));
         }
 
 
@@ -199,120 +191,103 @@ public class GameUI : MonoBehaviour {
 
         /* GENERATE CHATPER 2 AND LEVELS */
         chapterTitle = Instantiate(_textChapterTitleLevelUI);
-        chapterTitle.GetComponent<Text>().text = "Chapter 2";
+        chapter = GlobalPossibilityPath.Chapter.Chapter2;
+        chapterTitle.GetComponent<Text>().text = GlobalPossibilityPath.GetChapterString(chapter);
         chapterTitle.transform.SetParent(_levelListUI.transform, false);
-
-        levelNumb = GlobalPossibilityPath.GetChapterLevels(GlobalPossibilityPath.Chapter.Chapter2).Count;
+        _levelListElements.Add(chapterTitle);
+        levelNumb = GlobalPossibilityPath.GetChapterLevels(chapter).Count;
         for(int i = 0; i < levelNumb; i++) {
-            GameObject levelButton;
-            levelButton = Instantiate(_buttonLevelUI);
-            levelButton.transform.SetParent(_levelListUI.transform, false);
-            Text buttonText = levelButton.GetComponentInChildren<Text>();
-            buttonText.text = "Level " + (i + 1);
-
-            int level = i;
-            levelButton.GetComponent<Button>().onClick.AddListener(async () => {
-
-                await GameController.Instance.StartLevel(
-                    new LevelInfo(GlobalPossibilityPath.Chapter.Chapter2, level)
-                );
-            });
+            IstantiateLevelButton(new LevelInfo(chapter, i));
         }
 
 
         /* GENERATE CHATPER 3 AND LEVELS */
         chapterTitle = Instantiate(_textChapterTitleLevelUI);
-        chapterTitle.GetComponent<Text>().text = "Chapter 3";
+        chapter = GlobalPossibilityPath.Chapter.Chapter3;
+        chapterTitle.GetComponent<Text>().text = GlobalPossibilityPath.GetChapterString(chapter);
         chapterTitle.transform.SetParent(_levelListUI.transform, false);
-
-        levelNumb = GlobalPossibilityPath.GetChapterLevels(GlobalPossibilityPath.Chapter.Chapter3).Count;
+        _levelListElements.Add(chapterTitle);
+        levelNumb = GlobalPossibilityPath.GetChapterLevels(chapter).Count;
         for(int i = 0; i < levelNumb; i++) {
-            GameObject levelButton;
-            levelButton = Instantiate(_buttonLevelUI);
-            levelButton.transform.SetParent(_levelListUI.transform, false);
-            Text buttonText = levelButton.GetComponentInChildren<Text>();
-            buttonText.text = "Level " + (i + 1);
-
-            int level = i;
-            levelButton.GetComponent<Button>().onClick.AddListener(async () => {
-
-
-                await GameController.Instance.StartLevel(
-                    new LevelInfo(GlobalPossibilityPath.Chapter.Chapter3, level)
-                );
-            });
+            IstantiateLevelButton(new LevelInfo(chapter, i));
         }
 
 
         /* GENERATE CHATPER 4 AND LEVELS */
         chapterTitle = Instantiate(_textChapterTitleLevelUI);
-        chapterTitle.GetComponent<Text>().text = "Chapter 4";
+        chapter = GlobalPossibilityPath.Chapter.Chapter4;
+        chapterTitle.GetComponent<Text>().text = GlobalPossibilityPath.GetChapterString(chapter);
         chapterTitle.transform.SetParent(_levelListUI.transform, false);
-
-        levelNumb = GlobalPossibilityPath.GetChapterLevels(GlobalPossibilityPath.Chapter.Chapter4).Count;
+        _levelListElements.Add(chapterTitle);
+        levelNumb = GlobalPossibilityPath.GetChapterLevels(chapter).Count;
         for(int i = 0; i < levelNumb; i++) {
-            GameObject levelButton;
-            levelButton = Instantiate(_buttonLevelUI);
-            levelButton.transform.SetParent(_levelListUI.transform, false);
-            Text buttonText = levelButton.GetComponentInChildren<Text>();
-            buttonText.text = "Level " + (i + 1);
-
-            int level = i;
-            levelButton.GetComponent<Button>().onClick.AddListener(async () => {
-
-
-                await GameController.Instance.StartLevel(
-                    new LevelInfo(GlobalPossibilityPath.Chapter.Chapter4, level)
-                );
-            });
+            IstantiateLevelButton(new LevelInfo(chapter, i));
         }
 
 
         /* GENERATE CHATPER 5 AND LEVELS */
         chapterTitle = Instantiate(_textChapterTitleLevelUI);
-        chapterTitle.GetComponent<Text>().text = "Chapter 5";
+        chapter = GlobalPossibilityPath.Chapter.Chapter5;
+        chapterTitle.GetComponent<Text>().text = GlobalPossibilityPath.GetChapterString(chapter);
         chapterTitle.transform.SetParent(_levelListUI.transform, false);
-
-        levelNumb = GlobalPossibilityPath.GetChapterLevels(GlobalPossibilityPath.Chapter.Chapter5).Count;
+        _levelListElements.Add(chapterTitle);
+        levelNumb = GlobalPossibilityPath.GetChapterLevels(chapter).Count;
         for(int i = 0; i < levelNumb; i++) {
-            GameObject levelButton;
-            levelButton = Instantiate(_buttonLevelUI);
-            levelButton.transform.SetParent(_levelListUI.transform, false);
-            Text buttonText = levelButton.GetComponentInChildren<Text>();
-            buttonText.text = "Level " + (i + 1);
-
-            int level = i;
-            levelButton.GetComponent<Button>().onClick.AddListener(async () => {
-
-
-                await GameController.Instance.StartLevel(
-                    new LevelInfo(GlobalPossibilityPath.Chapter.Chapter5, level)
-                );
-            });
+            IstantiateLevelButton(new LevelInfo(chapter, i));
         }
 
 
         /* GENERATE CHATPER 6 AND LEVELS */
         chapterTitle = Instantiate(_textChapterTitleLevelUI);
-        chapterTitle.GetComponent<Text>().text = "Chapter 6";
+        chapter = GlobalPossibilityPath.Chapter.Chapter6;
+        chapterTitle.GetComponent<Text>().text = GlobalPossibilityPath.GetChapterString(chapter);
         chapterTitle.transform.SetParent(_levelListUI.transform, false);
-
-        levelNumb = GlobalPossibilityPath.GetChapterLevels(GlobalPossibilityPath.Chapter.Chapter6).Count;
+        _levelListElements.Add(chapterTitle);
+        levelNumb = GlobalPossibilityPath.GetChapterLevels(chapter).Count;
         for(int i = 0; i < levelNumb; i++) {
-            GameObject levelButton;
-            levelButton = Instantiate(_buttonLevelUI);
-            levelButton.transform.SetParent(_levelListUI.transform, false);
-            Text buttonText = levelButton.GetComponentInChildren<Text>();
-            buttonText.text = "Level " + (i + 1);
-
-            int level = i;
-            levelButton.GetComponent<Button>().onClick.AddListener(async () => {
-
-                await GameController.Instance.StartLevel(
-                    new LevelInfo(GlobalPossibilityPath.Chapter.Chapter6, level)
-                );
-            });
+            IstantiateLevelButton(new LevelInfo(chapter, i));
         }
+    }
+
+    private void IstantiateLevelButton(LevelInfo levelButtonInfo) {
+        LevelInfo levelReached = GameSaveManager.GlobalLevelReached;
+
+
+        GameObject levelButton;
+        levelButton = Instantiate(_buttonLevelUI);
+        levelButton.transform.SetParent(_levelListUI.transform, false);
+        Text buttonText = levelButton.GetComponentInChildren<Text>();
+        buttonText.text = "Level " + (levelButtonInfo.LevelIndex + 1);
+
+        levelButton.GetComponent<Button>().onClick.AddListener(async () => {
+
+            await GameController.Instance.StartLevel(
+                new LevelInfo(levelButtonInfo.Chapter, levelButtonInfo.LevelIndex)
+            );
+        });
+        
+
+        if(GetChapterIndex(levelReached.Chapter) < GetChapterIndex(levelButtonInfo.Chapter)) {
+            levelButton.GetComponent<Button>().interactable = false;
+        } else if(GetChapterIndex(levelReached.Chapter) > GetChapterIndex(levelButtonInfo.Chapter)) {
+            levelButton.GetComponent<Button>().interactable = true;
+        } else if(GetChapterIndex(levelReached.Chapter) == GetChapterIndex(levelButtonInfo.Chapter)) {
+            
+            if(levelReached.LevelIndex >= levelButtonInfo.LevelIndex) {
+                levelButton.GetComponent<Button>().interactable = true;
+            } else {
+                levelButton.GetComponent<Button>().interactable = false;
+            }
+        }
+
+        _levelListElements.Add(levelButton);
+    }
+
+    private void DestroyLevelSelectionUI() {
+        foreach(GameObject element in _levelListElements) {
+            Destroy(element);
+        }
+        _levelListElements.Clear();
     }
 
     public enum GameUIState {

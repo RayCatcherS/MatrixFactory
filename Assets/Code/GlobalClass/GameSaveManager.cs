@@ -1,45 +1,54 @@
 using PT.DataStruct;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace PT.Global {
     using static GlobalPossibilityPath;
 
     public static class GameSaveManager {
 
-        private static Dictionary<Chapter, int> _levelChaptersSaves;
+        private static LevelInfo _currentLevelReached;
+        private static LevelInfo _globalLevelReached;
 
-        private static LevelInfo _levelInfoReachedInfo;
-        public static LevelInfo LevelInfoReachedInfo {
-            get { return _levelInfoReachedInfo; }
+
+        public static LevelInfo CurrentReachedLevel {
+            get { return _currentLevelReached; }
+        }
+        public static LevelInfo GlobalLevelReached {
+            get { return _globalLevelReached; }
         }
         
 
         public static void InitSaves() {
-            _levelChaptersSaves = new Dictionary<Chapter, int> {
-                {Chapter.Chapter1, 0},
-                {Chapter.Chapter2, 0},
-                {Chapter.Chapter3, 0},
-                {Chapter.Chapter4, 0},
-                {Chapter.Chapter5, 0},
-                {Chapter.Chapter6, 0}
-            };
-
+            
             LoadSaves();
         }
 
         private static async Task LoadSaves() {
-            _levelInfoReachedInfo = new LevelInfo(Chapter.Chapter1, 0);
+            _globalLevelReached = _currentLevelReached = new LevelInfo(Chapter.Chapter1, 0);
         }
 
-        public static async void SaveReachedLevel(LevelInfo levelInfo) {
-            _levelChaptersSaves[levelInfo.Chapter] = levelInfo.LevelIndex;
-            _levelInfoReachedInfo = levelInfo;
-            await SaveGameState();
+        public static async void SetCurrentReachedLevel(LevelInfo levelInfo) {
+            _currentLevelReached = levelInfo;
+
+            if(GetChapterIndex(_currentLevelReached.Chapter) == GetChapterIndex(_globalLevelReached.Chapter)) {
+            
+                if(_currentLevelReached.LevelIndex > _globalLevelReached.LevelIndex) {
+
+                    await SaveGameState(_currentLevelReached);
+                }
+            } else if(GetChapterIndex(_currentLevelReached.Chapter) > GetChapterIndex(_globalLevelReached.Chapter)) {
+                await SaveGameState(_currentLevelReached);
+            }
         }
 
-        private static async Task SaveGameState() {
-            // TODO save level and chapters to file
+
+        private static async Task SaveGameState(LevelInfo levelInfo) {
+            
+            _globalLevelReached = levelInfo;
+
+            // TODO save _globalReachedLevel to file
+            Debug.Log("Save Game");
         }
     }
 }
