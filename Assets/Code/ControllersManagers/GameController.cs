@@ -19,15 +19,15 @@ public class GameController : MonoBehaviour {
 
     void Start() {
 
-        StartMain();
+        StartMainAsync();
     }
 
-    private void StartMain() {
+    private void StartMainAsync() {
 
         _settingsController.InitSettings();
         PrefabManager.Instance.InitPrefabPool();
         GlobalPossibilityPath.GenerateChaptersPaths(true);
-        GameSaveManager.InitSaves();
+        GameSaveManager.InitSavesAsync();
 
 
         GameUI.Instance.OpenMainMenu();

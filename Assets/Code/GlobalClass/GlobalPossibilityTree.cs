@@ -37,6 +37,26 @@ namespace PT.Global {
                     return "Not Selected";
             }
         }
+        public static Chapter GetChapterByIndex(int chapterIndex) {
+            switch(chapterIndex) {
+                case 1:
+                    return Chapter.Chapter1;
+                case 2:
+                    return Chapter.Chapter2;
+                case 3:
+                    return Chapter.Chapter3;
+                case 4:
+                    return Chapter.Chapter4;
+                case 5:
+                    return Chapter.Chapter5;
+                case 6:
+                    return Chapter.Chapter6;
+                case 7:
+                    return Chapter.End;
+                default:
+                    return Chapter.NotSelected;
+            }
+        }
         public static uint GetChapterIndex(Chapter chapter) {
             switch(chapter) {
                 case Chapter.Chapter1:
