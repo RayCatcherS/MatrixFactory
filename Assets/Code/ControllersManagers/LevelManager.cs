@@ -124,7 +124,7 @@ public class LevelManager : MonoBehaviour {
             }
             _conveyorMapList.Clear();
             _incineratorConveyorBeltLevel = null;
-            //PrefabManager.Instance.ReinitPool();
+
 
             _levelState = LevelState.NotStarted;
         }
@@ -387,11 +387,9 @@ public class LevelManager : MonoBehaviour {
         _spawnLight.gameObject.SetActive(true);
 
         StartCoroutine(DrawTrailIndicator());
-        StartCoroutine(WaitAndSpawnPackage());
-        
 
-
-        yield return new WaitForSeconds(2.5f);
+		yield return new WaitForSeconds(_timeBeforeStartingLevelAfterLight);
+		StartCoroutine(WaitAndSpawnPackage());
         _spawnLight.gameObject.SetActive(false);
     }
 
