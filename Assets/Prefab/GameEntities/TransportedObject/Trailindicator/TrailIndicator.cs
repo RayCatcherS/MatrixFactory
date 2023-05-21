@@ -13,6 +13,24 @@ public class TrailIndicator : TransportedObject {
         }
 
         _objectFallSpeed = 2f;
+		this.enabled = true;
     }
+
+
+
+	void OnCollisionEnter(Collision collision)
+	{
+
+		if (collision.gameObject.layer == _packageDamageColliderLayer ||
+            collision.gameObject.layer == _packageColliderLayer ||
+            collision.gameObject.layer == _physicsPackageDamageColliderLayer ||
+            collision.gameObject.layer == _physicsPackageLayer) {
+
+
+            this.enabled = false;
+
+		}
+
+	}
 
 }
