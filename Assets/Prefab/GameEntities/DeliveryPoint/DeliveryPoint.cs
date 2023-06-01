@@ -14,11 +14,15 @@ public class DeliveryPoint : MonoBehaviour {
     [SerializeField] private int _packageCollectorY;
     [SerializeField] private int _packageCollectorZ;
 
+    
 
     [Header("Package Collector References")]
     [SerializeField] private Transform _packageCollectorTarget;
     [SerializeField] private BoxCollider _boxCollider;
     List<GameObject> _packageCollector = new List<GameObject>();
+
+    [Header("Delivery Point References")]
+    [SerializeField] private GameObject _deliveryPointIcon;
 
 
     Vector3Int _packageDeliveryPos = new Vector3Int(0, 0, 0);
@@ -37,6 +41,8 @@ public class DeliveryPoint : MonoBehaviour {
         _packageDeliveryPos = new Vector3Int(0, 0, 0);
         _packageCollector = new List<GameObject>();
         CalculateBoxColliderSize();
+
+        SetActiveDeliveryIcon(true);
     }
 
     public void VisualPackageAction(Action action) {
@@ -128,5 +134,9 @@ public class DeliveryPoint : MonoBehaviour {
                 _packageCollector[i]
             );
         }
+    }
+
+    public void SetActiveDeliveryIcon(bool active) {
+        _deliveryPointIcon.SetActive(active);
     }
 }

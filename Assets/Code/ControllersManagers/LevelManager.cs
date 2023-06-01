@@ -487,9 +487,14 @@ public class LevelManager : MonoBehaviour {
             if(IsLevelLose()) {
                 _gameController.EndLevelLose();
                 _levelState = LevelState.FinishedLose;
+
+                _deliveryPoint.GetComponent<DeliveryPoint>().SetActiveDeliveryIcon(false);
+
             } else {
                 _gameController.EndLevelWin();
                 _levelState = LevelState.FinishedWin;
+
+                _deliveryPoint.GetComponent<DeliveryPoint>().SetActiveDeliveryIcon(false);
             }
         }
     }

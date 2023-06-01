@@ -139,6 +139,7 @@ MonoBehaviour:
   _packageCollectorZ: 3
   _packageCollectorTarget: {fileID: 8026416276186895327}
   _boxCollider: {fileID: 5825056073272300043}
+  _deliveryPointIcon: {fileID: 5541973737860007416}
 --- !u!1 &202614582177077446
 GameObject:
   m_ObjectHideFlags: 0
