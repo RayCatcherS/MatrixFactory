@@ -1,5 +1,6 @@
 using PT.DataStruct;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ConveyorBelt : MonoBehaviour {
     public enum PlatformType {
@@ -142,7 +143,6 @@ public class ConveyorBelt : MonoBehaviour {
 
         if(direction == Direction.forward) {
             rotationVal = Quaternion.Euler(0, -_CBrotationOffset, 0);
-            
 
         } else if(direction == Direction.right) {
             rotationVal = Quaternion.Euler(0, 0, 0);
@@ -233,12 +233,23 @@ public class ConveyorBelt : MonoBehaviour {
 
     }
     private void UpdateRollerConveyorRotation() {
+
+
         if(_currentConveyorPlatform.gameObject.transform.rotation != _platformRotationTarget) {
             _currentConveyorPlatform.gameObject.transform.rotation = Quaternion.Lerp(
                 _currentConveyorPlatform.gameObject.transform.rotation,
                 _platformRotationTarget,
                 _platformRotationLerpCurve.Evaluate(Time.deltaTime * _platformRotationSpeed)
             );
+
+            // rotate base
+            if(_currentConveyorPlatformType == PlatformType.Incinerator) {
+                _baseIncinerator.gameObject.transform.rotation = Quaternion.Lerp(
+                    _currentConveyorPlatform.gameObject.transform.rotation,
+                    _platformRotationTarget,
+                    _platformRotationLerpCurve.Evaluate(Time.deltaTime * _platformRotationSpeed)
+                );
+            }
         }
     }
 
