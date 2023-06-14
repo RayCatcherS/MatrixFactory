@@ -118,7 +118,6 @@ public class ConveyorBelt : MonoBehaviour {
 
         Material material = _rollerPlatformMaterial.GetComponent<Renderer>().material;
         Vector2 offsetTarget = new Vector2(material.mainTextureOffset.x - 0.4f, 0);
-        Debug.Log("offsetTarget: " + offsetTarget);
 
         while(material.mainTextureOffset.x > offsetTarget.x) {
 
@@ -147,6 +146,7 @@ public class ConveyorBelt : MonoBehaviour {
 
         SetPlatformConveyorHeight(conveyorPlatformHeight);
         SetPlatformDirection(platformDirection);
+        ResetRollerPlatformMaterial();
 
         EnableDebugShowPath(false);
 
@@ -330,6 +330,10 @@ public class ConveyorBelt : MonoBehaviour {
         _elevatorCannonTargetHeight = height;
     }
 
+    private void ResetRollerPlatformMaterial() {
+        Material material = _rollerPlatformMaterial.GetComponent<Renderer>().material;
+        material.mainTextureOffset = Vector2.zero;
+    }
 
     public void SetEnableIncineratorPlatformTrigger(bool value) {
         if(_currentConveyorPlatformType == PlatformType.Incinerator) {
