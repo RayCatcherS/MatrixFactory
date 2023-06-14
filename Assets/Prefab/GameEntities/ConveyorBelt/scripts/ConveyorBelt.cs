@@ -1,6 +1,7 @@
 using PT.DataStruct;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.UIElements;
+using static Unity.VisualScripting.Member;
 
 public class ConveyorBelt : MonoBehaviour {
     public enum PlatformType {
@@ -27,6 +28,9 @@ public class ConveyorBelt : MonoBehaviour {
     [SerializeField] private GameObject _baseElevator;
     [SerializeField] private GameObject _baseIncinerator;
 
+    [Header("Roller Platform")]
+    [SerializeField] private GameObject _rollerPlatformMaterial;
+
 
     [Header("Debug")]
     [SerializeField] private GameObject _debugShowTruthPath;
@@ -49,13 +53,18 @@ public class ConveyorBelt : MonoBehaviour {
     public Direction PlatformDirection {
         get { return _platformDirection; } 
     }
+    private bool _initialized = false;
+
+    public float PlatformConveyorHeight {
+        get { return _currentConveyorPlatform.gameObject.transform.position.y; }
+    }
 
     /// <summary>
-    /// Insert the transported object target point into the conveyor belt and get the new target point
+    /// get the transported object target point and return the new target point
     /// </summary>
     /// <param name="oldTargetPoint"></param>
     /// <returns></returns>
-    public ConveyorPlatformMove GetConveyorBeltPlatformMove(Vector3 oldTargetPoint)  {
+    public ConveyorPlatformMove GetConveyorBeltPlatformMove(Vector3 oldTargetPoint, AnimationCurve _moveLerpCurve, bool withConveyorAnimation = true)  {
         ConveyorPlatformMove move = new ConveyorPlatformMove();
 
         Vector3 direction = Vector3.zero;
@@ -77,6 +86,10 @@ public class ConveyorBelt : MonoBehaviour {
                 _rollerPlatformSpeed
             );
 
+            if( withConveyorAnimation ) {
+                StartCoroutine(MoveRollerTexture(_moveLerpCurve));
+            }
+            
 
         } else if(_currentConveyorPlatformType == PlatformType.ElevatorCannon) {
 
@@ -97,13 +110,24 @@ public class ConveyorBelt : MonoBehaviour {
 
         return move;
     }
+    
+    
+    IEnumerator MoveRollerTexture(AnimationCurve _moveLerpCurve) {
 
-    private bool _initialized = false;
+        float _animationTimePosition = 0;
 
-    public float PlatformConveyorHeight {
-        get { return _currentConveyorPlatform.gameObject.transform.position.y; }
+        Material material = _rollerPlatformMaterial.GetComponent<Renderer>().material;
+        Vector2 offsetTarget = new Vector2(material.mainTextureOffset.x - 0.4f, 0);
+        Debug.Log("offsetTarget: " + offsetTarget);
+
+        while(material.mainTextureOffset.x > offsetTarget.x) {
+
+            material.mainTextureOffset = Vector3.Lerp(material.mainTextureOffset, offsetTarget, _moveLerpCurve.Evaluate(_animationTimePosition));
+            _animationTimePosition += (_rollerPlatformSpeed/2) * Time.deltaTime;
+            yield return null;
+        }
     }
-
+    
 
 
     public void Update() {

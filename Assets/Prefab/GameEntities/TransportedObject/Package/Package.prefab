@@ -163,6 +163,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   _objectFallSpeed: 5
   _objectSpeedMultiplyer: 1
+  _animateRollerOnGettingMove: 1
   _packageType: 0
   _bombDamage: 2
   _bombSignal: {fileID: 3175555877091813288}

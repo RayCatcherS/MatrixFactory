@@ -13,13 +13,13 @@ public class TransportedObject : MonoBehaviour {
 	protected LevelManager _levelManager;
 
 	[Header("Layers")]
-	readonly private int _rollerConveyorPlatformLayer = 3;
+	readonly protected int _rollerConveyorPlatformLayer = 3;
     readonly protected int _packageDamageColliderLayer = 7;
     readonly protected int _physicsPackageDamageColliderLayer = 13;
     readonly protected int _physicsPackageLayer = 11;
     readonly protected int _packageColliderLayer = 6;
 	readonly protected int _deliveryPointCollider = 8;
-	[SerializeField] private LayerMaskSelector _objectGroundToIgnore; // layer to ignore on fall
+	[SerializeField] protected LayerMaskSelector _objectGroundToIgnore; // layer to ignore on fall
 
 
 	[Header("Movement")]
@@ -29,14 +29,15 @@ public class TransportedObject : MonoBehaviour {
     [SerializeField] private AnimationCurve _elevatorHorizontalAxisLerpCurve;
     [SerializeField] protected float _objectFallSpeed = 3;
 	[SerializeField] private float _objectSpeedMultiplyer = 1;
+	[SerializeField] private bool _animateRollerOnGettingMove;
 	private float _moveSpeed;
-    private Vector3 _targetPoint;
+    protected Vector3 _targetPoint;
 	private Vector3 _startPoint;
 	private float _animationTimePosition;
-	private bool targetReached = true;
-	private float targetReachedTollerance = 0.005f;
+	private bool _targetReached = true;
+	private float _targetReachedTollerance = 0.005f;
 	private float _groundedTollerance = 0.04f;
-	private TransportedObjMovementType objMovementType;
+	private TransportedObjMovementType _objMovementType;
 
 
 
@@ -59,13 +60,13 @@ public class TransportedObject : MonoBehaviour {
 		_targetPoint = Vector3.zero;
         _startPoint = Vector3.zero;
         _animationTimePosition = 0;
-        targetReached = true;
+        _targetReached = true;
 
         _objectInitialized = true;
     }
 
     private void Update() {
-		if (targetReached) {
+		if (_targetReached) {
 			SetNextTarget();
 		} else {
 			ReachTargetPositionUpdate();
@@ -81,20 +82,20 @@ public class TransportedObject : MonoBehaviour {
 			_targetPoint.z - transform.position.z
 		);
 
-		if(distance.magnitude > targetReachedTollerance) {
+		if(distance.magnitude > _targetReachedTollerance) {
 
-			if(objMovementType == TransportedObjMovementType.Fall) {
+			if(_objMovementType == TransportedObjMovementType.Fall) {
 				FallMoveUpdate();
 
-			} else if(objMovementType == TransportedObjMovementType.Move) {
+			} else if(_objMovementType == TransportedObjMovementType.Move) {
 				MoveUpdate();
 
-			} else if(objMovementType == TransportedObjMovementType.ElevatorCannon) {
+			} else if(_objMovementType == TransportedObjMovementType.ElevatorCannon) {
                 ElevatorCannonMoveUpdate();
             }
 		}
 		else {
-			targetReached = true;
+			_targetReached = true;
 		}
 	}
 
@@ -178,13 +179,13 @@ public class TransportedObject : MonoBehaviour {
 	
 	private void SetFloorAsTarget() {
 
-		objMovementType = TransportedObjMovementType.Fall;
+		_objMovementType = TransportedObjMovementType.Fall;
 
 		RaycastHit hit;
 		if (Physics.Raycast(transform.position, -Vector3.up, out hit, Mathf.Infinity, _objectGroundToIgnore.LayerMaskIgnore())) {
 
 			_targetPoint = new Vector3(hit.point.x, hit.point.y + (_objectSize.y / 2), hit.point.z);
-			targetReached = false;
+			_targetReached = false;
 		}
 	}
 
@@ -198,13 +199,17 @@ public class TransportedObject : MonoBehaviour {
 
 				// get move info
 				ConveyorBeltPlatform rollerConveyor = hit.collider.gameObject.GetComponent<ConveyorBeltPlatform>();
-                ConveyorPlatformMove conveyorPlatformMove = rollerConveyor.GetConveyorBeltPlatformMove(_targetPoint);
+                ConveyorPlatformMove conveyorPlatformMove = rollerConveyor.GetConveyorBeltPlatformMove(
+					_targetPoint,
+					_moveLerpCurve,
+					_animateRollerOnGettingMove
+				);
 
 
 				_targetPoint = conveyorPlatformMove.TargetPoint;
-				objMovementType = conveyorPlatformMove.MovementType;
+				_objMovementType = conveyorPlatformMove.MovementType;
                 _moveSpeed = conveyorPlatformMove.Speed;
-                targetReached = false;
+                _targetReached = false;
             }
 		}
         

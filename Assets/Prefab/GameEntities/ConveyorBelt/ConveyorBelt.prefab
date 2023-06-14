@@ -59,6 +59,7 @@ MonoBehaviour:
   _baseRoller: {fileID: 8006738605759837637}
   _baseElevator: {fileID: 6307933022946236954}
   _baseIncinerator: {fileID: 2494512617456929379}
+  _rollerPlatformMaterial: {fileID: 7381584388049255005}
   _debugShowTruthPath: {fileID: 8174394858245867595}
   _rollerPlatformSpeed: 2
   _elevatorCannonPlatformSpeed: 4
@@ -298,6 +299,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4724466559744545301}
     m_Modifications:
+    - target: {fileID: 1374389091695155558, guid: ab91302a313a0c649a5c5ed681121b72,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4740407679706876248, guid: ab91302a313a0c649a5c5ed681121b72,
         type: 3}
       propertyPath: m_Name
@@ -372,6 +378,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 384614004888468438}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7381584388049255005 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7144621618348343691, guid: ab91302a313a0c649a5c5ed681121b72,
+    type: 3}
+  m_PrefabInstance: {fileID: 384614004888468438}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1678986705722892928
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -439,6 +451,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: IncineratorPlatformPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 5043707055451496909, guid: f42b75d1aea96734491239e5712422ed,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f42b75d1aea96734491239e5712422ed, type: 3}
 --- !u!4 &1670615113939487768 stripped
@@ -476,6 +493,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ConveyorElevatorPlatform
+      objectReference: {fileID: 0}
+    - target: {fileID: 3996224143213893706, guid: 43f54711d23705747834023c130ee5d0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4341083029497365232, guid: 43f54711d23705747834023c130ee5d0,
         type: 3}
