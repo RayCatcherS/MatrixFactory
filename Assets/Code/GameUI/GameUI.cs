@@ -259,10 +259,16 @@ public class GameUI : MonoBehaviour {
         Text buttonText = levelButton.GetComponentInChildren<Text>();
         buttonText.text = "Level " + (levelButtonInfo.LevelIndex + 1);
 
+
+
         levelButton.GetComponent<Button>().onClick.AddListener(async () => {
 
+            LevelInfo level = new LevelInfo(levelButtonInfo.Chapter, levelButtonInfo.LevelIndex);
+
+            GameSaveManager.SetCurrentReachedLevel(level);
+
             await GameController.Instance.StartLevel(
-                new LevelInfo(levelButtonInfo.Chapter, levelButtonInfo.LevelIndex)
+                level
             );
         });
         

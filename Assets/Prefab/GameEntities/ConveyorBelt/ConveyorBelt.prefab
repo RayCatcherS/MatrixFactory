@@ -60,6 +60,8 @@ MonoBehaviour:
   _baseElevator: {fileID: 6307933022946236954}
   _baseIncinerator: {fileID: 2494512617456929379}
   _rollerPlatformMaterial: {fileID: 7381584388049255005}
+  _incineratorRollerPlatformRightMaterial: {fileID: 1434137686779403779}
+  _incineratorRollerPlatformLeftMaterial: {fileID: 6155164270102599726}
   _debugShowTruthPath: {fileID: 8174394858245867595}
   _rollerPlatformSpeed: 2
   _elevatorCannonPlatformSpeed: 4
@@ -458,6 +460,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f42b75d1aea96734491239e5712422ed, type: 3}
+--- !u!1 &1434137686779403779 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 336610141137534083, guid: f42b75d1aea96734491239e5712422ed,
+    type: 3}
+  m_PrefabInstance: {fileID: 1678986705722892928}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1670615113939487768 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 28079444584591000, guid: f42b75d1aea96734491239e5712422ed,
@@ -482,6 +490,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21819ce79a7f98b40a80d467fa2bc209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &6155164270102599726 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4766915936220560046, guid: f42b75d1aea96734491239e5712422ed,
+    type: 3}
+  m_PrefabInstance: {fileID: 1678986705722892928}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2219096082106913341
 PrefabInstance:
   m_ObjectHideFlags: 0

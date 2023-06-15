@@ -488,13 +488,13 @@ public class LevelManager : MonoBehaviour {
                 _gameController.EndLevelLose();
                 _levelState = LevelState.FinishedLose;
 
-                _deliveryPoint.GetComponent<DeliveryPoint>().SetActiveDeliveryIcon(false);
+                _deliveryPoint.GetComponent<DeliveryPoint>().SetActiveDeliveryIconAnimation(false);
 
             } else {
                 _gameController.EndLevelWin();
                 _levelState = LevelState.FinishedWin;
 
-                _deliveryPoint.GetComponent<DeliveryPoint>().SetActiveDeliveryIcon(false);
+                _deliveryPoint.GetComponent<DeliveryPoint>().SetActiveDeliveryIconAnimation(false);
             }
         }
     }

@@ -93,6 +93,7 @@ GameObject:
   m_Component:
   - component: {fileID: 151652005196825499}
   - component: {fileID: 6925508860780133953}
+  - component: {fileID: 1836122708596609568}
   m_Layer: 0
   m_Name: DeliveryPointLv2
   m_TagString: Untagged
@@ -140,6 +141,27 @@ MonoBehaviour:
   _packageCollectorTarget: {fileID: 8026416276186895327}
   _boxCollider: {fileID: 5825056073272300043}
   _deliveryPointIcon: {fileID: 5541973737860007416}
+--- !u!95 &1836122708596609568
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 151652005196825498}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a499bc174216f734d965c16ea95f8adc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &202614582177077446
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,8 +265,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5541973737860007416}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.52, y: 0.8, z: 0.751}
-  m_LocalScale: {x: 0.10731258, y: 0.13363628, z: 0.14878532}
+  m_LocalPosition: {x: 0.509, y: 0.8, z: 0.751}
+  m_LocalScale: {x: 0.11307551, y: 0.14081286, z: 0.15677541}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 151652005196825499}

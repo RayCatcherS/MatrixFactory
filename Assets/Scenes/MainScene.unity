@@ -438,7 +438,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 628648276}
-  m_LocalRotation: {x: -0.418912, y: -0.56966025, z: 0.41891217, w: -0.56966}
+  m_LocalRotation: {x: -0.41891217, y: -0.5696601, z: 0.41891217, w: -0.5696601}
   m_LocalPosition: {x: -2.499997, y: 8.527781, z: 22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2367,8 +2367,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cameraController: {fileID: 1634783206}
   _cinemachineVirtualCamera: {fileID: 1634783210}
-  _XrotationSpeed: 6.2
-  _YrotationSpeed: 6.2
+  _XrotationSpeed: 7
+  _YrotationSpeed: 7
   _minY: 35
   _maxY: 80
   _layersToIgnore:
@@ -2407,11 +2407,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1497837086}
-    - target: {fileID: 539677087950869704, guid: 4dd35ec46c365bd4cb296f7bc11213dd,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 539677088182795562, guid: 4dd35ec46c365bd4cb296f7bc11213dd,
         type: 3}
       propertyPath: m_Name
@@ -2552,16 +2547,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1497837086}
-    - target: {fileID: 4752636577089343537, guid: 4dd35ec46c365bd4cb296f7bc11213dd,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: -629.5206
-      objectReference: {fileID: 0}
-    - target: {fileID: 4752636577089343537, guid: 4dd35ec46c365bd4cb296f7bc11213dd,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 3.7110596
-      objectReference: {fileID: 0}
     - target: {fileID: 5095304507984195734, guid: 4dd35ec46c365bd4cb296f7bc11213dd,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target

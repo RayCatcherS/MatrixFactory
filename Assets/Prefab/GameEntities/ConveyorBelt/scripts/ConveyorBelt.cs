@@ -30,6 +30,9 @@ public class ConveyorBelt : MonoBehaviour {
 
     [Header("Roller Platform")]
     [SerializeField] private GameObject _rollerPlatformMaterial;
+    [Header("Roller Incinerator Platform")]
+    [SerializeField] private GameObject _incineratorRollerPlatformRightMaterial;
+    [SerializeField] private GameObject _incineratorRollerPlatformLeftMaterial;
 
 
     [Header("Debug")]
@@ -106,6 +109,10 @@ public class ConveyorBelt : MonoBehaviour {
                 oldTargetPoint + direction,
                 _rollerPlatformSpeed
             );
+
+            if(withConveyorAnimation) {
+                StartCoroutine(MoveIncineratorRollerTexture(_moveLerpCurve));
+            }
         }
 
         return move;
@@ -126,7 +133,29 @@ public class ConveyorBelt : MonoBehaviour {
             yield return null;
         }
     }
-    
+    IEnumerator MoveIncineratorRollerTexture(AnimationCurve _moveLerpCurve) {
+
+        float _animationTimePosition = 0;
+
+        Material materialRight = _incineratorRollerPlatformRightMaterial.GetComponent<Renderer>().material;
+        Material materialLeft = _incineratorRollerPlatformLeftMaterial.GetComponent<Renderer>().material;
+
+        Vector2 offsetTarget = new Vector2(materialRight.mainTextureOffset.x - 0.4f, 0);
+
+        while(materialRight.mainTextureOffset.x > offsetTarget.x) {
+
+            materialRight.mainTextureOffset = Vector3.Lerp(
+                materialRight.mainTextureOffset,
+                offsetTarget, _moveLerpCurve.Evaluate(_animationTimePosition)
+            );
+            materialLeft.mainTextureOffset = Vector3.Lerp(
+                materialRight.mainTextureOffset,
+                offsetTarget, _moveLerpCurve.Evaluate(_animationTimePosition)
+            );
+            _animationTimePosition += (_rollerPlatformSpeed / 2) * Time.deltaTime;
+            yield return null;
+        }
+    }
 
 
     public void Update() {

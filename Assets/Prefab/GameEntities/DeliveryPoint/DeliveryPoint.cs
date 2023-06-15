@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -24,6 +23,8 @@ public class DeliveryPoint : MonoBehaviour {
     [Header("Delivery Point References")]
     [SerializeField] private GameObject _deliveryPointIcon;
 
+    private bool _isDeliveryPointActive = true;
+
 
     Vector3Int _packageDeliveryPos = new Vector3Int(0, 0, 0);
 
@@ -42,13 +43,13 @@ public class DeliveryPoint : MonoBehaviour {
         _packageCollector = new List<GameObject>();
         CalculateBoxColliderSize();
 
-        SetActiveDeliveryIcon(true);
+        SetActiveDeliveryIconAnimation(true);
     }
 
     public void VisualPackageAction(Action action) {
 
 
-        _packageDeliveryPos = IncrementVector(action, _packageDeliveryPos);
+        _packageDeliveryPos = IncrementVectorPosition(action, _packageDeliveryPos);
 
 
         if(action == Action.Decrement) {
@@ -59,7 +60,7 @@ public class DeliveryPoint : MonoBehaviour {
         CalculateBoxColliderSize();
     }
 
-    private Vector3Int IncrementVector(Action action, Vector3Int vector) {
+    private Vector3Int IncrementVectorPosition(Action action, Vector3Int vector) {
         if(action == Action.Increment) {
             if(vector.x < _packageCollectorXSize) {
 
@@ -74,6 +75,9 @@ public class DeliveryPoint : MonoBehaviour {
             } else {
                 Debug.LogError("Package Collector is full");
             }
+            AnimateDeliveryIcon();
+
+
         } else if(action == Action.Decrement) {
 
             if(vector.x > 0) {
@@ -88,6 +92,7 @@ public class DeliveryPoint : MonoBehaviour {
             } else {
                 Debug.LogError("Package Collector is empty");
             }
+            AnimateDeliveryIcon();
 
         }
 
@@ -108,7 +113,7 @@ public class DeliveryPoint : MonoBehaviour {
                         (visualDeliveryPos.z * (_packageCollectorPadding + packageSize)) + _packageCollectorTarget.position.z + packageSize / 2);
             GameObject package = PrefabManager.Instance.SpawnFromPool("DummyPackage", gameObjPos, Quaternion.identity);
             _packageCollector.Add(package);
-            visualDeliveryPos = IncrementVector(Action.Increment, visualDeliveryPos);
+            visualDeliveryPos = IncrementVectorPosition(Action.Increment, visualDeliveryPos);
 
         }
     }
@@ -136,7 +141,25 @@ public class DeliveryPoint : MonoBehaviour {
         }
     }
 
-    public void SetActiveDeliveryIcon(bool active) {
-        _deliveryPointIcon.SetActive(active);
+    public void SetActiveDeliveryIconAnimation(bool active) {
+
+        if(_isDeliveryPointActive != active) {
+            if(active) {
+
+                gameObject.GetComponent<Animator>().SetTrigger("enable");
+                Debug.Log("Delivery Point Icon Animation Enabled");
+            } else {
+                gameObject.GetComponent<Animator>().SetTrigger("disable");
+
+                gameObject.GetComponent<Animator>().SetTrigger("disable");
+            }
+        }
+
+        _isDeliveryPointActive = active;
+    }
+
+
+    private void AnimateDeliveryIcon() { 
+        gameObject.GetComponent<Animator>().SetTrigger("IconAction");
     }
 }
