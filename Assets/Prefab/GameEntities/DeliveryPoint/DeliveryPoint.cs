@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using static DeliveryPoint;
 
 public class DeliveryPoint : MonoBehaviour {
 
     public enum Action { Increment, Decrement}
+
 
     [Header("Package Collector Settings")]
     [SerializeField] private float _packageSize;
@@ -75,8 +77,6 @@ public class DeliveryPoint : MonoBehaviour {
             } else {
                 Debug.LogError("Package Collector is full");
             }
-            AnimateDeliveryIcon();
-
 
         } else if(action == Action.Decrement) {
 
@@ -92,10 +92,9 @@ public class DeliveryPoint : MonoBehaviour {
             } else {
                 Debug.LogError("Package Collector is empty");
             }
-            AnimateDeliveryIcon();
-
+            AnimateDamage();
         }
-
+        AnimateDeliveryIconAction();
         return vector;
     }
 
@@ -159,7 +158,12 @@ public class DeliveryPoint : MonoBehaviour {
     }
 
 
-    private void AnimateDeliveryIcon() { 
+    private void AnimateDeliveryIconAction() { 
         gameObject.GetComponent<Animator>().SetTrigger("IconAction");
+    }
+
+    private void AnimateDamage() {
+
+        gameObject.GetComponent<Animator>().SetTrigger("DamageColor");
     }
 }
