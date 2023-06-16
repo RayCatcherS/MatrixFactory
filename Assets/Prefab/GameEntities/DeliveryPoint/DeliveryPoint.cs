@@ -114,6 +114,7 @@ public class DeliveryPoint : MonoBehaviour {
             _packageCollector.Add(package);
             visualDeliveryPos = IncrementVectorPosition(Action.Increment, visualDeliveryPos);
 
+            package.transform.parent = gameObject.transform;
         }
     }
 

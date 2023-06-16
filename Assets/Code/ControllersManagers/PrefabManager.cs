@@ -106,7 +106,9 @@ public class PrefabManager : MonoBehaviour {
     public void DespawnFromPool(string poolId, GameObject gameObject) {
         if(_poolPrefab.ContainsKey(poolId)) {
             gameObject.SetActive(false);
-        } else {
+            gameObject.transform.parent = null;
+
+		} else {
             throw new System.Exception("Pool not found");
         }
     }
