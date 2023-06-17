@@ -336,7 +336,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 376080315}
-  m_LocalRotation: {x: -0.4351621, y: -0.55734545, z: 0.43516216, w: -0.55734545}
+  m_LocalRotation: {x: -0.4351621, y: -0.55734545, z: 0.4351621, w: -0.55734545}
   m_LocalPosition: {x: -2.499997, y: 8.527781, z: 22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -438,7 +438,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 628648276}
-  m_LocalRotation: {x: -0.41891217, y: -0.5696601, z: 0.41891217, w: -0.5696601}
+  m_LocalRotation: {x: -0.418912, y: -0.56966025, z: 0.41891217, w: -0.56966}
   m_LocalPosition: {x: -2.499997, y: 8.527781, z: 22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1983,6 +1983,18 @@ MonoBehaviour:
     _gSize: {x: 1, y: 1, z: 1}
     _poolPrefab: 0
     _objPoolSize: 0
+  - _prefabID: TrailCollisionIndicator
+    _gObject: {fileID: 4406516719704880196, guid: 9d9df46fc7898e846a2a255973aa9767,
+      type: 3}
+    _gSize: {x: 0.2, y: 0.2, z: 0.2}
+    _poolPrefab: 1
+    _objPoolSize: 1
+  - _prefabID: TrailDeliveryCollisionIndicator
+    _gObject: {fileID: 4406516719704880196, guid: 7692885d0e175b74e90d585fd8bfa1d2,
+      type: 3}
+    _gSize: {x: 0.2, y: 0.2, z: 0.2}
+    _poolPrefab: 1
+    _objPoolSize: 1
   _particleEffects:
   - _prefabID: ParticleObjectDestroyed
     _gObject: {fileID: 3144296426681435694, guid: d8173f6460c8c414ea011d8c3544f7dd,

@@ -50,7 +50,7 @@ public class Package : TransportedObject {
         if (_packageDestroyed) return;
         _packageDestroyed = true;
 
-        gameObject.SetActive(false);
+        PrefabManager.Instance.DespawnFromPool("Package", gameObject);
 
 
         if(_packageType == PackageType.bomb) {

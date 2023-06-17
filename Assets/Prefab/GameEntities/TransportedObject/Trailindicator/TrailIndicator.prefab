@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5886136434258622885}
   - component: {fileID: -2212940281465392967}
   - component: {fileID: 2298572120228256774}
+  - component: {fileID: 5478966142068571682}
   m_Layer: 9
   m_Name: TrailIndicator
   m_TagString: Untagged
@@ -199,6 +200,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   _objectFallSpeed: 50
   _objectSpeedMultiplyer: 10
+  _animateRollerOnGettingMove: 0
 --- !u!96 &5886136434258622885
 TrailRenderer:
   serializedVersion: 2
@@ -336,3 +338,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &5478966142068571682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1098775643271299328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6883ac179f752814380810f03353a71d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleOrign: {fileID: 4878077934303988668}
+  _particleEffectPoolId: 
+  _substituteOfDestroyedObjectPoolId: 

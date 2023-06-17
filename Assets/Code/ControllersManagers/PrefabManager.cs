@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PrefabManager : MonoBehaviour {
-    [Header("Map Elements")]
+    [Header(header: "Map Elements")]
     [SerializeField] List<Prefab> _mapElements;
 	[Header("Particles-Effects")]
     [SerializeField] List<Prefab> _particleEffects;
