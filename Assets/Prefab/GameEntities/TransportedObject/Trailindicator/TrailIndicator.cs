@@ -30,13 +30,13 @@ public class TrailIndicator : TransportedObject {
             collision.gameObject.layer == _physicsPackageLayer) {
 
 
-            gameObject.GetComponent<ObjectDestoyEffect>().particleEffectPoolId = "TrailDeliveryCollisionIndicator";
+            gameObject.GetComponent<ObjectDestoyEffect>().particleEffectPoolId = "TrailCollisionIndicator";
             DestroyTrail();
             
 
 		} else if (collision.gameObject.layer == _deliveryPointCollider) {
 
-            gameObject.GetComponent<ObjectDestoyEffect>().particleEffectPoolId = "TrailCollisionIndicator";
+            gameObject.GetComponent<ObjectDestoyEffect>().particleEffectPoolId = "TrailDeliveryCollisionIndicator";
             DestroyTrail();
         }
 

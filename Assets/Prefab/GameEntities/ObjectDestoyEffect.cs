@@ -42,5 +42,13 @@ public class ObjectDestoyEffect : MonoBehaviour {
             transform.position,
             Quaternion.identity
         );
+
+
+        // start sobstitute animation
+        Animation animation = gameObject.GetComponent<Animation>();
+        if(animation != null) {
+
+            animation.Play();
+        }
     }
 }
