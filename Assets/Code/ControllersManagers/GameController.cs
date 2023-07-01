@@ -59,12 +59,14 @@ public class GameController : MonoBehaviour {
 
         await GameUI.Instance.SetBlackBackgroundLerp(true);
 
-        GameUI.Instance.OpenGameLevelStartedMenu();
+        GameUI.Instance.OpenGameLevelStartedMenu(levelInfo);
         GameUI.Instance.SetGameStateValuesUI(levelInfo);
 
 
         _levelManager.WipeLevel();
         _levelManager.LoadLevel(levelInfo);
+
+        await gameObject.GetComponent<Tutorial>().CheckTutorial(levelInfo);
         _levelManager.StartLevel();
         
 

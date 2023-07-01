@@ -18,6 +18,7 @@ namespace PT.DataStruct {
 
             InitPath(tracedPathPositions);
             InitLevelPackageSequence();
+            InitLevelPackageTutorial1Sequence();
         }
         private List<LevelPathElement> _path = new List<LevelPathElement>();
         private Vector2Int _startPathPosition;
@@ -25,6 +26,7 @@ namespace PT.DataStruct {
         private Vector2Int _matrixSize;
         private double _score = 0;
         private List<Package.PackageType> _levelPackagesSequence = new List<Package.PackageType>();
+        private List<Package.PackageType> _levelTutorial1PackagesSequence = new List<Package.PackageType>();
 
         // Number of default roller platform before the elevator platform
         private int _elevatorInPathGenerationOffset = 3;
@@ -136,6 +138,12 @@ namespace PT.DataStruct {
             System.Random rnd = new System.Random();
             _levelPackagesSequence = _levelPackagesSequence.OrderBy(x => rnd.Next()).ToList();
         }
+        private void InitLevelPackageTutorial1Sequence() {
+
+            for(int i = 0; i < TotalPackageToSpawn; i++) {
+                _levelTutorial1PackagesSequence.Add(Package.PackageType.normal);
+            }
+        }
 
         public Vector2Int EndPathPosition() {
             return _endPathPosition;
@@ -199,6 +207,12 @@ namespace PT.DataStruct {
                 return _levelPackagesSequence;
             }
         }
+        public List<Package.PackageType> Tutorial1PackagesSequence {
+            get {
+                return _levelTutorial1PackagesSequence;
+            }
+        }
+        
 
         public string id() {
             string idValue = "";

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,9 @@ using UnityEngine;
 
 namespace PT.DataStruct {
     using static Global.GlobalPossibilityPath;
+
+    
+
     public class LevelInfo {
         public LevelInfo(Chapter chapter, int levelIndex) {
             _chapter = chapter;
@@ -40,6 +44,19 @@ namespace PT.DataStruct {
         }
         public string GetLevelName() {
             return (_levelIndex + 1).ToString();
+        }
+    }
+    [Serializable]
+    class LevelInfoSerializable {
+        [SerializeField] private Chapter _chapter;
+        [SerializeField] private uint _levelIndex;
+
+
+        public Chapter Chapter {
+            get { return _chapter; }
+        }
+        public uint LevelIndex {
+            get { return _levelIndex; }
         }
     }
 }

@@ -27,6 +27,7 @@ public class GameUI : MonoBehaviour {
 
 	[SerializeField] private GameObject _levelStartedMenuUI;
     [SerializeField] private GameObject _levelStartedGameStateUI;
+    [SerializeField] private GameObject _incineratorInputButtonUI;
     
 
 	[Header("Level UI")]
@@ -103,11 +104,19 @@ public class GameUI : MonoBehaviour {
         _mainMenuUI.SetActive(true);
 	}
 
-    public void OpenGameLevelStartedMenu() {
+    public void OpenGameLevelStartedMenu(LevelInfo levelInfo) {
         _state = GameUIState.LevelStartedMenu;
         CloseAllUIMenus();
         _levelStartedMenuUI.SetActive(true);
         _levelStartedGameStateUI.SetActive(true);
+
+
+        // disable incinerator button in the first level of the first chapter
+        if(levelInfo.Chapter == Chapter.Chapter1 && levelInfo.LevelIndex == 0) {
+            _incineratorInputButtonUI.SetActive(false);
+        } else {
+            _incineratorInputButtonUI.SetActive(true);
+        }
     }
 
     public void OpenGameLevelWinMenu() {
@@ -149,6 +158,8 @@ public class GameUI : MonoBehaviour {
         _levelStartedGameStateUI.SetActive(false);
 
         _levelSelectionUI.SetActive(false);
+
+        gameObject.GetComponent<Tutorial>().CloseTutorial();
     }
 
     public void SetGameStateValuesUI(LevelInfo levelInfo) {
@@ -178,7 +189,7 @@ public class GameUI : MonoBehaviour {
         /* GENERATE CHATPER 1 AND LEVELS */
         chapterTitle = Instantiate(_textChapterTitleLevelUI);
         chapter = GlobalPossibilityPath.Chapter.Chapter1;
-        chapterTitle.GetComponent<Text>().text = GlobalPossibilityPath.GetChapterString(chapter);
+        chapterTitle.GetComponentInChildren<Text>().text = GlobalPossibilityPath.GetChapterString(chapter);
         chapterTitle.transform.SetParent(_levelListUI.transform, false);
         _levelListElements.Add(chapterTitle);
         levelNumb = GlobalPossibilityPath.GetChapterLevels(chapter).Count;
@@ -192,7 +203,7 @@ public class GameUI : MonoBehaviour {
         /* GENERATE CHATPER 2 AND LEVELS */
         chapterTitle = Instantiate(_textChapterTitleLevelUI);
         chapter = GlobalPossibilityPath.Chapter.Chapter2;
-        chapterTitle.GetComponent<Text>().text = GlobalPossibilityPath.GetChapterString(chapter);
+        chapterTitle.GetComponentInChildren<Text>().text = GlobalPossibilityPath.GetChapterString(chapter);
         chapterTitle.transform.SetParent(_levelListUI.transform, false);
         _levelListElements.Add(chapterTitle);
         levelNumb = GlobalPossibilityPath.GetChapterLevels(chapter).Count;
@@ -204,7 +215,7 @@ public class GameUI : MonoBehaviour {
         /* GENERATE CHATPER 3 AND LEVELS */
         chapterTitle = Instantiate(_textChapterTitleLevelUI);
         chapter = GlobalPossibilityPath.Chapter.Chapter3;
-        chapterTitle.GetComponent<Text>().text = GlobalPossibilityPath.GetChapterString(chapter);
+        chapterTitle.GetComponentInChildren<Text>().text = GlobalPossibilityPath.GetChapterString(chapter);
         chapterTitle.transform.SetParent(_levelListUI.transform, false);
         _levelListElements.Add(chapterTitle);
         levelNumb = GlobalPossibilityPath.GetChapterLevels(chapter).Count;
@@ -216,7 +227,7 @@ public class GameUI : MonoBehaviour {
         /* GENERATE CHATPER 4 AND LEVELS */
         chapterTitle = Instantiate(_textChapterTitleLevelUI);
         chapter = GlobalPossibilityPath.Chapter.Chapter4;
-        chapterTitle.GetComponent<Text>().text = GlobalPossibilityPath.GetChapterString(chapter);
+        chapterTitle.GetComponentInChildren<Text>().text = GlobalPossibilityPath.GetChapterString(chapter);
         chapterTitle.transform.SetParent(_levelListUI.transform, false);
         _levelListElements.Add(chapterTitle);
         levelNumb = GlobalPossibilityPath.GetChapterLevels(chapter).Count;
@@ -228,7 +239,7 @@ public class GameUI : MonoBehaviour {
         /* GENERATE CHATPER 5 AND LEVELS */
         chapterTitle = Instantiate(_textChapterTitleLevelUI);
         chapter = GlobalPossibilityPath.Chapter.Chapter5;
-        chapterTitle.GetComponent<Text>().text = GlobalPossibilityPath.GetChapterString(chapter);
+        chapterTitle.GetComponentInChildren<Text>().text = GlobalPossibilityPath.GetChapterString(chapter);
         chapterTitle.transform.SetParent(_levelListUI.transform, false);
         _levelListElements.Add(chapterTitle);
         levelNumb = GlobalPossibilityPath.GetChapterLevels(chapter).Count;
@@ -240,7 +251,7 @@ public class GameUI : MonoBehaviour {
         /* GENERATE CHATPER 6 AND LEVELS */
         chapterTitle = Instantiate(_textChapterTitleLevelUI);
         chapter = GlobalPossibilityPath.Chapter.Chapter6;
-        chapterTitle.GetComponent<Text>().text = GlobalPossibilityPath.GetChapterString(chapter);
+        chapterTitle.GetComponentInChildren<Text>().text = GlobalPossibilityPath.GetChapterString(chapter);
         chapterTitle.transform.SetParent(_levelListUI.transform, false);
         _levelListElements.Add(chapterTitle);
         levelNumb = GlobalPossibilityPath.GetChapterLevels(chapter).Count;
@@ -274,15 +285,16 @@ public class GameUI : MonoBehaviour {
         
 
         if(GetChapterIndex(levelReached.Chapter) < GetChapterIndex(levelButtonInfo.Chapter)) {
-            levelButton.GetComponent<Button>().interactable = false;
+
+            levelButton.GetComponent<GenericButton>().MakeButtonInteractable(false);
         } else if(GetChapterIndex(levelReached.Chapter) > GetChapterIndex(levelButtonInfo.Chapter)) {
-            levelButton.GetComponent<Button>().interactable = true;
+            levelButton.GetComponent<GenericButton>().MakeButtonInteractable(true);
         } else if(GetChapterIndex(levelReached.Chapter) == GetChapterIndex(levelButtonInfo.Chapter)) {
             
             if(levelReached.LevelIndex >= levelButtonInfo.LevelIndex) {
-                levelButton.GetComponent<Button>().interactable = true;
+                levelButton.GetComponent<GenericButton>().MakeButtonInteractable(true);
             } else {
-                levelButton.GetComponent<Button>().interactable = false;
+                levelButton.GetComponent<GenericButton>().MakeButtonInteractable(false);
             }
         }
 

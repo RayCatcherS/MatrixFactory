@@ -90,7 +90,16 @@ public class LevelManager : MonoBehaviour {
         SetPackageSpawnPosition(_loadedLevel);
 
 
-        _packagesSequenceToSpawn = _loadedLevel.PackagesSequence;
+        
+        if(LevelInfo.Chapter == Chapter.Chapter1 && LevelInfo.LevelIndex == 0) { // get the tutorial packages sequence
+
+            // get the tutorial packages sequence if the level is the 1 tutorial
+            _packagesSequenceToSpawn = _loadedLevel.Tutorial1PackagesSequence;
+        } else {
+            _packagesSequenceToSpawn = _loadedLevel.PackagesSequence;
+        }
+            
+
         _remainingLevelPackagesToSpawn = _loadedLevel.TotalPackageToSpawn;
 
 
@@ -256,8 +265,17 @@ public class LevelManager : MonoBehaviour {
 
 
             ConveyorBelt pathCurrentConveyor = _conveyorMap[levelPath.PathElements[i].pos.x, levelPath.PathElements[i].pos.y];
+
+
             /* INIT NEW CONVEYOR*/
-            pathCurrentConveyor.SetConveyorType(levelPath.PathElements[i].conveyorBeltPlatformType);
+            if(LevelInfo.Chapter == Chapter.Chapter1 && LevelInfo.LevelIndex == 0) { // not spawn the incinerator for the tutorial
+
+                // in the first level of the tutorial, the conveyors are all rollers
+                pathCurrentConveyor.SetConveyorType(ConveyorBelt.PlatformType.Roller); 
+            } else {
+                pathCurrentConveyor.SetConveyorType(levelPath.PathElements[i].conveyorBeltPlatformType);
+            }
+            
             pathCurrentConveyor.SetPlatformConveyorHeight(conveyorPlatformHeight);
 
             float safeElevatorTargetHeightOffset = 0.75f;
@@ -488,13 +506,14 @@ public class LevelManager : MonoBehaviour {
                 _gameController.EndLevelLose();
                 _levelState = LevelState.FinishedLose;
 
-                _deliveryPoint.GetComponent<DeliveryPoint>().SetActiveDeliveryIconAnimation(false);
+
+                _deliveryPoint.GetComponent<DeliveryPoint>().ShipmentFailed();
 
             } else {
                 _gameController.EndLevelWin();
                 _levelState = LevelState.FinishedWin;
 
-                _deliveryPoint.GetComponent<DeliveryPoint>().SetActiveDeliveryIconAnimation(false);
+                _deliveryPoint.GetComponent<DeliveryPoint>().SuccessfulShipment();
             }
         }
     }

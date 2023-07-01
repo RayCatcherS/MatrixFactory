@@ -21,6 +21,8 @@ public class DeliveryPoint : MonoBehaviour {
     [SerializeField] private Transform _packageCollectorTarget;
     [SerializeField] private BoxCollider _boxCollider;
     List<GameObject> _packageCollector = new List<GameObject>();
+    [SerializeField] private GameObject _gameMesh;
+    [SerializeField] private GameObject _mufflerEffect;
 
     [Header("Delivery Point References")]
     [SerializeField] private GameObject _deliveryPointIcon;
@@ -46,6 +48,7 @@ public class DeliveryPoint : MonoBehaviour {
         CalculateBoxColliderSize();
 
         SetActiveDeliveryIconAnimation(true);
+        _mufflerEffect.SetActive(false);
     }
 
     public void VisualPackageAction(Action action) {
@@ -114,7 +117,7 @@ public class DeliveryPoint : MonoBehaviour {
             _packageCollector.Add(package);
             visualDeliveryPos = IncrementVectorPosition(Action.Increment, visualDeliveryPos);
 
-            package.transform.parent = gameObject.transform;
+            package.transform.parent = _gameMesh.transform;
         }
     }
 
@@ -141,7 +144,7 @@ public class DeliveryPoint : MonoBehaviour {
         }
     }
 
-    public void SetActiveDeliveryIconAnimation(bool active) {
+    private void SetActiveDeliveryIconAnimation(bool active) {
 
         if(_isDeliveryPointActive != active) {
             if(active) {
@@ -156,6 +159,17 @@ public class DeliveryPoint : MonoBehaviour {
         }
 
         _isDeliveryPointActive = active;
+    }
+
+    public void SuccessfulShipment() {
+        SetActiveDeliveryIconAnimation(false);
+        gameObject.GetComponent<Animator>().SetTrigger("StartDelivery");
+        _mufflerEffect.SetActive(true);
+    }
+
+    public void ShipmentFailed() {
+        SetActiveDeliveryIconAnimation(false);
+
     }
 
 
