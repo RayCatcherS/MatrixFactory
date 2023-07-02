@@ -66,9 +66,13 @@ public class GameController : MonoBehaviour {
         _levelManager.WipeLevel();
         _levelManager.LoadLevel(levelInfo);
 
+
+        gameObject.GetComponent<ControlsController>().enabled = false;
         await gameObject.GetComponent<Tutorial>().CheckTutorial(levelInfo);
         _levelManager.StartLevel();
-        
+        gameObject.GetComponent<ControlsController>().enabled = true;
+
+
 
 
         await GameUI.Instance.SetBlackBackgroundLerp(false);

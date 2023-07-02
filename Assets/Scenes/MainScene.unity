@@ -342,7 +342,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 376080315}
-  m_LocalRotation: {x: -0.4351621, y: -0.55734545, z: 0.4351621, w: -0.55734545}
+  m_LocalRotation: {x: -0.4351621, y: -0.55734545, z: 0.43516216, w: -0.55734545}
   m_LocalPosition: {x: -2.499997, y: 8.527781, z: 22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -450,7 +450,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 628648276}
-  m_LocalRotation: {x: -0.418912, y: -0.56966025, z: 0.41891217, w: -0.56966}
+  m_LocalRotation: {x: -0.41891217, y: -0.5696601, z: 0.41891217, w: -0.5696601}
   m_LocalPosition: {x: -2.499997, y: 8.527781, z: 22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1788,6 +1788,7 @@ GameObject:
   - component: {fileID: 1497837088}
   - component: {fileID: 1497837089}
   - component: {fileID: 1497837090}
+  - component: {fileID: 1497837092}
   m_Layer: 0
   m_Name: Controllers
   m_TagString: Untagged
@@ -2063,6 +2064,26 @@ MonoBehaviour:
       _phaseImage: {fileID: 21300000, guid: 5ccc62bbeaa842e4e80cb3359189314f, type: 3}
       _backgroundImage: {fileID: 21300000, guid: 2185049197b36204fb84cccf354afca0,
         type: 3}
+--- !u!114 &1497837092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1497837083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51a2132056aaf5d42ba1c6052f9dd0a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cameraController: {fileID: 1634783206}
+  _cinemachineVirtualCamera: {fileID: 1634783210}
+  _XrotationSpeed: 7
+  _YrotationSpeed: 7
+  _minY: 35
+  _maxY: 80
+  _layersToIgnore:
+    _layers: 0000000001000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e000000
 --- !u!1 &1507308061
 GameObject:
   m_ObjectHideFlags: 0
@@ -2407,7 +2428,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1808200772}
-  - component: {fileID: 1808200773}
   m_Layer: 0
   m_Name: InputController
   m_TagString: Untagged
@@ -2430,26 +2450,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1808200773
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1808200771}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51a2132056aaf5d42ba1c6052f9dd0a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _cameraController: {fileID: 1634783206}
-  _cinemachineVirtualCamera: {fileID: 1634783210}
-  _XrotationSpeed: 7
-  _YrotationSpeed: 7
-  _minY: 35
-  _maxY: 80
-  _layersToIgnore:
-    _layers: 0000000001000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e000000
 --- !u!114 &2004190618 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 539677087325148363, guid: 4dd35ec46c365bd4cb296f7bc11213dd,
