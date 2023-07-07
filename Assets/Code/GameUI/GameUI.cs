@@ -3,6 +3,7 @@ using PT.DataStruct;
 using PT.Global;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.UI;
 using static PT.Global.GlobalPossibilityPath;
@@ -33,8 +34,10 @@ public class GameUI : MonoBehaviour {
 	[Header("Level UI")]
 	[SerializeField] private Text _levelStartedLevelNameText;
     [SerializeField] private Text _levelStartedChapterNameText;
+    [SerializeField] private Animator _sufficientPackagesIcon;
+    
 
-	[Header("Debug UI")]
+    [Header("Debug UI")]
 	[SerializeField] private Text _packageToSpawnText;
 
     [Header("List Reference")]
@@ -168,7 +171,7 @@ public class GameUI : MonoBehaviour {
         _levelStartedChapterNameText.text = _levelStartedChapterNameTextFormat + levelInfo.GetChapterName();
     }
     public void SetLevelStateDebugValuesUI(string packageToSpawn, string totalPackages, string packagesDestroyed, string packageDelivered, string numberOfPackageToWin) {
-        _packageToSpawnText.text = 
+        /*_packageToSpawnText.text = 
             "Total packages: " + totalPackages + "\n" +
             "Number Of Package To Win: " + numberOfPackageToWin + "\n" +
 
@@ -176,7 +179,9 @@ public class GameUI : MonoBehaviour {
             "Packages delivered: " + packageDelivered + "\n" +
 
 
-            "Packages to spawn: " + packageToSpawn + "\n";
+            "Packages to spawn: " + packageToSpawn + "\n";*/
+
+        _packageToSpawnText.text = packageDelivered + "/" + numberOfPackageToWin;
     }
 
     private void BuildLevelSelectionUI() {
@@ -317,5 +322,18 @@ public class GameUI : MonoBehaviour {
         PauseMenu,
         GameoverMenu,
         LevelSelection
+    }
+
+
+    public void DrawSufficientPackages(bool value) {
+
+
+        if(value) {
+
+            _sufficientPackagesIcon.SetTrigger("complete");
+        } else {
+
+            _sufficientPackagesIcon.SetTrigger("notComplete");
+        }
     }
 }

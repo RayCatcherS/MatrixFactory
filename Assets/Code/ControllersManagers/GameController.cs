@@ -87,7 +87,9 @@ public class GameController : MonoBehaviour {
 
 		} else {
 			GameUI.Instance.OpenGameLevelWinMenu();
-		}
+            _levelManager.DrawUI();
+
+        }
         
     }
     public void EndLevelLose() {

@@ -114,7 +114,7 @@ public class LevelManager : MonoBehaviour {
     /// Destroy all the level gameobjects and reset the level variables
     /// </summary>
     public void WipeLevel() {
-
+        
         if(_levelLoaded) {
             _levelLoaded = false;
             _loadedLevel = null;
@@ -527,7 +527,7 @@ public class LevelManager : MonoBehaviour {
     }
 
 
-    private void DrawUI() {
+    public void DrawUI() {
         GameUI.Instance.SetLevelStateDebugValuesUI(
             _remainingLevelPackagesToSpawn.ToString(),
             _loadedLevel.TotalPackageToSpawn.ToString(),
@@ -535,6 +535,14 @@ public class LevelManager : MonoBehaviour {
             _packagesDelivered.ToString(),
             _loadedLevel.NumberOfPackageToWin.ToString()
         );
+
+
+        if(_packagesDelivered >= _loadedLevel.NumberOfPackageToWin) {
+
+            GameUI.Instance.DrawSufficientPackages(true);
+        } else {
+            GameUI.Instance.DrawSufficientPackages(false);
+        }
     }
 
     public void SetEnableLevelIncinerator(bool value) {
