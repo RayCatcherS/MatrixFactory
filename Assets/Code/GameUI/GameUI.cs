@@ -3,7 +3,6 @@ using PT.DataStruct;
 using PT.Global;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.UI;
 using static PT.Global.GlobalPossibilityPath;
@@ -55,6 +54,10 @@ public class GameUI : MonoBehaviour {
     private GameUIState _state;
     public GameUIState State => _state;
 
+    private void Start() {
+        
+    }
+
     public static GameUI Instance { get; private set; }
     private void Awake() {
         if(Instance != null && Instance != this) {
@@ -103,13 +106,13 @@ public class GameUI : MonoBehaviour {
 
     public void OpenMainMenu() {
         _state = GameUIState.MainMenu;
-        CloseAllUIMenus();
+        CloseAndResetAllUIMenus();
         _mainMenuUI.SetActive(true);
 	}
 
     public void OpenGameLevelStartedMenu(LevelInfo levelInfo) {
         _state = GameUIState.LevelStartedMenu;
-        CloseAllUIMenus();
+        CloseAndResetAllUIMenus();
         _levelStartedMenuUI.SetActive(true);
         _levelStartedGameStateUI.SetActive(true);
 
@@ -124,32 +127,32 @@ public class GameUI : MonoBehaviour {
 
     public void OpenGameLevelWinMenu() {
         _state = GameUIState.LevelWinMenu; 
-        CloseAllUIMenus();
+        CloseAndResetAllUIMenus();
         _levelEndedWinMenuUI.SetActive(true);
         _levelStartedGameStateUI.SetActive(true);
     }
 
     public void OpenGameLevelEndedLoseMenu() {
         _state = GameUIState.LevelLoseMenu;
-        CloseAllUIMenus();
+        CloseAndResetAllUIMenus();
         _levelEndedLoseMenuUI.SetActive(true);
         _levelStartedGameStateUI.SetActive(true);
     }
 
     public void OpenLevelSelectionMenu() {
         _state = GameUIState.LevelSelection;
-        CloseAllUIMenus();
+        CloseAndResetAllUIMenus();
         BuildLevelSelectionUI();
         _levelSelectionUI.SetActive(true);
     }
 
 	public void OpenGameEnd() {
 		_state = GameUIState.GameEnd;
-        CloseAllUIMenus();
+        CloseAndResetAllUIMenus();
         _gameEndUI.SetActive(true);
 	}
 
-	public void CloseAllUIMenus() {
+	public void CloseAndResetAllUIMenus() {
         _state = GameUIState.GameEnd;
         _mainMenuUI.SetActive(false);
 
@@ -163,6 +166,8 @@ public class GameUI : MonoBehaviour {
         _levelSelectionUI.SetActive(false);
 
         gameObject.GetComponent<Tutorial>().CloseTutorial();
+
+        changeIconSufficientPackages = false;
     }
 
     public void SetGameStateValuesUI(LevelInfo levelInfo) {
@@ -324,16 +329,22 @@ public class GameUI : MonoBehaviour {
         LevelSelection
     }
 
-
+    bool changeIconSufficientPackages = false;
     public void DrawSufficientPackages(bool value) {
 
+        if (value != changeIconSufficientPackages) {
+            changeIconSufficientPackages = value;
+            if (value) {
+                _sufficientPackagesIcon.ResetTrigger("complete");
+                _sufficientPackagesIcon.ResetTrigger("notComplete");
 
-        if(value) {
+                _sufficientPackagesIcon.SetTrigger("complete");
+            } else {
+                _sufficientPackagesIcon.ResetTrigger("complete");
+                _sufficientPackagesIcon.ResetTrigger("notComplete");
 
-            _sufficientPackagesIcon.SetTrigger("complete");
-        } else {
-
-            _sufficientPackagesIcon.SetTrigger("notComplete");
+                _sufficientPackagesIcon.SetTrigger("notComplete");
+            }
         }
     }
 }

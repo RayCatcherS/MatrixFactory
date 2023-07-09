@@ -41,7 +41,7 @@ public class GameController : MonoBehaviour {
     }
 
     public async void MainMenu() {
-        GameUI.Instance.CloseAllUIMenus();
+        GameUI.Instance.CloseAndResetAllUIMenus();
         await GameUI.Instance.SetBlackBackgroundLerp(true);
         GameUI.Instance.OpenMainMenu();
         _levelManager.WipeLevel();
@@ -55,7 +55,7 @@ public class GameController : MonoBehaviour {
     public async Task StartLevel(LevelInfo levelInfo) {
 
         
-        GameUI.Instance.CloseAllUIMenus();
+        GameUI.Instance.CloseAndResetAllUIMenus();
 
         await GameUI.Instance.SetBlackBackgroundLerp(true);
 
