@@ -93,6 +93,8 @@ MonoBehaviour:
   _incineratorTrigger: {fileID: 5999365568799152656}
   _platformInputCollider: {fileID: 2138565235232977147}
   _platformCollider: {fileID: 2679061251837145182}
+  _conveyorRotationClip: {fileID: 8300000, guid: 16edd080a7c9ffc4491b1177cb28181e,
+    type: 3}
 --- !u!1 &5851632537832544678
 GameObject:
   m_ObjectHideFlags: 0

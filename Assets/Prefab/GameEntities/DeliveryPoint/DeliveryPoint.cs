@@ -27,6 +27,10 @@ public class DeliveryPoint : MonoBehaviour {
     [Header("Delivery Point References")]
     [SerializeField] private GameObject _deliveryPointIcon;
 
+    [Header("Delivery Sounds References")]
+    [SerializeField] private AudioClip _packageLost;
+    [SerializeField] private AudioClip _packageDelivered;
+
     private bool _isDeliveryPointActive = true;
 
 
@@ -59,6 +63,13 @@ public class DeliveryPoint : MonoBehaviour {
 
         if(action == Action.Decrement) {
             _packageCollector.Last().gameObject.GetComponent<ObjectDestoyEffect>().StartDestroyEffect();
+            GameObject audioSource = PrefabManager.Instance.SpawnFromPool("AudioSource", gameObject.transform.position, Quaternion.identity);
+            audioSource.GetComponent<AudioSource>().clip = _packageLost;
+            audioSource.GetComponent<AudioSource>().Play();
+        } else if(action == Action.Increment) {
+            GameObject audioSource = PrefabManager.Instance.SpawnFromPool("AudioSource", gameObject.transform.position, Quaternion.identity);
+            audioSource.GetComponent<AudioSource>().clip = _packageDelivered;
+            audioSource.GetComponent<AudioSource>().Play();
         }
 
         DrawDummyPackages();

@@ -168,6 +168,11 @@ MonoBehaviour:
   _bombDamage: 2
   _bombSignal: {fileID: 3175555877091813288}
   _yellowTape: {fileID: 1411803912726311100}
+  _packageSound: {fileID: 0}
+  _packageDestroyedSound: {fileID: 8300000, guid: a3d0227301f600541a9be5a9cd18dfff,
+    type: 3}
+  _packageBombDestroyedSound: {fileID: 8300000, guid: f2bcebd4c67f57d4a860527b47fe886c,
+    type: 3}
 --- !u!114 &4551142497729672332
 MonoBehaviour:
   m_ObjectHideFlags: 0

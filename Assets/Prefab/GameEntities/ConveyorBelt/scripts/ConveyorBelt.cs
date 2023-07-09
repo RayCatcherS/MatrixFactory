@@ -53,6 +53,9 @@ public class ConveyorBelt : MonoBehaviour {
     [SerializeField] private BoxCollider _platformInputCollider;
     [SerializeField] private BoxCollider _platformCollider;
 
+    [Header("Conveyor rotation")]
+    [SerializeField] private AudioClip _conveyorRotationClip;
+
     public Direction PlatformDirection {
         get { return _platformDirection; } 
     }
@@ -191,6 +194,8 @@ public class ConveyorBelt : MonoBehaviour {
     /// </summary>
     /// <param name="direction"></param>
     private void SetPlatformDirectionTarget(Direction direction) {
+        rotationSound();
+
 
         Quaternion rotationVal = Quaternion.identity;
 
@@ -377,6 +382,12 @@ public class ConveyorBelt : MonoBehaviour {
             throw new System.InvalidOperationException("The conveyorBelt is not an incinerator conveyor belt");
         }
 
+    }
+
+    private void rotationSound() {
+        GameObject audioSource = PrefabManager.Instance.SpawnFromPool("AudioSource", gameObject.transform.position, Quaternion.identity);
+        audioSource.GetComponent<AudioSource>().clip = _conveyorRotationClip;
+        audioSource.GetComponent<AudioSource>().Play();
     }
 }
 

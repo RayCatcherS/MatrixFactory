@@ -49,6 +49,10 @@ public class LevelManager : MonoBehaviour {
     [SerializeField] private float _timeBeforeStartingLevelAfterLight;
     private GeneratedLevel _loadedLevel;
     private LevelState _levelState = LevelState.NotStarted;
+
+    [Header("Level Sounds References")]
+    [SerializeField] private AudioClip _levelStartClip;
+
     public LevelState State {
         get { return _levelState; }
     }
@@ -403,6 +407,7 @@ public class LevelManager : MonoBehaviour {
 
         yield return new WaitForSeconds(_timeBeforeStartingLevelBeforeLight);
         _spawnLight.gameObject.SetActive(true);
+        levelStartSound();
 
         StartCoroutine(DrawTrailIndicator());
 
@@ -549,5 +554,11 @@ public class LevelManager : MonoBehaviour {
         if(_incineratorConveyorBeltLevel != null) {
             _incineratorConveyorBeltLevel.SetEnableIncineratorPlatformTrigger(value);
         }
+    }
+
+    private void levelStartSound() {
+        GameObject audioSource = PrefabManager.Instance.SpawnFromPool("AudioSource", gameObject.transform.position, Quaternion.identity);
+        audioSource.GetComponent<AudioSource>().clip = _levelStartClip;
+        audioSource.GetComponent<AudioSource>().Play();
     }
 }

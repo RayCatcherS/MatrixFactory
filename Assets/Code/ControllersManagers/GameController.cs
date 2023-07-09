@@ -7,6 +7,10 @@ public class GameController : MonoBehaviour {
     [SerializeField] private SettingsController _settingsController;
     [SerializeField] private LevelManager _levelManager;
 
+    [Header("Main Game Sounds References")]
+    [SerializeField] private AudioClip _levelLose;
+    [SerializeField] private AudioClip _levelWin;
+
     public static GameController Instance { get; private set; }
 
     private void Awake() {
@@ -79,6 +83,11 @@ public class GameController : MonoBehaviour {
     }
 
     public void EndLevelWin() {
+        GameObject audioSource = PrefabManager.Instance.SpawnFromPool("AudioSource", gameObject.transform.position, Quaternion.identity);
+        audioSource.GetComponent<AudioSource>().clip = _levelWin;
+        audioSource.GetComponent<AudioSource>().Play();
+
+
         GameSaveManager.SetCurrentReachedLevel(GlobalPossibilityPath.GetNextLevel(_levelManager.LevelInfo));
 
         if(GameSaveManager.CurrentReachedLevel.Chapter == GlobalPossibilityPath.Chapter.End) {
@@ -93,6 +102,11 @@ public class GameController : MonoBehaviour {
         
     }
     public void EndLevelLose() {
+        GameObject audioSource = PrefabManager.Instance.SpawnFromPool("AudioSource", gameObject.transform.position, Quaternion.identity);
+        audioSource.GetComponent<AudioSource>().clip = _levelLose;
+        audioSource.GetComponent<AudioSource>().Play();
+
+
         GameUI.Instance.OpenGameLevelEndedLoseMenu();
     }
 

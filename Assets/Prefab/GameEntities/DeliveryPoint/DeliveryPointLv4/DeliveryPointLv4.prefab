@@ -253,6 +253,8 @@ MonoBehaviour:
   _gameMesh: {fileID: 7352291226059972035}
   _mufflerEffect: {fileID: 1390850309}
   _deliveryPointIcon: {fileID: 5541973737860007416}
+  _packageLost: {fileID: 8300000, guid: bc6ca63fa18dcc04bac9078ab15bb0d3, type: 3}
+  _packageDelivered: {fileID: 8300000, guid: 67b3617f449934a4fafc7db03d96dd6e, type: 3}
 --- !u!95 &3355535897502616698
 Animator:
   serializedVersion: 5
