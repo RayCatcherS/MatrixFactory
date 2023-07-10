@@ -23,7 +23,7 @@ RenderSettings:
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
-  m_AmbientIntensity: 1
+  m_AmbientIntensity: 1.4
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.6117647, g: 0.654902, b: 0.67058825, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 992356715}
-  m_IndirectSpecularColor: {r: 0.1791178, g: 0.22428201, b: 0.30606058, a: 1}
+  m_IndirectSpecularColor: {r: 0.4603001, g: 0.51091355, b: 0.5891774, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -342,7 +342,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 376080315}
-  m_LocalRotation: {x: -0.4351621, y: -0.55734545, z: 0.4351621, w: -0.55734545}
+  m_LocalRotation: {x: -0.4351621, y: -0.55734545, z: 0.43516216, w: -0.55734545}
   m_LocalPosition: {x: -2.499997, y: 8.527781, z: 22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -450,7 +450,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 628648276}
-  m_LocalRotation: {x: -0.418912, y: -0.56966025, z: 0.41891217, w: -0.56966}
+  m_LocalRotation: {x: -0.41891217, y: -0.5696601, z: 0.41891217, w: -0.5696601}
   m_LocalPosition: {x: -2.499997, y: 8.527781, z: 22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1449,7 +1449,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1053360924}
-  m_LocalRotation: {x: -0.4024246, y: -0.58142453, z: 0.40242454, w: -0.58142453}
+  m_LocalRotation: {x: -0.40242454, y: -0.58142453, z: 0.40242466, w: -0.5814244}
   m_LocalPosition: {x: -2.499997, y: 8.527781, z: 22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2505,6 +2505,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1497837086}
+    - target: {fileID: 539677088080224212, guid: 4dd35ec46c365bd4cb296f7bc11213dd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 539677088182795562, guid: 4dd35ec46c365bd4cb296f7bc11213dd,
         type: 3}
       propertyPath: m_Name
