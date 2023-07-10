@@ -55,6 +55,9 @@ public class ConveyorBelt : MonoBehaviour {
 
     [Header("Conveyor rotation")]
     [SerializeField] private AudioClip _conveyorRotationClip;
+    [SerializeField] private AudioClip _conveyorRollerClip;
+    [SerializeField] private AudioClip _conveyorCannonClip;
+
 
     public Direction PlatformDirection {
         get { return _platformDirection; } 
@@ -69,6 +72,8 @@ public class ConveyorBelt : MonoBehaviour {
     /// get the transported object target point and return the new target point
     /// </summary>
     /// <param name="oldTargetPoint"></param>
+    /// <param name="_moveLerpCurve"></param>
+    /// <param name="withConveyorAnimation">if true it starts a texture animation and a sound effect</param>
     /// <returns></returns>
     public ConveyorPlatformMove GetConveyorBeltPlatformMove(Vector3 oldTargetPoint, AnimationCurve _moveLerpCurve, bool withConveyorAnimation = true)  {
         ConveyorPlatformMove move = new ConveyorPlatformMove();
@@ -93,6 +98,7 @@ public class ConveyorBelt : MonoBehaviour {
             );
 
             if( withConveyorAnimation ) {
+                StartRollerSound();
                 StartCoroutine(MoveRollerTexture(_moveLerpCurve));
             }
             
@@ -106,6 +112,10 @@ public class ConveyorBelt : MonoBehaviour {
                 _elevatorCannonPlatformSpeed
             );
 
+            if(withConveyorAnimation) {
+                StartCannonSound();
+            }
+
         } else if(_currentConveyorPlatformType == PlatformType.Incinerator) {
             move = new ConveyorPlatformMove(
                 TransportedObject.TransportedObjMovementType.Move,
@@ -114,6 +124,7 @@ public class ConveyorBelt : MonoBehaviour {
             );
 
             if(withConveyorAnimation) {
+                StartRollerSound();
                 StartCoroutine(MoveIncineratorRollerTexture(_moveLerpCurve));
             }
         }
@@ -121,7 +132,16 @@ public class ConveyorBelt : MonoBehaviour {
         return move;
     }
     
-    
+    private void StartRollerSound() {
+        GameObject audioSource = PrefabManager.Instance.SpawnFromPool("AudioSource", gameObject.transform.position, Quaternion.identity);
+        audioSource.GetComponent<AudioSource>().clip = _conveyorRollerClip;
+        audioSource.GetComponent<AudioSource>().Play();
+    }
+    private void StartCannonSound() {
+        GameObject audioSource = PrefabManager.Instance.SpawnFromPool("AudioSource", gameObject.transform.position, Quaternion.identity);
+        audioSource.GetComponent<AudioSource>().clip = _conveyorCannonClip;
+        audioSource.GetComponent<AudioSource>().Play();
+    }
     IEnumerator MoveRollerTexture(AnimationCurve _moveLerpCurve) {
 
         float _animationTimePosition = 0;

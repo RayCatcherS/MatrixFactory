@@ -95,6 +95,8 @@ MonoBehaviour:
   _platformCollider: {fileID: 2679061251837145182}
   _conveyorRotationClip: {fileID: 8300000, guid: 16edd080a7c9ffc4491b1177cb28181e,
     type: 3}
+  _conveyorRollerClip: {fileID: 8300000, guid: 2c0aba6acc517ba4c9502250b7f74cf4, type: 3}
+  _conveyorCannonClip: {fileID: 8300000, guid: 012f9bbb5a76fc04e9bd893253581570, type: 3}
 --- !u!1 &5851632537832544678
 GameObject:
   m_ObjectHideFlags: 0
