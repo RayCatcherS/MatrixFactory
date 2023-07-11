@@ -93,6 +93,10 @@ public class Package : TransportedObject {
 		if (visualEffect != null) {
 			visualEffect.Play();
 		}
+        ParticleSystem particleSystem = effect.GetComponent<ParticleSystem>();
+        if (particleSystem != null) {
+            particleSystem.Play();
+        }
 
 		_levelManager.PackageDeliveredEvent();
 	}

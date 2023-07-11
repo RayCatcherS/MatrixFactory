@@ -53,6 +53,7 @@ public class DeliveryPoint : MonoBehaviour {
 
         SetActiveDeliveryIconAnimation(true);
         _mufflerEffect.SetActive(false);
+        
     }
 
     public void VisualPackageAction(Action action) {
@@ -176,6 +177,10 @@ public class DeliveryPoint : MonoBehaviour {
         SetActiveDeliveryIconAnimation(false);
         gameObject.GetComponent<Animator>().SetTrigger("StartDelivery");
         _mufflerEffect.SetActive(true);
+        ParticleSystem particleSystem = _mufflerEffect.GetComponent<ParticleSystem>();
+        if(particleSystem != null) {
+            particleSystem.Play();
+        }
     }
 
     public void ShipmentFailed() {
