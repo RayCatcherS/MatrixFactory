@@ -32,6 +32,7 @@ proguard/
 # build folder
 iosBuild/
 WindowsBuild/
+WebBuild/
 
 # Log Files
 *.log
