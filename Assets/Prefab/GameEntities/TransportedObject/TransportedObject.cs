@@ -126,7 +126,7 @@ public class TransportedObject : MonoBehaviour {
                 );
 
         _animationTimePosition += _moveSpeed * _objectSpeedMultiplyer * Time.deltaTime;
-		_objectVelocity = ((transform.position - _lastObjectPosition).magnitude / Time.deltaTime) * Time.deltaTime;
+		_objectVelocity = (transform.position - _lastObjectPosition).magnitude / Time.deltaTime;
     }
 	private void ElevatorCannonMoveUpdate() {
 
