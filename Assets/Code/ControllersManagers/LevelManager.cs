@@ -49,6 +49,7 @@ public class LevelManager : MonoBehaviour {
     [SerializeField] private float _timeBeforeStartingLevelAfterLight;
     private GeneratedLevel _loadedLevel;
     private LevelState _levelState = LevelState.NotStarted;
+    private bool _infinitePackages = false;
 
     [Header("Level Sounds References")]
     [SerializeField] private AudioClip _levelStartClip;
@@ -62,7 +63,6 @@ public class LevelManager : MonoBehaviour {
 
     private LevelInfo _levelInfo;
     [SerializeField] private bool _debugPath = false;
-    [SerializeField] private bool _randomPathDirection = true;
     private bool _levelLoaded = false;
 
 
@@ -82,7 +82,9 @@ public class LevelManager : MonoBehaviour {
     /// </summary>
     /// <param name="chapter"></param>
     /// <param name="levelIndex"></param>
-	public void LoadLevel(LevelInfo levelInfo) {
+	public void LoadLevel(LevelInfo levelInfo, bool randomPathDirection = true, bool infinitePackages = false) {
+        _infinitePackages = infinitePackages;
+
         if(_levelLoaded) {
             throw new System.InvalidOperationException("Another level is already loaded, unload the the previous one");
         }
@@ -91,7 +93,7 @@ public class LevelManager : MonoBehaviour {
         _loadedLevel = GlobalPossibilityPath.GetChapterLevels(levelInfo.Chapter)[levelInfo.LevelIndex];
         
 
-        GenerateLevelMap(_loadedLevel);
+        GenerateLevelMap(_loadedLevel, randomPathDirection);
         SetPackageSpawnPosition(_loadedLevel);
 
 
@@ -103,9 +105,13 @@ public class LevelManager : MonoBehaviour {
         } else {
             _packagesSequenceToSpawn = _loadedLevel.PackagesSequence;
         }
-            
 
-        _remainingLevelPackagesToSpawn = _loadedLevel.TotalPackageToSpawn;
+
+        if(infinitePackages) {
+            _remainingLevelPackagesToSpawn = 50000;
+        } else {
+            _remainingLevelPackagesToSpawn = _loadedLevel.TotalPackageToSpawn;
+        }
 
 
         _cameraController.ResetRotation();
@@ -144,11 +150,11 @@ public class LevelManager : MonoBehaviour {
         }
     }
 
-    private void GenerateLevelMap(GeneratedLevel levelPath) {
+    private void GenerateLevelMap(GeneratedLevel levelPath, bool randomPathDirection = true) {
 
         InitMap(levelPath);
         GenerateMapConveyors(levelPath);
-        GeneratePath(levelPath, _randomPathDirection);
+        GeneratePath(levelPath, randomPathDirection);
         GenerateDeliveryPoint(levelPath);
         CalculateCenterOfTheMap(levelPath);
     }
@@ -475,8 +481,13 @@ public class LevelManager : MonoBehaviour {
             );
 
             Package package = obj.GetComponent<Package>();
-
-            Package.PackageType pType = _packagesSequenceToSpawn[_loadedLevel.TotalPackageToSpawn - _remainingLevelPackagesToSpawn];
+            Package.PackageType pType;
+            if(!_infinitePackages) {
+                pType = _packagesSequenceToSpawn[_loadedLevel.TotalPackageToSpawn - _remainingLevelPackagesToSpawn];
+            } else {
+                pType = Package.PackageType.normal;
+            }
+            
             package.Init(
 				packagePrefab.GameobjectSize,
                 this,
