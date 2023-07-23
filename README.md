@@ -18,5 +18,3 @@ Organizzare gestione delle risorse e delle cartelle del progetto.
 ### Game Mechanics
 Sperimentare e implementare meccaniche di gioco migliorando abilità di soluzione dei problemi, game design, game programming.
 
-### Scriptable Objects
-Studiare, codificare e utilizzare gli Scriptable Objects di Unity
