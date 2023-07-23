@@ -44,7 +44,7 @@ namespace PT.DataStruct {
         
 
         public Vector2Int LastPathPos() {
-            return _path[_path.Count - 1].pos;
+            return _path[_path.Count - 1].Pos;
         }
         private void InitPath(List<GeneratedLevelWithMatrixElement> posPath) {
 
@@ -217,7 +217,7 @@ namespace PT.DataStruct {
         public string id() {
             string idValue = "";
             for(int i = 0; i < _path.Count; i++) {
-                idValue = idValue + _path[i].pos + ";";
+                idValue = idValue + _path[i].Pos + ";";
             }
             return idValue;
         }
@@ -233,8 +233,11 @@ namespace PT.DataStruct {
         private Vector2Int _pos;
         ConveyorBelt.PlatformType _conveyorBeltPlatformType;
 
-        public Vector2Int pos {
+        public Vector2Int Pos {
             get { return _pos; }
+        }
+        public Direction Direction {
+            get { return _move; }
         }
 
         public ConveyorBelt.PlatformType conveyorBeltPlatformType {

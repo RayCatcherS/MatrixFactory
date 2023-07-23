@@ -71,7 +71,7 @@ namespace PT.DebugView
             for(int i = 0; i < path.PathElements.Count; i++) {
 
 
-                Vector2Int pos = path.PathElements[i].pos;
+                Vector2Int pos = path.PathElements[i].Pos;
                 GeneratedLevelWithMatrixElement element = _pathMatrix[
                     pos.x,
                     pos.y
@@ -82,8 +82,8 @@ namespace PT.DebugView
 
 
                 // set trace direction
-                if(path.PathElements[i].pos != path.LastPathPos()) {
-                    Vector2Int direction = path.PathElements[i + 1].pos - path.PathElements[i].pos;
+                if(path.PathElements[i].Pos != path.LastPathPos()) {
+                    Vector2Int direction = path.PathElements[i + 1].Pos - path.PathElements[i].Pos;
 
                     if(direction == new Vector2Int(-1, 0)) {
                         element.SetTracedMoveDirection(Direction.forward);

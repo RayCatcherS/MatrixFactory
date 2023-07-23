@@ -62,6 +62,7 @@ public class LevelManager : MonoBehaviour {
 
     private LevelInfo _levelInfo;
     [SerializeField] private bool _debugPath = false;
+    [SerializeField] private bool _randomPathDirection = true;
     private bool _levelLoaded = false;
 
 
@@ -147,7 +148,7 @@ public class LevelManager : MonoBehaviour {
 
         InitMap(levelPath);
         GenerateMapConveyors(levelPath);
-        GeneratePath(levelPath);
+        GeneratePath(levelPath, _randomPathDirection);
         GenerateDeliveryPoint(levelPath);
         CalculateCenterOfTheMap(levelPath);
     }
@@ -161,7 +162,8 @@ public class LevelManager : MonoBehaviour {
         _conveyorMap = new ConveyorBelt[rows, columns];
     }
     /// <summary>
-    /// Generate the gameobjects (conveyors) on the map and set the conveyor map
+    /// Generate the gameobjects conveyors on the map, set the conveyor map(conveyor heights)
+    /// and set random conveyor direction
     /// </summary>
     /// <param name="levelPath"></param>
     private void GenerateMapConveyors(GeneratedLevel levelPath) {
@@ -236,11 +238,14 @@ public class LevelManager : MonoBehaviour {
             conveyorBaseBlockOffset = conveyorBaseBlockOffset + new Vector3(conveyorPrefab.GameobjectSize.x, 0, 0);
         }
     }
+
     /// <summary>
+    /// /// <summary>
     /// Set map conveyors with correct height for the path
     /// </summary>
-    /// <param name="levelPath"></param>
-    private void GeneratePath(GeneratedLevel levelPath) {
+    /// <param name="levelPath"> level path to use to initialize the map</param>
+    /// <param name="randomPathDirection">by default is true, randomize the direction of the conveyor belts</param>
+    private void GeneratePath(GeneratedLevel levelPath, bool randomPathDirection = true) {
 
         /* CALCULATE HEIGHT RANGE OF CONVEYORS */
         // range with which to calculate random heights of the conveyors on the map
@@ -267,8 +272,10 @@ public class LevelManager : MonoBehaviour {
                 conveyorPlatformHeight = (conveyorPlatformHeightRangeMin + (conveyorPlatformHeightRangeMax - platformHeightTargetDecrementer)) * _conveyorPlatformUnitWorldHeight;
             }
 
+            
 
-            ConveyorBelt pathCurrentConveyor = _conveyorMap[levelPath.PathElements[i].pos.x, levelPath.PathElements[i].pos.y];
+
+            ConveyorBelt pathCurrentConveyor = _conveyorMap[levelPath.PathElements[i].Pos.x, levelPath.PathElements[i].Pos.y];
 
 
             /* INIT NEW CONVEYOR*/
@@ -292,10 +299,22 @@ public class LevelManager : MonoBehaviour {
                 _conveyorMaxHeight = pathCurrentConveyor.PlatformConveyorHeight;
             }
 
-            // show path
+            // show path for debu use
             if(_debugPath) {
                 pathCurrentConveyor.EnableDebugShowPath(true);
             }
+
+            // set correct conveyor direcion for debug use
+            if(!randomPathDirection) {
+                
+
+                if(pathCurrentConveyor.CurrentConveyorPlatformType == ConveyorBelt.PlatformType.Incinerator) {
+                    pathCurrentConveyor.SetPlatformDirection(Direction.right);
+                } else {
+                    pathCurrentConveyor.SetPlatformDirection(levelPath.PathElements[i].Direction);
+                }
+            }
+            
 
 
             if(levelPath.PathElements[i].conveyorBeltPlatformType == ConveyorBelt.PlatformType.ElevatorCannon) {
