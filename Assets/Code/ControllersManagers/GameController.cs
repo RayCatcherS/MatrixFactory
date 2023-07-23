@@ -21,20 +21,21 @@ public class GameController : MonoBehaviour {
         Instance = this;
     }
 
-    void Start() {
+    async Task Start() {
 
-        StartMainAsync();
+        InitGame();
+
+        await StartBenchmarkLevel();
+        //MainMenu();
     }
 
-    private void StartMainAsync() {
+    private void InitGame() {
 
         _settingsController.InitSettings();
         PrefabManager.Instance.InitPrefabPool();
         GlobalPossibilityPath.GenerateChaptersPaths(true);
         GameSaveManager.InitSavesAsync();
-
-
-        GameUI.Instance.OpenMainMenu();
+        
     }
     public void LevelSelection() {
         GameUI.Instance.OpenLevelSelectionMenu();
@@ -56,30 +57,41 @@ public class GameController : MonoBehaviour {
     /// </summary>
     /// <param name="levelInfo">Level info to start</param>
     /// <returns></returns>
-    public async Task StartLevel(LevelInfo levelInfo) {
+    public async Task StartLevel(LevelInfo levelInfo, bool randomPathDirection = true, bool infinitePackages = false, bool startInbackground = false) {
+
+        if(!startInbackground) {
+            GameUI.Instance.CloseAndResetAllUIMenus();
+
+            await GameUI.Instance.SetBlackBackgroundLerp(true);
+
+            GameUI.Instance.OpenGameLevelStartedMenu(levelInfo);
+            GameUI.Instance.SetGameStateValuesUI(levelInfo);
+        }
+        
 
         
-        GameUI.Instance.CloseAndResetAllUIMenus();
-
-        await GameUI.Instance.SetBlackBackgroundLerp(true);
-
-        GameUI.Instance.OpenGameLevelStartedMenu(levelInfo);
-        GameUI.Instance.SetGameStateValuesUI(levelInfo);
 
 
         _levelManager.WipeLevel();
-        _levelManager.LoadLevel(levelInfo);
+        _levelManager.LoadLevel(levelInfo, randomPathDirection, infinitePackages);
 
 
         gameObject.GetComponent<ControlsController>().enabled = false;
-        await gameObject.GetComponent<Tutorial>().CheckTutorial(levelInfo);
+
+        if(!startInbackground) {
+            await gameObject.GetComponent<Tutorial>().CheckTutorial(levelInfo);
+        }
+            
         _levelManager.StartLevel();
-        gameObject.GetComponent<ControlsController>().enabled = true;
 
+        if(!startInbackground) {
+            gameObject.GetComponent<ControlsController>().enabled = true;
 
+            await GameUI.Instance.SetBlackBackgroundLerp(false);
+        }
+        
 
-
-        await GameUI.Instance.SetBlackBackgroundLerp(false);
+        
     }
 
     public void EndLevelWin() {
@@ -118,5 +130,8 @@ public class GameController : MonoBehaviour {
         await StartLevel(GameSaveManager.CurrentReachedLevel);
     }
     
-    
+    public async Task StartBenchmarkLevel() {
+        LevelInfo lastLevel = new LevelInfo(GlobalPossibilityPath.Chapter.Chapter6, 15);
+        await StartLevel(lastLevel, false, true, true);
+    }
 }
