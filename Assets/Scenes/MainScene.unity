@@ -1779,6 +1779,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 539677088678629713}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1413455350 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1282782927339540738, guid: 4dd35ec46c365bd4cb296f7bc11213dd,
+    type: 3}
+  m_PrefabInstance: {fileID: 539677088678629713}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1497837083
 GameObject:
   m_ObjectHideFlags: 0
@@ -2017,6 +2023,7 @@ MonoBehaviour:
   _levelEndedLoseMenuUI: {fileID: 1339205457}
   _levelSelectionUI: {fileID: 699842283}
   _gameEndUI: {fileID: 539677088678629714}
+  _gameSettingsUI: {fileID: 1413455350}
   _levelStartedMenuUI: {fileID: 975471320}
   _levelStartedGameStateUI: {fileID: 1290102958}
   _incineratorInputButtonUI: {fileID: 73057669}
@@ -2645,9 +2652,44 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1497837086}
+    - target: {fileID: 2114318972156305560, guid: 4dd35ec46c365bd4cb296f7bc11213dd,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1497837086}
+    - target: {fileID: 2114318972156305560, guid: 4dd35ec46c365bd4cb296f7bc11213dd,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1497837086}
+    - target: {fileID: 2838211227758069879, guid: 4dd35ec46c365bd4cb296f7bc11213dd,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1497837086}
+    - target: {fileID: 3896591340917725380, guid: 4dd35ec46c365bd4cb296f7bc11213dd,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1497837086}
     - target: {fileID: 4108270577171130859, guid: 4dd35ec46c365bd4cb296f7bc11213dd,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1497837086}
+    - target: {fileID: 4281700934865439080, guid: 4dd35ec46c365bd4cb296f7bc11213dd,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1497837086}
+    - target: {fileID: 6957452067570043744, guid: 4dd35ec46c365bd4cb296f7bc11213dd,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1497837086}
+    - target: {fileID: 6957452067570043744, guid: 4dd35ec46c365bd4cb296f7bc11213dd,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 1497837086}
     m_RemovedComponents: []

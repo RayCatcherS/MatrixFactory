@@ -25,8 +25,8 @@ public class GameController : MonoBehaviour {
 
         InitGame();
 
-        await StartBenchmarkLevel();
-        //MainMenu();
+        //await StartBenchmarkLevel();
+        MainMenu();
     }
 
     private void InitGame() {
@@ -133,5 +133,16 @@ public class GameController : MonoBehaviour {
     public async Task StartBenchmarkLevel() {
         LevelInfo lastLevel = new LevelInfo(GlobalPossibilityPath.Chapter.Chapter6, 15);
         await StartLevel(lastLevel, false, true, true);
+    }
+
+    public void OpenGameSettings() {
+        GameUI.Instance.OpenGameSettings();
+    }
+
+    public void SetGraphicSetting(int graphSet) {
+        GameSaveManager.SetGraphicSettings(graphSet);
+    }
+    public void SaveGraphicSettings() {
+        GameSaveManager.SaveGraphicSettings();
     }
 }
