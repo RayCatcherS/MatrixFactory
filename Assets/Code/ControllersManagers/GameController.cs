@@ -2,6 +2,7 @@ using PT.DataStruct;
 using PT.Global;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour {
     [SerializeField] private SettingsController _settingsController;
@@ -35,7 +36,9 @@ public class GameController : MonoBehaviour {
         PrefabManager.Instance.InitPrefabPool();
         GlobalPossibilityPath.GenerateChaptersPaths(true);
         GameSaveManager.InitSavesAsync();
-        
+        GameSettings.Instance.InitGameSettings();
+
+
     }
     public void LevelSelection() {
         GameUI.Instance.OpenLevelSelectionMenu();
@@ -139,10 +142,7 @@ public class GameController : MonoBehaviour {
         GameUI.Instance.OpenGameSettings();
     }
 
-    public void SetGraphicSetting(int graphSet) {
-        GameSaveManager.SetGraphicSettings(graphSet);
-    }
-    public void SaveGraphicSettings() {
-        GameSaveManager.SaveGraphicSettings();
+    public void RestartGame() {
+        SceneManager.LoadScene(0);
     }
 }

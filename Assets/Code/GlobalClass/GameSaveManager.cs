@@ -15,7 +15,14 @@ namespace PT.Global {
         readonly private static string _globalChapterReachedKeySave = "globalChapterReached";
         readonly private static string _globalLevelReachedKeySave = "globalLevelReached";
 
-        private static int _selectedGraphicSetting = 2;
+        // SETTINGS KEY SAVES
+        readonly private static string _graphicSettingsKeySave = "graphicSettings";
+
+        
+        private static int _savedGraphicSetting = 0;
+        public static int SavedGraphicSetting {
+            get { return _savedGraphicSetting; }
+        }
 
         public static LevelInfo CurrentReachedLevel {
             get { return _currentLevelReached; }
@@ -52,7 +59,7 @@ namespace PT.Global {
             } else {
                 DefaultStart();
             }
-
+            LoadGraphicSettings();
         }
 
         private static void DefaultStart() {
@@ -96,11 +103,23 @@ namespace PT.Global {
             PlayerPrefs.Save();
         }
     
-        public static void SetGraphicSettings(int graphicSettings) {
-            _selectedGraphicSetting = graphicSettings;
+        
+
+        public static void LoadGraphicSettings() {
+            if(PlayerPrefs.HasKey(_graphicSettingsKeySave)) {
+                
+                _savedGraphicSetting = PlayerPrefs.GetInt(_graphicSettingsKeySave);
+            } else {
+
+                _savedGraphicSetting = 2;
+                SaveGraphicSettings(_savedGraphicSetting);
+            }
         }
-        public static void SaveGraphicSettings() {
-            QualitySettings.SetQualityLevel(_selectedGraphicSetting, true);
+        public static void SaveGraphicSettings(int set) {
+
+            QualitySettings.SetQualityLevel(set, true);
+            _savedGraphicSetting = set;
+            PlayerPrefs.SetInt(_graphicSettingsKeySave, set);
             PlayerPrefs.Save();
 
             Debug.Log("Graphic settings saved: " + QualitySettings.GetQualityLevel());

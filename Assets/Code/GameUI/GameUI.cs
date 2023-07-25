@@ -56,11 +56,6 @@ public class GameUI : MonoBehaviour {
 
     private GameUIState _state;
     public GameUIState State => _state;
-
-    private void Start() {
-        
-    }
-
     public static GameUI Instance { get; private set; }
     private void Awake() {
         if(Instance != null && Instance != this) {

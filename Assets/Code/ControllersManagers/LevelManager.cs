@@ -195,7 +195,10 @@ public class LevelManager : MonoBehaviour {
             for(int c = 0; c < columns; c++) {
 
 
-                GameObject obj = Instantiate(conveyorPrefab.GetGameobject, _mapPositionStart + conveyorBaseBlockOffset, Quaternion.identity);
+                GameObject obj = Instantiate(
+                    conveyorPrefab.GetGameobject, 
+                    _mapPositionStart + conveyorBaseBlockOffset, 
+                    Quaternion.identity);
 
                 ConveyorBelt conveyorBelt = obj.GetComponent<ConveyorBelt>();
                 _conveyorMapList.Add(conveyorBelt);
@@ -203,7 +206,6 @@ public class LevelManager : MonoBehaviour {
 
 
                 /* SET CONVEYOR PLATFORM RANDOM ROTATION */
-                //SecureRandom randomPlatformRotationSteps = new SecureRandom();
                 System.Random randomPlatformRotationSteps = new System.Random();
                 
                 int translations = randomPlatformRotationSteps.Next(0, 3);
@@ -219,29 +221,29 @@ public class LevelManager : MonoBehaviour {
                     conveyorPlatformDirection = Direction.left;
                 }
 
-
-
                 /* SET CONVEYOR RANDOM PLATFORM HEIGHT(in range) */
                 System.Random random = new System.Random();
-                int conveyorPlatformUnitHeight = random.Next(conveyorPlatformHeightRangeMin, conveyorPlatformHeightRangeMax);
-
+                int conveyorPlatformUnitHeight = random.Next(
+                    conveyorPlatformHeightRangeMin,
+                    conveyorPlatformHeightRangeMax);
 
                 /* INIT NEW CONVEYOR*/
-                conveyorBelt.InitConveyorBelt(conveyorPlatformUnitHeight * _conveyorPlatformUnitWorldHeight, conveyorPlatformDirection, ConveyorBelt.PlatformType.Roller);
-
+                conveyorBelt.InitConveyorBelt(
+                    conveyorPlatformUnitHeight * _conveyorPlatformUnitWorldHeight,
+                    conveyorPlatformDirection, ConveyorBelt.PlatformType.Roller);
 
                 // Set/Update the highest conveyor on the map
                 if(_conveyorMaxHeight < conveyorBelt.PlatformConveyorHeight) {
                     _conveyorMaxHeight = conveyorBelt.PlatformConveyorHeight;
                 }
 
-
                 // increment column offset
-                conveyorBaseBlockOffset = conveyorBaseBlockOffset + new Vector3(0, 0, conveyorPrefab.GameobjectSize.x);
+                conveyorBaseBlockOffset = conveyorBaseBlockOffset + 
+                    new Vector3(0, 0, conveyorPrefab.GameobjectSize.x);
             }
-
             // increment row offset
-            conveyorBaseBlockOffset = conveyorBaseBlockOffset + new Vector3(conveyorPrefab.GameobjectSize.x, 0, 0);
+            conveyorBaseBlockOffset = conveyorBaseBlockOffset + 
+                new Vector3(conveyorPrefab.GameobjectSize.x, 0, 0);
         }
     }
 
@@ -250,7 +252,8 @@ public class LevelManager : MonoBehaviour {
     /// Set map conveyors with correct height for the path
     /// </summary>
     /// <param name="levelPath"> level path to use to initialize the map</param>
-    /// <param name="randomPathDirection">by default is true, randomize the direction of the conveyor belts</param>
+    /// <param name="randomPathDirection">by default is true, 
+    /// randomize the direction of the conveyor belts</param>
     private void GeneratePath(GeneratedLevel levelPath, bool randomPathDirection = true) {
 
         /* CALCULATE HEIGHT RANGE OF CONVEYORS */
