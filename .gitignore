@@ -33,6 +33,7 @@ proguard/
 iosBuild/
 WindowsBuild/
 WebBuild/
+AndroidBuild/
 
 # Log Files
 *.log
