@@ -37,7 +37,7 @@ public class TransportedObject : MonoBehaviour {
 	private bool _targetReached = true;
 	private float _targetReachedTollerance = 0.005f;
 	private float _groundedTollerance = 0.04f;
-	private TransportedObjMovementType _objMovementType;
+	private TransportedObjMovementType _objMovementType = TransportedObjMovementType.Fall;
 
 
 
@@ -65,7 +65,7 @@ public class TransportedObject : MonoBehaviour {
         _objectInitialized = true;
     }
 
-    private void Update() {
+    private void FixedUpdate() {
 		if (_targetReached) {
 			SetNextTarget();
 		} else {
@@ -113,7 +113,6 @@ public class TransportedObject : MonoBehaviour {
             _targetPoint,
             _fallLerpCurve.Evaluate(_animationTimePosition)
         );
-
         // increase in speed in proportion to the distance to be covered
         _animationTimePosition += (_objectFallSpeed / unitDistance) * _objectSpeedMultiplyer * Time.deltaTime;
     }
@@ -146,13 +145,16 @@ public class TransportedObject : MonoBehaviour {
     }
 
 
+	private bool firstTargetSetted = false;
+	private float lastTime = 0;
 
 	private void SetNextTarget() {
+        
+
 		_startPoint = transform.position;
 		_animationTimePosition = 0;
 
 		if (IsGrounded()) {
-
 			GetMoveFromConveyorplatform();
 		} else {
 			SetFloorAsTarget();
@@ -168,7 +170,6 @@ public class TransportedObject : MonoBehaviour {
 			   _groundedTollerance + (_objectSize.y / 2),
 			   _objectGroundToIgnore.LayerMaskIgnore()
 		);
-
 
 		Debug.DrawRay(transform.position, -Vector3.up * (_groundedTollerance + (_objectSize.y / 2)), Color.green);
 
@@ -204,8 +205,6 @@ public class TransportedObject : MonoBehaviour {
 					_moveLerpCurve,
 					_animateRollerOnGettingMove
 				);
-
-
 				_targetPoint = conveyorPlatformMove.TargetPoint;
 				_objMovementType = conveyorPlatformMove.MovementType;
                 _moveSpeed = conveyorPlatformMove.Speed;

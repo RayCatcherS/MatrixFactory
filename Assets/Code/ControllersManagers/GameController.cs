@@ -1,6 +1,7 @@
 using PT.DataStruct;
 using PT.Global;
 using System.Threading.Tasks;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public enum LevelDebugPackageSetting {
@@ -19,7 +20,9 @@ public class GameController : MonoBehaviour {
     [SerializeField] private AudioClip _levelWin;
 
     [Header("Debug Settings")]
+    [SerializeField] bool _levelDisableRandomPath = false;
     [SerializeField] private LevelDebugPackageSetting _levelDebugPackageSetting;
+    [SerializeField] private bool _disableLevelDrawPackageTrails = false;
 
     public static GameController Instance { get; private set; }
 
@@ -67,7 +70,7 @@ public class GameController : MonoBehaviour {
     /// </summary>
     /// <param name="levelInfo">Level info to start</param>
     /// <returns></returns>
-    public async Task StartLevel(LevelInfo levelInfo, bool randomPathDirection = true, bool startInbackground = false) {
+    public async Task StartLevel(LevelInfo levelInfo, bool startInbackground = false) {
 
         if(!startInbackground) {
             GameUI.Instance.CloseAndResetAllUIMenus();
@@ -83,7 +86,7 @@ public class GameController : MonoBehaviour {
 
 
         _levelManager.WipeLevel();
-        _levelManager.LoadLevel(levelInfo, _levelDebugPackageSetting, randomPathDirection);
+        _levelManager.LoadLevel(levelInfo, _levelDebugPackageSetting, _levelDisableRandomPath, _disableLevelDrawPackageTrails);
 
 
         gameObject.GetComponent<ControlsController>().enabled = false;
@@ -142,8 +145,9 @@ public class GameController : MonoBehaviour {
     
     public async Task StartBenchmarkLevel() {
         _levelDebugPackageSetting = LevelDebugPackageSetting.InfinitePackages;
+        _levelDisableRandomPath = true;
         LevelInfo lastLevel = new LevelInfo(GlobalPossibilityPath.Chapter.Chapter6, 15);
-        await StartLevel(lastLevel, true, true);
+        await StartLevel(lastLevel, true);
     }
 
     public void OpenGameSettings() {

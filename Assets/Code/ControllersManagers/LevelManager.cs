@@ -35,6 +35,7 @@ public class LevelManager : MonoBehaviour {
 
     [Header("Package Generation")]
     private List<Package.PackageType> _packagesSequenceToSpawn = new List<Package.PackageType>();
+    private int _totalPackageToSpawn = 0;
     private int _remainingLevelPackagesToSpawn = 0;
     private int _packagesDestroyed = 0;
     private int _packagesDelivered = 0;
@@ -49,8 +50,11 @@ public class LevelManager : MonoBehaviour {
     [SerializeField] private float _timeBeforeStartingLevelAfterLight;
     private GeneratedLevel _loadedLevel;
     private LevelState _levelState = LevelState.NotStarted;
+
+    // level debug parameters
     private LevelDebugPackageSetting _levelDebugPackageSetting = LevelDebugPackageSetting.None;
     private bool _debugOnePackage = false;
+    private bool _disableLevelDrawPackageTrails = false;
 
     [Header("Level Sounds References")]
     [SerializeField] private AudioClip _levelStartClip;
@@ -65,6 +69,7 @@ public class LevelManager : MonoBehaviour {
     private LevelInfo _levelInfo;
     [SerializeField] private bool _debugPath = false;
     private bool _levelLoaded = false;
+    
 
 
     public LevelInfo LevelInfo {
@@ -83,10 +88,10 @@ public class LevelManager : MonoBehaviour {
     /// </summary>
     /// <param name="chapter"></param>
     /// <param name="levelIndex"></param>
-	public void LoadLevel(LevelInfo levelInfo, LevelDebugPackageSetting levelDebugPackageSetting, bool randomPathDirection = true) {
+	public void LoadLevel(LevelInfo levelInfo, LevelDebugPackageSetting levelDebugPackageSetting, bool disableRandomPathDirection = true, bool disableLevelDrawPackageTrails = false) {
 
         _levelDebugPackageSetting = levelDebugPackageSetting;
-
+        _disableLevelDrawPackageTrails = disableLevelDrawPackageTrails;
 
 
 
@@ -94,11 +99,12 @@ public class LevelManager : MonoBehaviour {
             throw new System.InvalidOperationException("Another level is already loaded, unload the the previous one");
         }
 
+        
         _levelInfo = levelInfo;
         _loadedLevel = GlobalPossibilityPath.GetChapterLevels(levelInfo.Chapter)[levelInfo.LevelIndex];
-        
 
-        GenerateLevelMap(_loadedLevel, randomPathDirection);
+
+        GenerateLevelMap(_loadedLevel, disableRandomPathDirection);
         SetPackageSpawnPosition(_loadedLevel);
 
 
@@ -113,11 +119,14 @@ public class LevelManager : MonoBehaviour {
 
 
         if(_levelDebugPackageSetting == LevelDebugPackageSetting.InfinitePackages) {
+            _totalPackageToSpawn = 50000;
             _remainingLevelPackagesToSpawn = 50000;
         } else if(_levelDebugPackageSetting == LevelDebugPackageSetting.OnePackage) {
+            _totalPackageToSpawn = 1;
             _remainingLevelPackagesToSpawn = 1;
         } else {
-            _remainingLevelPackagesToSpawn = _loadedLevel.TotalPackageToSpawn;
+            _totalPackageToSpawn = _loadedLevel.TotalPackageToSpawn;
+            _remainingLevelPackagesToSpawn = _totalPackageToSpawn;
         }
 
 
@@ -134,10 +143,13 @@ public class LevelManager : MonoBehaviour {
     public void WipeLevel() {
         
         if(_levelLoaded) {
+
+            _disableLevelDrawPackageTrails = false;
             _levelLoaded = false;
             _loadedLevel = null;
             _levelInfo = new LevelInfo(Chapter.NotSelected, -1);
             _packagesDelivered = 0;
+            _totalPackageToSpawn = 0;
             _packagesSequenceToSpawn = new List<Package.PackageType>();
             _remainingLevelPackagesToSpawn = 0;
             _packagesDestroyed = 0;
@@ -157,11 +169,11 @@ public class LevelManager : MonoBehaviour {
         }
     }
 
-    private void GenerateLevelMap(GeneratedLevel levelPath, bool randomPathDirection = true) {
+    private void GenerateLevelMap(GeneratedLevel levelPath, bool disableRandomPathDirection = true) {
 
         InitMap(levelPath);
         GenerateMapConveyors(levelPath);
-        GeneratePath(levelPath, randomPathDirection);
+        GeneratePath(levelPath, disableRandomPathDirection);
         GenerateDeliveryPoint(levelPath);
         CalculateCenterOfTheMap(levelPath);
     }
@@ -257,8 +269,8 @@ public class LevelManager : MonoBehaviour {
     /// Set map conveyors with correct height for the path
     /// </summary>
     /// <param name="levelPath"> level path to use to initialize the map</param>
-    /// <param name="randomPathDirection">by default is true, randomize the direction of the conveyor belts</param>
-    private void GeneratePath(GeneratedLevel levelPath, bool randomPathDirection = true) {
+    /// <param name="disableRandomPathDirection">by default is true, randomize the direction of the conveyor belts</param>
+    private void GeneratePath(GeneratedLevel levelPath, bool disableRandomPathDirection = true) {
 
         /* CALCULATE HEIGHT RANGE OF CONVEYORS */
         // range with which to calculate random heights of the conveyors on the map
@@ -317,11 +329,11 @@ public class LevelManager : MonoBehaviour {
                 pathCurrentConveyor.EnableDebugShowPath(true);
             }
 
-            // set correct conveyor direcion for debug use
-            if(!randomPathDirection) {
+            // set correct conveyor direction for debug use
+            if(disableRandomPathDirection) {
                 
 
-                if(pathCurrentConveyor.CurrentConveyorPlatformType == ConveyorBelt.PlatformType.Incinerator) {
+                if(i == levelPath.PathElements.Count - 1) { // last conveyor of the path is always right
                     pathCurrentConveyor.SetPlatformDirection(Direction.right);
                 } else {
                     pathCurrentConveyor.SetPlatformDirection(levelPath.PathElements[i].Direction);
@@ -441,9 +453,11 @@ public class LevelManager : MonoBehaviour {
         _spawnLight.gameObject.SetActive(true);
         levelStartSound();
 
-        StartCoroutine(DrawTrailIndicator());
+        if(!_disableLevelDrawPackageTrails) {
+            StartCoroutine(DrawTrailIndicator());
+        }
 
-		yield return new WaitForSeconds(_timeBeforeStartingLevelAfterLight);
+        yield return new WaitForSeconds(_timeBeforeStartingLevelAfterLight);
 		StartCoroutine(WaitAndSpawnPackage());
         _spawnLight.gameObject.SetActive(false);
     }
@@ -480,8 +494,6 @@ public class LevelManager : MonoBehaviour {
         Prefab packagePrefab = PrefabManager.Instance.GetPrefab(packagePoolId);
         
         if (_remainingLevelPackagesToSpawn > 0) {
-            Debug.Log("to spawn: " + _loadedLevel.TotalPackageToSpawn);
-            Debug.Log("remaining: " + _remainingLevelPackagesToSpawn);
 
             yield return new WaitForSeconds(1);
             GameObject obj = PrefabManager.Instance.SpawnFromPool(
@@ -494,7 +506,7 @@ public class LevelManager : MonoBehaviour {
             Package.PackageType pType;
             if(_levelDebugPackageSetting == LevelDebugPackageSetting.None) {
                 
-                pType = _packagesSequenceToSpawn[_loadedLevel.TotalPackageToSpawn - _remainingLevelPackagesToSpawn];
+                pType = _packagesSequenceToSpawn[_totalPackageToSpawn - _remainingLevelPackagesToSpawn];
             } else {
                 pType = Package.PackageType.normal;
             }
@@ -566,7 +578,8 @@ public class LevelManager : MonoBehaviour {
     }
 
     private bool IsLevelEnded() {
-        return _loadedLevel.TotalPackageToSpawn <= _packagesDestroyed + _packagesDelivered;
+        
+        return _totalPackageToSpawn <= _packagesDestroyed + _packagesDelivered;
     }
 
     private bool IsLevelLose() {
@@ -577,7 +590,7 @@ public class LevelManager : MonoBehaviour {
     public void DrawUI() {
         GameUI.Instance.SetLevelStateDebugValuesUI(
             _remainingLevelPackagesToSpawn.ToString(),
-            _loadedLevel.TotalPackageToSpawn.ToString(),
+            _totalPackageToSpawn.ToString(),
             _packagesDestroyed.ToString(),
             _packagesDelivered.ToString(),
             _loadedLevel.NumberOfPackageToWin.ToString()
