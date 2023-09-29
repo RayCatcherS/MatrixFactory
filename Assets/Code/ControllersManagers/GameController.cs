@@ -1,7 +1,6 @@
 using PT.DataStruct;
 using PT.Global;
 using System.Threading.Tasks;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public enum LevelDebugPackageSetting {
@@ -154,10 +153,5 @@ public class GameController : MonoBehaviour {
         GameUI.Instance.OpenGameSettings();
     }
 
-    public void SetGraphicSetting(int graphSet) {
-        GameSaveManager.SetGraphicSettings(graphSet);
-    }
-    public void SaveGraphicSettings() {
-        GameSaveManager.SaveGraphicSettings();
-    }
+    
 }

@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using PT.Global;
 using UnityEngine;
 
 public class SettingsController : MonoBehaviour {
@@ -13,5 +12,12 @@ public class SettingsController : MonoBehaviour {
             Application.targetFrameRate = 4;
         }
 
+    }
+
+    public void SetGraphicSetting(int graphSet) {
+        GameSaveManager.SetGraphicSettings(graphSet);
+    }
+    public void SaveGraphicSettings() {
+        GameSaveManager.SaveGraphicSettings();
     }
 }
