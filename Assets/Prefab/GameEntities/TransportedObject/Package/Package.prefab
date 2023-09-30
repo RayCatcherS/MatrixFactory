@@ -174,7 +174,7 @@ MonoBehaviour:
   _animateRollerOnGettingMove: 1
   _packageType: 0
   _bombDamage: 2
-  _bombSignal: {fileID: 0}
+  _bombSignal: {fileID: 6160280533252968828}
   _yellowTape: {fileID: 1411803912726311100}
   _packageDestroyedSound: {fileID: 8300000, guid: a3d0227301f600541a9be5a9cd18dfff,
     type: 3}
@@ -1104,7 +1104,7 @@ PrefabInstance:
     - target: {fileID: 4696101026511086036, guid: e32a25af0c26f27468481ce56fe4b69a,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5584247149345671649, guid: e32a25af0c26f27468481ce56fe4b69a,
         type: 3}
@@ -1127,6 +1127,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5914006600905042721}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6160280533252968828 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 535773508447156829, guid: e32a25af0c26f27468481ce56fe4b69a,
+    type: 3}
+  m_PrefabInstance: {fileID: 5914006600905042721}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8621652861790297015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fafb029e6a48d4c45ae1ccbaabc6ce28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8621652861790297015 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2716944026094743702, guid: e32a25af0c26f27468481ce56fe4b69a,
