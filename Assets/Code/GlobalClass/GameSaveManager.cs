@@ -15,6 +15,8 @@ namespace PT.Global {
         readonly private static string _globalChapterReachedKeySave = "globalChapterReached";
         readonly private static string _globalLevelReachedKeySave = "globalLevelReached";
 
+        private static int _selectedGraphicSetting = 2;
+
         public static LevelInfo CurrentReachedLevel {
             get { return _currentLevelReached; }
         }
@@ -92,6 +94,16 @@ namespace PT.Global {
             PlayerPrefs.SetInt("currentChapterReached", (int)GetChapterIndex(_currentLevelReached.Chapter));
             PlayerPrefs.SetInt("currentLevelReached", _currentLevelReached.LevelIndex);
             PlayerPrefs.Save();
+        }
+    
+        public static void SetGraphicSettings(int graphicSettings) {
+            _selectedGraphicSetting = graphicSettings;
+        }
+        public static void SaveGraphicSettings() {
+            QualitySettings.SetQualityLevel(_selectedGraphicSetting, true);
+            PlayerPrefs.Save();
+
+            Debug.Log("Graphic settings saved: " + QualitySettings.GetQualityLevel());
         }
     }
 }

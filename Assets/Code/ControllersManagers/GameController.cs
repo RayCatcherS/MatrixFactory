@@ -3,13 +3,25 @@ using PT.Global;
 using System.Threading.Tasks;
 using UnityEngine;
 
+public enum LevelDebugPackageSetting {
+    None,
+    InfinitePackages,
+    OnePackage,
+}
+
 public class GameController : MonoBehaviour {
+    
     [SerializeField] private SettingsController _settingsController;
     [SerializeField] private LevelManager _levelManager;
 
     [Header("Main Game Sounds References")]
     [SerializeField] private AudioClip _levelLose;
     [SerializeField] private AudioClip _levelWin;
+
+    [Header("Debug Settings")]
+    [SerializeField] bool _levelDisableRandomPath = false;
+    [SerializeField] private LevelDebugPackageSetting _levelDebugPackageSetting;
+    [SerializeField] private bool _disableLevelDrawPackageTrails = false;
 
     public static GameController Instance { get; private set; }
 
@@ -21,20 +33,21 @@ public class GameController : MonoBehaviour {
         Instance = this;
     }
 
-    void Start() {
+    async Task Start() {
 
-        StartMainAsync();
+        InitGame();
+
+        //await StartBenchmarkLevel();
+        MainMenu();
     }
 
-    private void StartMainAsync() {
+    private void InitGame() {
 
         _settingsController.InitSettings();
         PrefabManager.Instance.InitPrefabPool();
         GlobalPossibilityPath.GenerateChaptersPaths(true);
         GameSaveManager.InitSavesAsync();
-
-
-        GameUI.Instance.OpenMainMenu();
+        
     }
     public void LevelSelection() {
         GameUI.Instance.OpenLevelSelectionMenu();
@@ -56,30 +69,41 @@ public class GameController : MonoBehaviour {
     /// </summary>
     /// <param name="levelInfo">Level info to start</param>
     /// <returns></returns>
-    public async Task StartLevel(LevelInfo levelInfo) {
+    public async Task StartLevel(LevelInfo levelInfo, bool startInbackground = false) {
+
+        if(!startInbackground) {
+            GameUI.Instance.CloseAndResetAllUIMenus();
+
+            await GameUI.Instance.SetBlackBackgroundLerp(true);
+
+            GameUI.Instance.OpenGameLevelStartedMenu(levelInfo);
+            GameUI.Instance.SetGameStateValuesUI(levelInfo);
+        }
+        
 
         
-        GameUI.Instance.CloseAndResetAllUIMenus();
-
-        await GameUI.Instance.SetBlackBackgroundLerp(true);
-
-        GameUI.Instance.OpenGameLevelStartedMenu(levelInfo);
-        GameUI.Instance.SetGameStateValuesUI(levelInfo);
 
 
         _levelManager.WipeLevel();
-        _levelManager.LoadLevel(levelInfo);
+        _levelManager.LoadLevel(levelInfo, _levelDebugPackageSetting, _levelDisableRandomPath, _disableLevelDrawPackageTrails);
 
 
         gameObject.GetComponent<ControlsController>().enabled = false;
-        await gameObject.GetComponent<Tutorial>().CheckTutorial(levelInfo);
+
+        if(!startInbackground) {
+            await gameObject.GetComponent<Tutorial>().CheckTutorial(levelInfo);
+        }
+            
         _levelManager.StartLevel();
-        gameObject.GetComponent<ControlsController>().enabled = true;
 
+        if(!startInbackground) {
+            gameObject.GetComponent<ControlsController>().enabled = true;
 
+            await GameUI.Instance.SetBlackBackgroundLerp(false);
+        }
+        
 
-
-        await GameUI.Instance.SetBlackBackgroundLerp(false);
+        
     }
 
     public void EndLevelWin() {
@@ -118,5 +142,16 @@ public class GameController : MonoBehaviour {
         await StartLevel(GameSaveManager.CurrentReachedLevel);
     }
     
+    public async Task StartBenchmarkLevel() {
+        _levelDebugPackageSetting = LevelDebugPackageSetting.InfinitePackages;
+        _levelDisableRandomPath = true;
+        LevelInfo lastLevel = new LevelInfo(GlobalPossibilityPath.Chapter.Chapter6, 15);
+        await StartLevel(lastLevel, true);
+    }
+
+    public void OpenGameSettings() {
+        GameUI.Instance.OpenGameSettings();
+    }
+
     
 }

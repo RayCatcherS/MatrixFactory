@@ -24,13 +24,16 @@ public class GameUI : MonoBehaviour {
     [SerializeField] private GameObject _levelEndedLoseMenuUI;
     [SerializeField] private GameObject _levelSelectionUI;
 	[SerializeField] private GameObject _gameEndUI;
+    [SerializeField] private GameObject _gameSettingsUI;
 
-	[SerializeField] private GameObject _levelStartedMenuUI;
+    [SerializeField] private GameObject _levelStartedMenuUI;
     [SerializeField] private GameObject _levelStartedGameStateUI;
     [SerializeField] private GameObject _incineratorInputButtonUI;
     
+    
 
-	[Header("Level UI")]
+
+    [Header("Level UI")]
 	[SerializeField] private Text _levelStartedLevelNameText;
     [SerializeField] private Text _levelStartedChapterNameText;
     [SerializeField] private Animator _sufficientPackagesIcon;
@@ -152,6 +155,13 @@ public class GameUI : MonoBehaviour {
         _gameEndUI.SetActive(true);
 	}
 
+    public void OpenGameSettings() {
+        _state = GameUIState.GameSettings;
+        CloseAndResetAllUIMenus();
+
+        _gameSettingsUI.SetActive(true);
+    }
+
 	public void CloseAndResetAllUIMenus() {
         _state = GameUIState.GameEnd;
         _mainMenuUI.SetActive(false);
@@ -164,6 +174,7 @@ public class GameUI : MonoBehaviour {
         _levelStartedGameStateUI.SetActive(false);
 
         _levelSelectionUI.SetActive(false);
+        _gameSettingsUI.SetActive(false);
 
         gameObject.GetComponent<Tutorial>().CloseTutorial();
 
@@ -326,7 +337,8 @@ public class GameUI : MonoBehaviour {
         GameEnd,
         PauseMenu,
         GameoverMenu,
-        LevelSelection
+        LevelSelection,
+        GameSettings
     }
 
     bool changeIconSufficientPackages = false;

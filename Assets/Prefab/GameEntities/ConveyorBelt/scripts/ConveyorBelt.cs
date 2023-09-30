@@ -58,7 +58,9 @@ public class ConveyorBelt : MonoBehaviour {
     [SerializeField] private AudioClip _conveyorRollerClip;
     [SerializeField] private AudioClip _conveyorCannonClip;
 
-
+    public PlatformType CurrentConveyorPlatformType {
+        get { return _currentConveyorPlatformType; }
+    }
     public Direction PlatformDirection {
         get { return _platformDirection; } 
     }
@@ -234,7 +236,7 @@ public class ConveyorBelt : MonoBehaviour {
 
         _platformDirection = direction;
     }
-    private void SetPlatformDirection(Direction direction) {
+    public void SetPlatformDirection(Direction direction) {
         Quaternion rotationVal = Quaternion.identity;
 
         if(direction == Direction.forward) {

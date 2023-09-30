@@ -1,30 +1,24 @@
-using System;
 using System.Threading.Tasks;
 using UnityEngine;
 
 public class GameSignal : MonoBehaviour {
 
-    [SerializeField] private AnimationClip flickering;
-    [SerializeField] private AnimationClip offLight;
+    [SerializeField] private GameObject light;
+    [SerializeField] private float millisecondWaitTime = 1000f;
     private bool _signalStarted = false;
 
-    
     public void StartSignal() {
         if (_signalStarted) return;
-        //RecursiveLight();
-        gameObject.GetComponent<Animation>().clip = flickering;
-        gameObject.GetComponent<Animation>().Play();
-
+        RecursiveLight();
         _signalStarted = true;
     }
 
     public void StopSignal() {
-        gameObject.GetComponent<Animation>().clip = offLight;
-        gameObject.GetComponent<Animation>().Play();
+        light.gameObject.SetActive(false);
         _signalStarted = false;
     }
 
-    /*async private void RecursiveLight() {
+    async private void RecursiveLight() {
         while(true) {
 
             light.gameObject.SetActive(true);
@@ -33,8 +27,7 @@ public class GameSignal : MonoBehaviour {
             light.gameObject.SetActive(false);
             await Task.Delay((int)(millisecondWaitTime / 2f));
 
-            Debug.LogWarning("A Debug.Warning() call");
             if(!_signalStarted) return;
         }
-    }*/
+    }
 }
