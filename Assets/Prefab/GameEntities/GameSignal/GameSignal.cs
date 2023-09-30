@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class GameSignal : MonoBehaviour {
 
+    [SerializeField] private GameObject _light;
     private bool _signalStarted = false;
 
     public void StartSignal() {
@@ -10,6 +11,7 @@ public class GameSignal : MonoBehaviour {
     }
 
     public void StopSignal() {
+        _light.SetActive(false);
         gameObject.GetComponent<Animation>().enabled = false;
     }
 
