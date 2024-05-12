@@ -1,5 +1,5 @@
 # MatrixFactory
-
+Matrix Factory è un gioco-esperimento sviluppato nel tempo libero in circa 4 mesi. Nel gioco si devono comporre i giusti path per portare in consegna la quantità sufficiente di pacchi per far partire l'ordine, elimando con l'inceneritore i pacchi bomba. In questo progetto ho usato la generazione di livelli usando un approccio di ricerca completa di tutte le soluzioni, ovvero ricerca in profondità (Depth-First Search, DFS). I livelli generati vengono poi valutati da un algoritmo che ne calcola uno scoring della difficoltà rispetto topologia del livello(Lunghezza path, cambi di direzione, distanza tra partenza e arrivo). I livelli vengono poi presentati al giocatore in ordine di difficoltà(ranking). Tutti gli assets, modelli 3D, UI e livelli di gioco sono stati realizzati da me.
 
 Questo progetto è stato realizzato per studiare e migliorare i seguenti campi:
 
