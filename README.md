@@ -20,3 +20,6 @@ Fogli di stile per l'UI Toolkit
 Organizzare gestione delle risorse e delle cartelle del progetto.
 - https://www.youtube.com/watch?v=z1wPBbK2g9o&t=119s
 - https://www.youtube.com/watch?v=1O1nmZzA_EU
+
+## Futuri miglioramenti
+- Implementare tecniche di ricerca e di path pruning per aumentare l'efficienza nella generazione dei livelli
