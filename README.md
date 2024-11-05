@@ -3,10 +3,10 @@ Matrix Factory è un gioco-esperimento sviluppato nel tempo libero in circa 4 me
 
 L'obiettivo di questo progetto è stato quello di sperimentare, migliorare e studiare i seguenti campi:
 
-### Game Mechanics
+## Game Mechanics
 Sperimentare e implementare meccaniche di gioco sperimentando abilità di soluzione ai problemi, game design, game programming.
 ![cover](https://raw.githubusercontent.com/RayCatcherS/MatrixFactory/refs/heads/main/readmecover.png)
-### UI Elements(UI Toolkit)
+## UI Elements(UI Toolkit)
 Studiare-codificare e utilizzare gli UI Elements di Unity, progettando interfacce utente personalizzate per l'editor unity. Specificamente ho scritto codice per visualizzare la struttura dati ad albero utilizzata per rappresentare i possibili percorsi dei livelli generati.
 Per studiare il pacchetto UI Elements di Unity stati usati i seguenti tutorial:
 
@@ -21,5 +21,5 @@ Organizzare gestione delle risorse e delle cartelle del progetto.
 - https://www.youtube.com/watch?v=z1wPBbK2g9o&t=119s
 - https://www.youtube.com/watch?v=1O1nmZzA_EU
 
-## Futuri miglioramenti
+## Sviluppi Futuri
 - Implementare tecniche di ricerca e di path pruning per aumentare l'efficienza nella generazione dei livelli
